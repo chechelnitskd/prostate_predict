@@ -6,14 +6,16 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appTitle = 'Form Validation Demo';
+    final appTitle = 'Prostate Cancer Risk Calculator';
     return MaterialApp(
       title: appTitle,
       home: Scaffold(
         appBar: AppBar(
           title: Text(appTitle),
+          backgroundColor: Colors.red,
         ),
         body: MyCustomForm(),
+        backgroundColor: Colors.pink[50],
       ),
     );
   }
@@ -47,7 +49,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
-            controller: _ageController,
+            controller: _ageController, keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 hintText: "Your Age",
                 labelText: "Age",
@@ -62,7 +64,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             },
           ),
           TextFormField(
-            controller: _psaController,
+            controller: _psaController, keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 hintText: "Your PSA",
                 labelText: "PSA",
@@ -80,10 +82,8 @@ class MyCustomFormState extends State<MyCustomForm> {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
               onPressed: () {
-                print("Age " +
-                    _ageController.text +
-                    " PSA " +
-                    _psaController.text);
+                print(int.parse(_ageController.text) +
+                    int.parse(_psaController.text));
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
                   // If the form is valid, display a snackbar. In the real world,
@@ -93,6 +93,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                 }
               },
               child: Text('Submit'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.red),
+              ),
             ),
           ),
         ],
