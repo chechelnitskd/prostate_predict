@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 # prostate_predict
 
-A new Flutter project.
+Cross platform mobile app that predicts prostate cancer risk.
 
 ## Getting Started
 
