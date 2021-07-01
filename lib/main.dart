@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() => runApp(MyApp());
 
@@ -81,8 +82,9 @@ class MyCustomFormState extends State<MyCustomForm> {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
               onPressed: () {
-                print(int.parse(_ageController.text) +
-                    int.parse(_psaController.text));
+                print(0.003 *
+                    (((pow(int.parse(_ageController.text), 3) / 10) - 341.16) +
+                        int.parse(_psaController.text)));
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
                   // If the form is valid, display a snackbar. In the real world,
