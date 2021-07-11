@@ -1,109 +1,17 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:prostate_predict/home_screen.dart';
+import 'package:prostate_predict/form_screen.dart';
 
 void main() => runApp(MyApp());
 
-
-//this is a test comment by Annie
-//this should work maybe? hopefully
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTitle = 'Prostate Cancer Risk Calculator';
     return MaterialApp(
       title: appTitle,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(appTitle),
-          backgroundColor: Colors.red,
-        ),
-        body: MyCustomForm(),
-        backgroundColor: Colors.pink[50],
-      ),
-    );
-  }
-}
-
-// Create a Form widget.
-class MyCustomForm extends StatefulWidget {
-  @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
-  }
-}
-
-// Create a corresponding State class.
-// This class holds data related to the form.
-class MyCustomFormState extends State<MyCustomForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController _ageController = TextEditingController();
-  TextEditingController _psaController = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          TextFormField(
-            controller: _ageController, keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-                hintText: "Your Age",
-                labelText: "Age",
-                labelStyle: TextStyle(fontSize: 24),
-                border: InputBorder.none),
-            // The validator receives the text that the user has entered.
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            controller: _psaController, keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-                hintText: "Your PSA",
-                labelText: "PSA",
-                labelStyle: TextStyle(fontSize: 24),
-                border: InputBorder.none),
-            // The validator receives the text that the user has entered.
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                print(0.003 *
-                    (((pow(int.parse(_ageController.text), 3) / 10) - 341.16) +
-                        int.parse(_psaController.text)));
-                // Validate returns true if the form is valid, or false otherwise.
-                if (_formKey.currentState!.validate()) {
-                  // If the form is valid, display a snackbar. In the real world,
-                  // you'd often call a server or save the information in a database.
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text('Processing Data')));
-                }
-              },
-              child: Text('Submit'),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.red),
-              ),
-            ),
-          ),
-        ],
-      ),
+      home: FormScreen(),
     );
   }
 }
