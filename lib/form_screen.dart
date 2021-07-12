@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import '../model.dart';
-import 'results_screen.dart';
+import 'model.dart';
+import 'screens/results_screen.dart';
+
+//hello
 
 class FormScreen extends StatelessWidget {
   @override
@@ -35,6 +37,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   //
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
+  late Model model;
   final _formKey = GlobalKey<FormState>();
   TextEditingController _ageController = TextEditingController();
   TextEditingController _psaController = TextEditingController();
@@ -47,7 +50,6 @@ class MyCustomFormState extends State<MyCustomForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
-            controller: _ageController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 hintText: "Your Age",
