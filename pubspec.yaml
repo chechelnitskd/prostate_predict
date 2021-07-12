@@ -32,12 +32,11 @@ dependencies:
   # state management, intelligent dependency injection, and route management
   get: ^4.1.4
 
-  # to handle SVGs for Android, iOS, and Web
-  flutter_svg: ^0.21.0+1
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # to handle SVGs for Android, iOS, and Web
+  flutter_svg: ^0.21.0+1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

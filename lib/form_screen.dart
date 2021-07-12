@@ -5,8 +5,6 @@ import 'package:get/get.dart';
 import 'model.dart';
 import 'screens/results_screen.dart';
 
-//hello
-
 class FormScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -29,6 +27,10 @@ class MyCustomForm extends StatefulWidget {
   }
 }
 
+final _formKey = GlobalKey<FormState>();
+TextEditingController ageController = TextEditingController();
+TextEditingController psaController = TextEditingController();
+
 // Create a corresponding State class.
 // This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
@@ -37,10 +39,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   //
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
-  late Model model;
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController _ageController = TextEditingController();
-  TextEditingController _psaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -50,6 +49,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
+            controller: ageController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 hintText: "Your Age",
@@ -65,7 +65,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             },
           ),
           TextFormField(
-            controller: _psaController, keyboardType: TextInputType.number,
+            controller: psaController, keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 hintText: "Your PSA",
                 labelText: "PSA",
@@ -106,4 +106,20 @@ class MyCustomFormState extends State<MyCustomForm> {
       ),
     );
   }
+}
+
+getAge() {
+  return ageController;
+}
+
+getPSA() {
+  return psaController.text;
+}
+
+getTstage() {
+  return ageController;
+}
+
+getSomething() {
+  return psaController.text;
 }
