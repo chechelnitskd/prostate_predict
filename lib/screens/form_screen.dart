@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'model.dart';
+import '../model.dart';
 import 'results_screen.dart';
 
 class FormScreen extends StatelessWidget {

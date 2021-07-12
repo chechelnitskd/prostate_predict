@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:prostate_predict/constants.dart';
-import 'package:prostate_predict/form_screen.dart';
+import 'package:prostate_predict/screens/form_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
