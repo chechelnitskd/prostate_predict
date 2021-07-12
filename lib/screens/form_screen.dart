@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import '../model.dart';
+import '../calculations.dart';
 import 'results_screen.dart';
 
 class FormScreen extends StatelessWidget {
@@ -27,6 +27,15 @@ class MyCustomForm extends StatefulWidget {
   }
 }
 
+TextEditingController ageController = TextEditingController();
+TextEditingController psaController = TextEditingController();
+
+getAge() {
+  return int.parse(ageController.text);
+}
+
+getPSA() => int.parse(psaController.text);
+
 // Create a corresponding State class.
 // This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
@@ -36,12 +45,12 @@ class MyCustomFormState extends State<MyCustomForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
-  TextEditingController ageController = TextEditingController();
-  TextEditingController psaController = TextEditingController();
+/*  TextEditingController ageController = TextEditingController();
+  TextEditingController psaController = TextEditingController();*/
 
-  getAge() {
+/*  getAge() {
     return ageController;
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {

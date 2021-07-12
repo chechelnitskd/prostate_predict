@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prostate_predict/calculations.dart';
 import 'form_screen.dart';
 
 class ResultsScreen extends StatelessWidget {
@@ -16,7 +17,8 @@ class ResultsScreen extends StatelessWidget {
               ),
               Spacer(),
               Text(
-                "${10}%", //getAge()
+                "${applyStaticModel()}%", //getAge()
+                // can I do getAge() if I have it in the MyCustomFormState class?
               ),
               ElevatedButton(
                 child: Text("test"),
