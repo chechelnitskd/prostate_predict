@@ -36,8 +36,13 @@ class MyCustomFormState extends State<MyCustomForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _ageController = TextEditingController();
-  TextEditingController _psaController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController psaController = TextEditingController();
+
+  getAge() {
+    return ageController;
+  }
+
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -47,7 +52,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
-            controller: _ageController,
+            controller: ageController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 hintText: "Your Age",
@@ -63,7 +68,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             },
           ),
           TextFormField(
-            controller: _psaController, keyboardType: TextInputType.number,
+            controller: psaController, keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 hintText: "Your PSA",
                 labelText: "PSA",
@@ -83,8 +88,9 @@ class MyCustomFormState extends State<MyCustomForm> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  new MaterialPageRoute(
-                      builder: (context) => new ResultsScreen()),
+                  //new MaterialPageRoute(
+                  MaterialPageRoute(
+                      builder: (context) => ResultsScreen()), // instead of new ResultsScreen()
                 );
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
@@ -104,4 +110,7 @@ class MyCustomFormState extends State<MyCustomForm> {
       ),
     );
   }
+
 }
+
+

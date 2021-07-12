@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'form_screen.dart';
 
 class ResultsScreen extends StatelessWidget {
   @override
@@ -15,8 +16,12 @@ class ResultsScreen extends StatelessWidget {
               ),
               Spacer(),
               Text(
-                "${10}%",
+                "${10}%", //getAge()
               ),
+              ElevatedButton(
+                child: Text("test"),
+                onPressed: () {
+                  Navigator.pop(context);}),
               Spacer(flex: 3),
             ],
           )
