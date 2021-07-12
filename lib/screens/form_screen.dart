@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'model.dart';
-import 'screens/results_screen.dart';
+import '../model.dart';
+import 'results_screen.dart';
 
 class FormScreen extends StatelessWidget {
   @override
@@ -108,12 +108,12 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 }
 
-getAge() {
-  return ageController;
+getAgeFactor() {
+  return 0.003 * (pow(((int.parse(ageController.text)) / 10), 3) - 341.16);
 }
 
 getPSA() {
-  return psaController.text;
+  return 0.186 * (log((int.parse(psaController.text)) + 1 / 100)) + 1.636;
 }
 
 getTstage() {
