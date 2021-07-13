@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
-import 'package:prostate_predict/screens/form_screen.dart';
 
 class ResultsScreen extends StatelessWidget {
   @override
@@ -17,7 +15,7 @@ class ResultsScreen extends StatelessWidget {
               ),
               Spacer(),
               Text(
-                "${100 - (log(getAgeFactor() + getPSA()) * 10)}%",
+                "${10}%",
               ),
               Spacer(flex: 3),
             ],

@@ -27,10 +27,6 @@ class MyCustomForm extends StatefulWidget {
   }
 }
 
-final _formKey = GlobalKey<FormState>();
-TextEditingController ageController = TextEditingController();
-TextEditingController psaController = TextEditingController();
-
 // Create a corresponding State class.
 // This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
@@ -39,7 +35,9 @@ class MyCustomFormState extends State<MyCustomForm> {
   //
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
-
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _ageController = TextEditingController();
+  TextEditingController _psaController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -49,7 +47,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
-            controller: ageController,
+            controller: _ageController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 hintText: "Your Age",
@@ -65,7 +63,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             },
           ),
           TextFormField(
-            controller: psaController, keyboardType: TextInputType.number,
+            controller: _psaController, keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 hintText: "Your PSA",
                 labelText: "PSA",
@@ -106,20 +104,4 @@ class MyCustomFormState extends State<MyCustomForm> {
       ),
     );
   }
-}
-
-getAgeFactor() {
-  return 0.003 * (pow(((int.parse(ageController.text)) / 10), 3) - 341.16);
-}
-
-getPSA() {
-  return 0.186 * (log((int.parse(psaController.text)) + 1 / 100)) + 1.636;
-}
-
-getTstage() {
-  return ageController;
-}
-
-getSomething() {
-  return psaController.text;
 }
