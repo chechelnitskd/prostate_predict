@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import '../model.dart';
+import '../calculations.dart';
 import 'results_screen.dart';
 
 class FormScreen extends StatelessWidget {
@@ -27,9 +27,15 @@ class MyCustomForm extends StatefulWidget {
   }
 }
 
-final _formKey = GlobalKey<FormState>();
+
 TextEditingController ageController = TextEditingController();
 TextEditingController psaController = TextEditingController();
+
+getAge() {
+  return int.parse(ageController.text);
+}
+
+getPSA() => int.parse(psaController.text);
 
 // Create a corresponding State class.
 // This class holds data related to the form.
@@ -39,6 +45,14 @@ class MyCustomFormState extends State<MyCustomForm> {
   //
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
+
+  final _formKey = GlobalKey<FormState>();
+/*  TextEditingController ageController = TextEditingController();
+  TextEditingController psaController = TextEditingController();*/
+
+/*  getAge() {
+    return ageController;
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -85,8 +99,9 @@ class MyCustomFormState extends State<MyCustomForm> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  new MaterialPageRoute(
-                      builder: (context) => new ResultsScreen()),
+                  //new MaterialPageRoute(
+                  MaterialPageRoute(
+                      builder: (context) => ResultsScreen()), // instead of new ResultsScreen()
                 );
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
@@ -106,13 +121,15 @@ class MyCustomFormState extends State<MyCustomForm> {
       ),
     );
   }
+
 }
+
 
 getAgeFactor() {
   return 0.003 * (pow(((int.parse(ageController.text)) / 10), 3) - 341.16);
 }
 
-getPSA() {
+getPSAFactor() {
   return 0.186 * (log((int.parse(psaController.text)) + 1 / 100)) + 1.636;
 }
 
@@ -123,3 +140,4 @@ getTstage() {
 getSomething() {
   return psaController.text;
 }
+
