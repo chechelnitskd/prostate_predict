@@ -13,7 +13,7 @@ class ResultsScreen extends StatelessWidget {
             children: [
               Spacer(flex: 3),
               Text(
-                "Score",
+                "10 year risk",
               ),
               Spacer(),
               Text(
