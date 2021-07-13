@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget
     final appTitle = 'Prostate Cancer Risk Calculator';
     return MaterialApp(
       title: appTitle,
-      home: FormScreen(),
+      home: HomeScreen(),
     );
   }
 }

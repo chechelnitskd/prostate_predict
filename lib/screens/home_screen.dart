@@ -33,18 +33,20 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   Spacer(), // 1/6
-                  InkWell(
-                    onTap: () => Get.to(FormScreen()),
-                    child: Container(
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.all(kDefaultPadding * 0.75), // 15
-                      decoration: BoxDecoration(
-                        gradient: kPrimaryGradient,
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                      ),
-                      child: Text(
-                        "Lets Start",
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new FormScreen()),
+                        );
+                        // Validate returns true if the form is valid, or false otherwise.
+                      },
+                      child: Text('Start'),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.red),
                       ),
                     ),
                   ),
