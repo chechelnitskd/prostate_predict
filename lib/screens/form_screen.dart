@@ -27,15 +27,26 @@ class MyCustomForm extends StatefulWidget {
   }
 }
 
-
+// need to make the fields required
+// also, this stores te same values/doesn't call again when you click back
 TextEditingController ageController = TextEditingController();
 TextEditingController psaController = TextEditingController();
 
-getAge() {
-  return int.parse(ageController.text);
-}
+getAge() => int.parse(ageController.text);
 
 getPSA() => int.parse(psaController.text);
+
+getTStage() => 1;
+
+getGradeGroup() => 1;
+
+getTreatmentType() => 0;
+
+getPPCBiopsy() => 0;
+
+getBRCA() => 1;
+
+getComorbidity() => 0;
 
 // Create a corresponding State class.
 // This class holds data related to the form.
@@ -122,29 +133,5 @@ class MyCustomFormState extends State<MyCustomForm> {
     );
   }
 
-}
-
-getTStage() {
-  return 0;
-}
-
-getGradeGroup() {
-  return 0;
-}
-
-getTreatmentType() {
-  return 0;
-}
-
-getPPCBiopsy() {
-  return 0;
-}
-
-getComorbidity() {
-  return 0;
-}
-
-getSomething() {
-  return psaController.text;
 }
 

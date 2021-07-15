@@ -25,7 +25,7 @@ class ResultsScreen extends StatelessWidget {
               Spacer(),
               Text(
                 //"${100 - (log(getAgeFactor() + getPSA()) * 10)}%",
-                "${applyStaticModel(10)}%", //getAge()
+                "${applyStaticModel(15)}%", //getAge()
                 // can I do getAge() if I have it in the MyCustomFormState class?
               ),
               ElevatedButton(
