@@ -3,21 +3,23 @@ import 'dart:math';
 import 'screens/form_screen.dart';
 import 'package:tflite/tflite.dart';
 
-/*int age = getAge();
+int age = getAge();
 int psa = getPSA();
 int tStage = getTStage();
 int gradeGroup = getGradeGroup();
 int treatmentType = getTreatmentType();
-double ppcBiopsy = getPPCBiopsy();
-int comorbidity = getComorbidity();*/
+int ppcBiopsy = getPPCBiopsy();
+int brca = getBRCA();
+int comorbidity = getComorbidity();
 
-int age = 50;
+/*int age = 50;
 int psa = 5;
-int tStage = 1;
+int tStage = 1; // only between 1 and 4
 int gradeGroup = 1;
 int treatmentType = 0;
 double ppcBiopsy = 0;
-int comorbidity =  1;
+int brca = 1; // 1 for true, 0 for false
+int comorbidity =  0;*/
 
 calcTStageFactor(var tStage) {
   switch(tStage) {
@@ -56,12 +58,22 @@ calcGradeGroupFactor(var gradeGroup) {
   }
 }
 
+calcBRCAFactor(var brca) {
+  return (brca == 1) ? 0.956 : 0;
+}
+
+calcComorbidityFactor(var comorbidity) {
+  return (comorbidity == 1) ? 0.6382002 : 0;
+}
+
 calcTreatmentFactor(var treatmentType) {
   switch(treatmentType) {
     case 1: {
+      // radical treatment
       return -.6837094;
     }
     case 3: {
+      // androgen deprivation therapy
       return .9084921;
     }
     default: {
@@ -72,32 +84,44 @@ calcTreatmentFactor(var treatmentType) {
 
 
 
-applyStaticModel(double yrs) {
-  double yrsAsDays = yrs * 365;
+applyStaticModel(int yrs) {
+  int yrsAsDays = (yrs * 365) + (yrs % 4);
 
   double piNPCM = 0.1226666*(age-69.87427439)
-      + (comorbidity==1 ? 0.6382002 : 0);
+      + calcComorbidityFactor(comorbidity);
+
   double NPCM =
-      1 - exp(-exp(piNPCM)*exp(-12.4841 + 1.32274*(log(yrsAsDays)) + 2.90e-12*pow(yrsAsDays,3)));
+      1 - exp(
+          -1 * exp(piNPCM) * exp(
+                                  -12.4841
+                                  + 1.32274*(log(yrsAsDays))
+                                  + 2.90e-12*pow(yrsAsDays,3)));
 
   double piPCSM = 0.0026005*((pow((age / 10), 3)-341.155151))
       + 0.185959*(log((psa+1)/100)+1.636423432)
       + calcTStageFactor(tStage)
       + calcGradeGroupFactor(gradeGroup)
       + calcTreatmentFactor(treatmentType)
+      + calcBRCAFactor(1)
       +1.890134*(sqrt((ppcBiopsy+0.1811159)/100)-.649019);
+  // this is v1.1 of the calculator; lower ppcBiopsy increases survival more
 
-  double PCSM = 1 - exp(-exp(piPCSM)*exp(-16.40532 + 1.653947*(log(yrsAsDays)) + 1.89e-12*pow(yrsAsDays,3)));
+  double PCSM =
+      1 - exp(
+          -1 * exp(piPCSM) * exp(
+                                  -16.40532
+                                  + 1.653947*(log(yrsAsDays))
+                                  + 1.89e-12*pow(yrsAsDays,3)));
 
   double PCSurvival = 1 - PCSM;
   double OtherSurvival = 1 - NPCM;
 
-  return (1 - (PCSurvival * OtherSurvival)).toStringAsFixed(2);
+  //print("years as days: $yrsAsDays");
+  //print("piNPCM: $piNPCM\nNPCM: $NPCM\npiPCSM: $piPCSM\nPCSM: $PCSM\n");
+  //print("PCSurvival: $PCSurvival\nOtherSurvival: $OtherSurvival\nOverall Survival: ${PCSurvival * OtherSurvival * 100}");
+
+  return (PCSurvival * OtherSurvival * 100).toStringAsFixed(2);
 }
-
-// Hpc(t) = exp[-16.40532 + 1.653947*(log(t)) + (1.89x(10^(-12)))*(t^3))]
-// Ho(t) = exp[−12.4841 + 1.32274*(log(t)) +2.90x(10^(-12)))* (t^3))]
-
 
 
 loadMyModel() async {
