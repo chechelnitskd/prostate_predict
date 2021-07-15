@@ -124,17 +124,24 @@ class MyCustomFormState extends State<MyCustomForm> {
 
 }
 
-
-getAgeFactor() {
-  return 0.003 * (pow(((int.parse(ageController.text)) / 10), 3) - 341.16);
+getTStage() {
+  return 0;
 }
 
-getPSAFactor() {
-  return 0.186 * (log((int.parse(psaController.text)) + 1 / 100)) + 1.636;
+getGradeGroup() {
+  return 0;
 }
 
-getTstage() {
-  return ageController;
+getTreatmentType() {
+  return 0;
+}
+
+getPPCBiopsy() {
+  return 0;
+}
+
+getComorbidity() {
+  return 0;
 }
 
 getSomething() {

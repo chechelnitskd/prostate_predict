@@ -1,17 +1,105 @@
 //import 'package:flutter/material.dart';
 import 'dart:math';
 import 'screens/form_screen.dart';
+import 'package:tflite/tflite.dart';
 
-int age = getAge();
+/*int age = getAge();
 int psa = getPSA();
+int tStage = getTStage();
+int gradeGroup = getGradeGroup();
+int treatmentType = getTreatmentType();
+double ppcBiopsy = getPPCBiopsy();
+int comorbidity = getComorbidity();*/
 
-applyStaticModel() {
-  return
-    (100 - (10 * log(0.003 * (pow((age / 10), 3) - 341.16)
-          + (0.186 * (log(psa + (1 / 100))) + 1.636)))).toStringAsFixed(2);
+int age = 50;
+int psa = 5;
+int tStage = 1;
+int gradeGroup = 1;
+int treatmentType = 0;
+double ppcBiopsy = 0;
+int comorbidity =  1;
+
+calcTStageFactor(var tStage) {
+  switch(tStage) {
+    case 2: {
+      return .1614922;
+    }
+    case 3: {
+      return .39767881;
+    }
+    case 4: {
+      return .6330977;
+    }
+    default: {
+      return 0;
+    }
+  }
 }
 
-/*
+calcGradeGroupFactor(var gradeGroup) {
+  switch(gradeGroup) {
+    case 2: {
+      return .2791641;
+    }
+    case 3: {
+      return .5464889;
+    }
+    case 4: {
+      return .7411321;
+    }
+    case 5: {
+      return 1.367963;
+    }
+    default: {
+      return 0;
+    }
+  }
+}
+
+calcTreatmentFactor(var treatmentType) {
+  switch(treatmentType) {
+    case 1: {
+      return -.6837094;
+    }
+    case 3: {
+      return .9084921;
+    }
+    default: {
+      return 0;
+    }
+  }
+}
+
+
+
+applyStaticModel(double yrs) {
+  double yrsAsDays = yrs * 365;
+
+  double piNPCM = 0.1226666*(age-69.87427439)
+      + (comorbidity==1 ? 0.6382002 : 0);
+  double NPCM =
+      1 - exp(-exp(piNPCM)*exp(-12.4841 + 1.32274*(log(yrsAsDays)) + 2.90e-12*pow(yrsAsDays,3)));
+
+  double piPCSM = 0.0026005*((pow((age / 10), 3)-341.155151))
+      + 0.185959*(log((psa+1)/100)+1.636423432)
+      + calcTStageFactor(tStage)
+      + calcGradeGroupFactor(gradeGroup)
+      + calcTreatmentFactor(treatmentType)
+      +1.890134*(sqrt((ppcBiopsy+0.1811159)/100)-.649019);
+
+  double PCSM = 1 - exp(-exp(piPCSM)*exp(-16.40532 + 1.653947*(log(yrsAsDays)) + 1.89e-12*pow(yrsAsDays,3)));
+
+  double PCSurvival = 1 - PCSM;
+  double OtherSurvival = 1 - NPCM;
+
+  return (1 - (PCSurvival * OtherSurvival)).toStringAsFixed(2);
+}
+
+// Hpc(t) = exp[-16.40532 + 1.653947*(log(t)) + (1.89x(10^(-12)))*(t^3))]
+// Ho(t) = exp[−12.4841 + 1.32274*(log(t)) +2.90x(10^(-12)))* (t^3))]
+
+
+
 loadMyModel() async {
   await Tflite.loadModel(
     model: "assets/model_unquant.tflite",
@@ -19,7 +107,7 @@ loadMyModel() async {
   );
   print("Loaded");
 }
-
+/*
 applyModelOnImage(File file) async {
   var res = await Tflite.runModelOnImage(
       path: file.path,
@@ -38,15 +126,3 @@ applyModelOnImage(File file) async {
 }
 */
 
-
-//class Model {
-//  String age;
-//  String PSA;
-
-//  Model({this.age, this.PSA});
-
-// this below uses age and psa as factors to calculate risk
-//100 - (10 * log(0.003 * (pow((age / 10), 3) - 341.16) + (0.186 * (log(PSA + (1 / 100))) + 1.636)))
-// print(int.parse(_ageController.text) +
-//                     int.parse(_psaController.text));
-//}
