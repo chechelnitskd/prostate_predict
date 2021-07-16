@@ -70,9 +70,10 @@ class MyCustomFormState extends State<MyCustomForm> {
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
           TextFormField(
             controller: ageController,
             keyboardType: TextInputType.number,
@@ -104,6 +105,154 @@ class MyCustomFormState extends State<MyCustomForm> {
               return null;
             },
           ),
+            TextFormField(
+              controller: psaController, keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  hintText: "Your PSA",
+                  labelText: "PSA",
+                  labelStyle: TextStyle(fontSize: 24),
+                  border: InputBorder.none),
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: psaController, keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  hintText: "Your PSA",
+                  labelText: "PSA",
+                  labelStyle: TextStyle(fontSize: 24),
+                  border: InputBorder.none),
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: psaController, keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  hintText: "Your PSA",
+                  labelText: "PSA",
+                  labelStyle: TextStyle(fontSize: 24),
+                  border: InputBorder.none),
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: psaController, keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  hintText: "Your PSA",
+                  labelText: "PSA",
+                  labelStyle: TextStyle(fontSize: 24),
+                  border: InputBorder.none),
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: psaController, keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  hintText: "Your PSA",
+                  labelText: "PSA",
+                  labelStyle: TextStyle(fontSize: 24),
+                  border: InputBorder.none),
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: psaController, keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  hintText: "Your PSA",
+                  labelText: "PSA",
+                  labelStyle: TextStyle(fontSize: 24),
+                  border: InputBorder.none),
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: psaController, keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  hintText: "Your PSA",
+                  labelText: "PSA",
+                  labelStyle: TextStyle(fontSize: 80),
+                  border: InputBorder.none),
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: psaController, keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  hintText: "Your PSA",
+                  labelText: "PSA",
+                  labelStyle: TextStyle(fontSize: 24),
+                  border: InputBorder.none),
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),TextFormField(
+              controller: psaController, keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  hintText: "Your PSA",
+                  labelText: "PSA",
+                  labelStyle: TextStyle(fontSize: 24),
+                  border: InputBorder.none),
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),TextFormField(
+              controller: psaController, keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  hintText: "Your PSA",
+                  labelText: "PSA",
+                  labelStyle: TextStyle(fontSize: 80),
+                  border: InputBorder.none),
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
@@ -129,6 +278,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             ),
           ),
         ],
+      ),
       ),
     );
   }
