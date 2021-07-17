@@ -3,23 +3,23 @@ import 'dart:math';
 import 'screens/form_screen.dart';
 import 'package:tflite/tflite.dart';
 
-int age = getAge();
+/*int age = getAge();
 int psa = getPSA();
 int tStage = getTStage();
 int gradeGroup = getGradeGroup();
 int treatmentType = getTreatmentType();
 int ppcBiopsy = getPPCBiopsy();
 int brca = getBRCA();
-int comorbidity = getComorbidity();
+int comorbidity = getComorbidity();*/
 
-/*int age = 50;
+int age = 50;
 int psa = 5;
 int tStage = 1; // only between 1 and 4
 int gradeGroup = 1;
 int treatmentType = 0;
 double ppcBiopsy = 0;
 int brca = 1; // 1 for true, 0 for false
-int comorbidity =  0;*/
+int comorbidity =  0;
 
 calcTStageFactor(var tStage) {
   switch(tStage) {
