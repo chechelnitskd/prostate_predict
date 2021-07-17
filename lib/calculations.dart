@@ -2,6 +2,9 @@
 import 'dart:math';
 import 'screens/form_screen.dart';
 import 'package:tflite/tflite.dart';
+import 'package:provider/provider.dart';
+import 'package:meta/meta.dart';
+import 'user_data.dart';
 
 /*int age = getAge();
 int psa = getPSA();
@@ -12,6 +15,8 @@ int ppcBiopsy = getPPCBiopsy();
 int brca = getBRCA();
 int comorbidity = getComorbidity();*/
 
+
+// FOR TESTING ONLY!
 int age = 50;
 int psa = 5;
 int tStage = 1; // only between 1 and 4
@@ -83,8 +88,16 @@ calcTreatmentFactor(var treatmentType) {
 }
 
 
+//FIX THIS
+applyStaticModel({required int yrs, required int? age, required int? psa,
+                  required int tStage, required int gradeGroup,
+                  required int treatmentType, required double ppcBiopsy,
+                  required int brca, required int comorbidity}) {
 
-applyStaticModel(int yrs) {
+  if (age == null || psa == null) {
+    throw("NULL!");
+  }
+
   int yrsAsDays = (yrs * 365) + (yrs % 4);
 
   double piNPCM = 0.1226666*(age-69.87427439)
@@ -102,7 +115,7 @@ applyStaticModel(int yrs) {
       + calcTStageFactor(tStage)
       + calcGradeGroupFactor(gradeGroup)
       + calcTreatmentFactor(treatmentType)
-      + calcBRCAFactor(1)
+      + calcBRCAFactor(brca)
       +1.890134*(sqrt((ppcBiopsy+0.1811159)/100)-.649019);
   // this is v1.1 of the calculator; lower ppcBiopsy increases survival more
 

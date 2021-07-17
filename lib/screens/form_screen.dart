@@ -90,15 +90,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .setAge(int.parse(_ageController.text));
                 Provider.of<UserData>(context, listen: false)
                     .setPSA(int.parse(_psaController.text));
-                print(Provider.of<UserData>(context, listen: false)
-                    .getAge());
-                print(Provider.of<UserData>(context, listen: false)
-                    .getPSA());
                 Navigator.push(
                   context,
                   //new MaterialPageRoute(
                   MaterialPageRoute(
-                      builder: (context) => new ResultsScreen()), // instead of new ResultsScreen()
+                      builder: (context) => ResultsScreen()), // instead of new ResultsScreen()
                 );
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
