@@ -69,9 +69,10 @@ class _ResultsScreenState extends State<ResultsScreen> {
                                       gradeGroup: gradeGroup, treatmentType: treatmentType,
                                       ppcBiopsy: ppcBiopsy, brca: brca, comorbidity: comorbidity)}%", //getAge()
                 // can I do getAge() if I have it in the MyCustomFormState class?
+                style: TextStyle(fontSize: 80),
               ),
               ElevatedButton(
-                child: Text("test"),
+                child: Text("Re-Enter Data"),
                 onPressed: () {
                   Navigator.pop(context);}),
               Spacer(flex: 3),
