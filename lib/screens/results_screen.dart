@@ -60,7 +60,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
             children: [
               Spacer(flex: 3),
               Text(
-                "Score",
+                "10 year risk",
               ),
               Spacer(),
               Text(
