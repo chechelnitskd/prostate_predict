@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import '../model.dart';
+import '../calculations.dart';
 import 'results_screen.dart';
+import 'package:provider/provider.dart';
+import '../user_data.dart';
 
 class FormScreen extends StatelessWidget {
   @override
@@ -27,29 +29,29 @@ class MyCustomForm extends StatefulWidget {
   }
 }
 
-final _formKey = GlobalKey<FormState>();
-TextEditingController ageController = TextEditingController();
-TextEditingController psaController = TextEditingController();
+// need to make the fields required
+// also, this stores te same values/doesn't call again when you click back
 
 // Create a corresponding State class.
 // This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
+
+  final _formKey = GlobalKey<FormState>();
+
+  TextEditingController _ageController = TextEditingController();
+  TextEditingController _psaController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
           TextFormField(
-            controller: ageController,
+            controller: _ageController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 hintText: "Your Age",
@@ -58,14 +60,14 @@ class MyCustomFormState extends State<MyCustomForm> {
                 border: InputBorder.none),
             // The validator receives the text that the user has entered.
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
+              if (value == null || value.isEmpty || num.tryParse(value) == null) {
+                return 'Please enter age as a number';
               }
               return null;
             },
           ),
           TextFormField(
-            controller: psaController, keyboardType: TextInputType.number,
+            controller: _psaController, keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 hintText: "Your PSA",
                 labelText: "PSA",
@@ -73,8 +75,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                 border: InputBorder.none),
             // The validator receives the text that the user has entered.
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
+              // this doesn't work!
+              if (value == null || value.isEmpty || num.tryParse(value) == null) {
+                return 'Please enter PSA as a number';
               }
               return null;
             },
@@ -83,10 +86,15 @@ class MyCustomFormState extends State<MyCustomForm> {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
               onPressed: () {
+                Provider.of<UserData>(context, listen: false)
+                    .setAge(int.parse(_ageController.text));
+                Provider.of<UserData>(context, listen: false)
+                    .setPSA(int.parse(_psaController.text));
                 Navigator.push(
                   context,
-                  new MaterialPageRoute(
-                      builder: (context) => new ResultsScreen()),
+                  //new MaterialPageRoute(
+                  MaterialPageRoute(
+                      builder: (context) => ResultsScreen()), // instead of new ResultsScreen()
                 );
                 // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) {
@@ -104,22 +112,9 @@ class MyCustomFormState extends State<MyCustomForm> {
           ),
         ],
       ),
+      ),
     );
   }
+
 }
 
-getAgeFactor() {
-  return 0.003 * (pow(((int.parse(ageController.text)) / 10), 3) - 341.16);
-}
-
-getPSA() {
-  return 0.186 * (log((int.parse(psaController.text)) + 1 / 100)) + 1.636;
-}
-
-getTstage() {
-  return ageController;
-}
-
-getSomething() {
-  return psaController.text;
-}
