@@ -7,7 +7,7 @@ import 'user_data.dart';
 
 void main() => runApp(
     ChangeNotifierProvider(create: (context) => UserData(),
-    child: MyApp()));
+      child: MyApp()));
 
 class MyApp extends StatelessWidget
 {
