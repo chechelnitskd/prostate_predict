@@ -6,8 +6,7 @@ import 'form_screen.dart';
 import 'package:provider/provider.dart';
 import '../user_data.dart';
 
-
-// is it better to getAge() here? or just use resultsScreen to print stuff out?
+// is it better to getAge() here? or just use resultsScreen to print stuff out
 class ResultsScreen extends StatefulWidget {
   const ResultsScreen({Key? key}) : super(key: key);
 
@@ -16,7 +15,6 @@ class ResultsScreen extends StatefulWidget {
 }
 
 class _ResultsScreenState extends State<ResultsScreen> {
-
   //maybe implement as a dictionary
   int? age;
   int? psa;
@@ -32,7 +30,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
   int treatmentType = 0;
   double ppcBiopsy = 0;
   int brca = 1; // 1 for true, 0 for false
-  int comorbidity =  0;
+  int comorbidity = 0;
 
   bool setAllFactors(BuildContext context) {
     age = Provider.of<UserData>(context, listen: false).getAge();
@@ -44,7 +42,6 @@ class _ResultsScreenState extends State<ResultsScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     loadMyModel();
@@ -52,37 +49,36 @@ class _ResultsScreenState extends State<ResultsScreen> {
     //FIX THIS
     // this doesn't work: if (setAllFactors(context) && age != null && psa != null) {
     if (setAllFactors(context)) {
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Column(
-            children: [
-              Spacer(flex: 3),
-              Text(
-                "10 year risk",
-              ),
-              Spacer(),
-              Text(
-                //"${100 - (log(getAgeFactor() + getPSA()) * 10)}%",
-                "${applyStaticModel(yrs: 15, age: age, psa: psa, tStage: tStage,
-                                      gradeGroup: gradeGroup, treatmentType: treatmentType,
-                                      ppcBiopsy: ppcBiopsy, brca: brca, comorbidity: comorbidity)}%", //getAge()
-                // can I do getAge() if I have it in the MyCustomFormState class?
-                style: TextStyle(fontSize: 80),
-              ),
-              ElevatedButton(
-                child: Text("Re-Enter Data"),
-                onPressed: () {
-                  Navigator.pop(context);}),
-              Spacer(flex: 3),
-            ],
-          )
-        ],
-      ),
-    );
-  } else {
-    throw("error");
+      return Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Column(
+              children: [
+                Spacer(flex: 3),
+                Text(
+                  "10 year risk",
+                ),
+                Spacer(),
+                Text(
+                  //"${100 - (log(getAgeFactor() + getPSA()) * 10)}%",
+                  "${applyStaticModel(yrs: 15, age: age, psa: psa, tStage: tStage, gradeGroup: gradeGroup, treatmentType: treatmentType, ppcBiopsy: ppcBiopsy, brca: brca, comorbidity: comorbidity)}%", //getAge()
+                  // can I do getAge() if I have it in the MyCustomFormState class?
+                  style: TextStyle(fontSize: 80),
+                ),
+                ElevatedButton(
+                    child: Text("Re-Enter Data"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+                Spacer(flex: 3),
+              ],
+            )
+          ],
+        ),
+      );
+    } else {
+      throw ("error");
     }
   }
 }
