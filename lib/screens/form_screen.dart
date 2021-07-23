@@ -56,13 +56,26 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
   }
 
-  // might need to be a texteditingcontroller
+  // might need to be a texteditingcontroller?
+  // string? works
   String? _validateAge(String? age) {
     RegExp regex = RegExp(r'^[1-9]\d*(\.\d+)?$');
     if (age == null || age.isEmpty) {
       return 'Please enter age';
     } else if (!regex.hasMatch(age)){
       return 'Please enter age as a number';
+    } else {
+      return null;
+    }
+  }
+
+  String? _validatePSA(String? psa) {
+    RegExp regex = RegExp(r'[1-9]\d*(\.\d+)?');
+    // trying new regex with no ^ and $
+    if (psa == null || psa.isEmpty) {
+      return 'Please enter PSA';
+    } else if (!regex.hasMatch(psa)){
+      return 'Please enter PSA as a number';
     } else {
       return null;
     }
@@ -91,15 +104,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                   labelStyle: TextStyle(fontSize: 24),
                   border: InputBorder.none),
               // The validator receives the text that the user has entered.
-              onSaved: (value) {
-                if (value != null && num.tryParse(value) == null) {
-                  print("ERROR");
-                } else {
-                  Provider.of<UserData>(context, listen: false)
-                      .setAge(int.parse(_ageController.text));
-                }
-              },
               validator: _validateAge,
+              onSaved: (value) {
+                Provider.of<UserData>(context, listen: false)
+                    .setAge(int.parse(_ageController.text));
+              },
             ),
 
             TextFormField(
@@ -111,12 +120,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                   labelStyle: TextStyle(fontSize: 24),
                   border: InputBorder.none),
               // The validator receives the text that the user has entered.
-              validator: (value) {
-                // this doesn't work!
-                if (value == null || value.isEmpty || num.tryParse(value) == null) {
-                  return 'Please enter PSA as a number';
-                }
-                return null;
+              validator: _validatePSA,
+              onSaved: (value) {
+                Provider.of<UserData>(context, listen: false)
+                    .setPSA(int.parse(_psaController.text));
               },
             ),
 
@@ -126,10 +133,6 @@ class MyCustomFormState extends State<MyCustomForm> {
               ElevatedButton(
                 onPressed: () {
                   _submit();
-                  //Provider.of<UserData>(context, listen: false)
-                      //.setAge(int.parse(_ageController.text));
-                  Provider.of<UserData>(context, listen: false)
-                      .setPSA(int.parse(_psaController.text));
                   Navigator.push(
                     context,
                     //new MaterialPageRoute(
