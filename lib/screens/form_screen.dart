@@ -48,11 +48,19 @@ class MyCustomFormState extends State<MyCustomForm> {
   TextEditingController _comoController = TextEditingController();
 
 
-  void _submit() {
+  void _submit(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       // what exactly does saving do?
       // it calls onSaved: ... for each field (so we have to write it!)
       _formKey.currentState!.save();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Processing Data')));
+      Navigator.push(
+        context,
+        //new MaterialPageRoute(
+        MaterialPageRoute(
+            builder: (context) => ResultsScreen()), // instead of new ResultsScreen()
+      );
     }
   }
 
@@ -131,7 +139,8 @@ class MyCustomFormState extends State<MyCustomForm> {
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child:
               ElevatedButton(
-                onPressed: () {
+                onPressed: () => _submit(context),
+                /*() {
                   _submit();
                   Navigator.push(
                     context,
@@ -140,13 +149,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                         builder: (context) => ResultsScreen()), // instead of new ResultsScreen()
                   );
                   // Validate returns true if the form is valid, or false otherwise.
-                  if (_formKey.currentState!.validate()) { // currentState! == check that currentState is not null
-                    // If the form is valid, display a snackbar. In the real world,
-                    // you'd often call a server or save the information in a database.
+                  if (_formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context)
                         .showSnackBar(SnackBar(content: Text('Processing Data')));
                   }
-                },
+                },*/
                 child: Text('Submit'),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.red),
