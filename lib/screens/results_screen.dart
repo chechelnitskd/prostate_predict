@@ -39,6 +39,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
     age = Provider.of<UserData>(context, listen: false).getAge();
     psa = Provider.of<UserData>(context, listen: false).getPSA();
     if (age == null || psa == null) {
+      print("did not set -- input null");
       return false;
     } else {
       return true;
