@@ -53,8 +53,6 @@ class MyCustomFormState extends State<MyCustomForm> {
       // what exactly does saving do?
       // it calls onSaved: ... for each field (so we have to write it!)
       _formKey.currentState!.save();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Processing Data')));
       Navigator.push(
         context,
         //new MaterialPageRoute(
@@ -111,7 +109,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                   labelText: "Age",
                   labelStyle: TextStyle(fontSize: 24),
                   border: InputBorder.none),
-              // The validator receives the text that the user has entered.
               validator: _validateAge,
               onSaved: (value) {
                 Provider.of<UserData>(context, listen: false)
@@ -127,7 +124,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                   labelText: "PSA",
                   labelStyle: TextStyle(fontSize: 24),
                   border: InputBorder.none),
-              // The validator receives the text that the user has entered.
               validator: _validatePSA,
               onSaved: (value) {
                 Provider.of<UserData>(context, listen: false)
@@ -140,20 +136,6 @@ class MyCustomFormState extends State<MyCustomForm> {
               child:
               ElevatedButton(
                 onPressed: () => _submit(context),
-                /*() {
-                  _submit();
-                  Navigator.push(
-                    context,
-                    //new MaterialPageRoute(
-                    MaterialPageRoute(
-                        builder: (context) => ResultsScreen()), // instead of new ResultsScreen()
-                  );
-                  // Validate returns true if the form is valid, or false otherwise.
-                  if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text('Processing Data')));
-                  }
-                },*/
                 child: Text('Submit'),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.red),
