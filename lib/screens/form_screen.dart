@@ -40,6 +40,12 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   TextEditingController _ageController = TextEditingController();
   TextEditingController _psaController = TextEditingController();
+  TextEditingController _tStgController = TextEditingController();
+  TextEditingController _gGController = TextEditingController();
+  TextEditingController _trTController = TextEditingController();
+  TextEditingController _ppcBController = TextEditingController();
+  TextEditingController _brcaController = TextEditingController();
+  TextEditingController _comoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

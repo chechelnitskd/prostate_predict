@@ -5,6 +5,7 @@ import 'package:prostate_predict/calculations.dart';
 import 'form_screen.dart';
 import 'package:provider/provider.dart';
 import '../user_data.dart';
+import 'package:tflite/tflite.dart';
 
 
 // is it better to getAge() here? or just use resultsScreen to print stuff out?
@@ -44,10 +45,28 @@ class _ResultsScreenState extends State<ResultsScreen> {
     }
   }
 
+  // this ends up kind of being the same result as having it inside the build
+  // function for now, because we build this every time we update the input
+  @override
+  void initState() {
+    super.initState();
+    // the .then part means that the init function waits until the model is
+    // loaded before doing the first set state
+    loadMyModel().then((value) {
+      setState(() {});
+    });
+  }
+
+  // when is this called?
+  @override
+  void dispose() {
+    super.dispose();
+    Tflite.close();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    loadMyModel();
     //maybe throw error instead of else
     //FIX THIS
     // this doesn't work: if (setAllFactors(context) && age != null && psa != null) {
