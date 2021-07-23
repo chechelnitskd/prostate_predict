@@ -59,7 +59,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   // might need to be a texteditingcontroller?
   // string? works
   String? _validateAge(String? age) {
-    RegExp regex = RegExp(r'^[1-9]\d*(\.\d+)?$');
+    RegExp regex = RegExp(r'[1-9]\d*(\.\d+)?');
     if (age == null || age.isEmpty) {
       return 'Please enter age';
     } else if (!regex.hasMatch(age)){
