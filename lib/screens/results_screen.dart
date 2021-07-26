@@ -6,6 +6,7 @@ import 'package:prostate_predict/calculations.dart';
 import 'form_screen.dart';
 import 'package:provider/provider.dart';
 import '../user_data.dart';
+import 'package:tflite/tflite.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 // is it better to getAge() here? or just use resultsScreen to print stuff out
@@ -138,25 +139,46 @@ class _ResultsScreenState extends State<ResultsScreen>
     age = Provider.of<UserData>(context, listen: false).getAge();
     psa = Provider.of<UserData>(context, listen: false).getPSA();
     if (age == null || psa == null) {
+      print("did not set -- input null");
       return false;
     } else {
       return true;
     }
   }
 
+
+
+
+
+  // this ends up kind of being the same result as having it inside the build
+  // function for now, because we build this every time we update the input
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _seriesData = <charts.Series<Pollution, String>>[];
     _seriesLineData = <charts.Series<Sales, int>>[];
     _tabController = TabController(length: 2, vsync: this);
     _generateData();
+    // the .then part means that the init function waits until the model is
+    // loaded before doing the first set state
+    loadMyModel().then((value) {
+      setState(() {});
+    });
   }
+  
+   // when is this called?
+  @override
+  void dispose() {
+    super.dispose();
+    Tflite.close();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    loadMyModel();
+    //maybe throw error instead of else
+    //FIX THIS
+    // this doesn't work: if (setAllFactors(context) && age != null && psa != null) {
     if (setAllFactors(context)) {
       return Scaffold(
         appBar: AppBar(
