@@ -7,12 +7,23 @@ import 'results_screen.dart';
 import 'package:provider/provider.dart';
 import '../user_data.dart';
 
+enum FormScreenState {
+  DATA_NOT_FETCHED,
+  FETCHING_DATA,
+  DATA_READY,
+  NO_DATA,
+  AUTH_NOT_GRANTED
+}
+
+typedef Validator<T> = String? Function(T a);
+typedef Saver<T> = void Function(T a);
+
 class FormScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hello'),
+        title: Text('Calculate Prostate Cancer Risk'),
         backgroundColor: Colors.red,
       ),
       body: MyCustomForm(),
@@ -48,22 +59,21 @@ class MyCustomFormState extends State<MyCustomForm> {
   TextEditingController _comoController = TextEditingController();
 
 
+
   void _submit(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      // what exactly does saving do?
-      // it calls onSaved: ... for each field (so we have to write it!)
+      // saving calls onSaved: ... for each field (so we have to write it!)
       _formKey.currentState!.save();
       Navigator.push(
         context,
-        //new MaterialPageRoute(
+        //TO DO: change to named navigation
         MaterialPageRoute(
             builder: (context) => ResultsScreen()), // instead of new ResultsScreen()
       );
     }
   }
 
-  // might need to be a texteditingcontroller?
-  // string? works
+  // match decimals or change it to a sliding bar
   String? _validateAge(String? age) {
     RegExp regex = RegExp(r'[1-9]\d*(\.\d+)?');
     if (age == null || age.isEmpty) {
@@ -87,6 +97,33 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
   }
 
+  // would this work without null check because validated?
+  void _saveAge(String? age) {
+    Provider.of<UserData>(context, listen: false)
+        .setAge(int.parse(age!));
+  }
+
+  void _savePSA(String? psa) {
+    Provider.of<UserData>(context, listen: false)
+        .setPSA(int.parse(psa!));
+  }
+
+  Widget createTextFormField(TextEditingController ctrlr, String field,
+      Validator<String?> validator, Saver<String?> saver) {
+    return
+      TextFormField(
+        controller: ctrlr,
+        keyboardType: TextInputType.number,
+        decoration: InputDecoration(
+            hintText: "Your " + field,
+            labelText: field,
+            labelStyle: TextStyle(fontSize: 24),
+            border: InputBorder.none),
+        validator: validator,
+        onSaved: saver,
+      );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -101,47 +138,20 @@ class MyCustomFormState extends State<MyCustomForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
 
             children: <Widget>[
-            TextFormField(
-              controller: _ageController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  hintText: "Your Age",
-                  labelText: "Age",
-                  labelStyle: TextStyle(fontSize: 24),
-                  border: InputBorder.none),
-              validator: _validateAge,
-              onSaved: (value) {
-                Provider.of<UserData>(context, listen: false)
-                    .setAge(int.parse(_ageController.text));
-              },
-            ),
+              createTextFormField(_ageController, "Age", _validateAge, _saveAge),
+              createTextFormField(_psaController, "PSA", _validatePSA, _savePSA),
 
-            TextFormField(
-              controller: _psaController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  hintText: "Your PSA",
-                  labelText: "PSA",
-                  labelStyle: TextStyle(fontSize: 24),
-                  border: InputBorder.none),
-              validator: _validatePSA,
-              onSaved: (value) {
-                Provider.of<UserData>(context, listen: false)
-                    .setPSA(int.parse(_psaController.text));
-              },
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child:
-              ElevatedButton(
-                onPressed: () => _submit(context),
-                child: Text('Submit'),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.red),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child:
+                ElevatedButton(
+                  onPressed: () => _submit(context),
+                  child: Text('Submit'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.red),
+                  ),
                 ),
               ),
-            ),
           ],
         ),
         ),

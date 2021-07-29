@@ -22,6 +22,7 @@ class _ResultsScreenState extends State<ResultsScreen>
   late List<charts.Series<Pollution, String>> _seriesData;
   late List<charts.Series<Sales, int>> _seriesLineData;
   late TabController _tabController;
+
   //maybe implement as a dictionary
   int? age;
   int? psa;
@@ -146,7 +147,14 @@ class _ResultsScreenState extends State<ResultsScreen>
     }
   }
 
-
+  String calculateRisk(int year) {
+    return
+      (applyStaticModel(yrs: year, age: age, psa: psa, tStage: tStage,
+          gradeGroup: gradeGroup, treatmentType: treatmentType,
+          ppcBiopsy: ppcBiopsy, brca: brca, comorbidity: comorbidity)
+      * 100)
+          .toStringAsFixed(2);
+  }
 
 
 
@@ -176,9 +184,6 @@ class _ResultsScreenState extends State<ResultsScreen>
 
   @override
   Widget build(BuildContext context) {
-    //maybe throw error instead of else
-    //FIX THIS
-    // this doesn't work: if (setAllFactors(context) && age != null && psa != null) {
     if (setAllFactors(context)) {
       return Scaffold(
         appBar: AppBar(
@@ -211,8 +216,7 @@ class _ResultsScreenState extends State<ResultsScreen>
                     ),
                     Spacer(),
                     Text(
-                      //"${100 - (log(getAgeFactor() + getPSA()) * 10)}%",
-                      "${applyStaticModel(yrs: 15, age: age, psa: psa, tStage: tStage, gradeGroup: gradeGroup, treatmentType: treatmentType, ppcBiopsy: ppcBiopsy, brca: brca, comorbidity: comorbidity)}%", //getAge()
+                      "${calculateRisk(15)}%", //getAge()
                       // can I do getAge() if I have it in the MyCustomFormState class?
                       style: TextStyle(fontSize: 80),
                     ),

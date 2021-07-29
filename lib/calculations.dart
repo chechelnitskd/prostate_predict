@@ -88,7 +88,7 @@ calcTreatmentFactor(var treatmentType) {
 }
 
 
-//FIX THIS
+/// Returns static model prediction as a decimal
 applyStaticModel({required int yrs, required int? age, required int? psa,
                   required int tStage, required int gradeGroup,
                   required int treatmentType, required double ppcBiopsy,
@@ -133,7 +133,7 @@ applyStaticModel({required int yrs, required int? age, required int? psa,
   //print("piNPCM: $piNPCM\nNPCM: $NPCM\npiPCSM: $piPCSM\nPCSM: $PCSM\n");
   //print("PCSurvival: $PCSurvival\nOtherSurvival: $OtherSurvival\nOverall Survival: ${PCSurvival * OtherSurvival * 100}");
 
-  return (PCSurvival * OtherSurvival * 100).toStringAsFixed(2);
+  return PCSurvival * OtherSurvival;
 }
 
 
