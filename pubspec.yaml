@@ -33,6 +33,7 @@ dependencies:
   tflite: ^1.1.2
   provider: ^5.0.0
   charts_flutter: ^0.11.0
+  health: ^3.1.0
 
 dev_dependencies:
   flutter_test:

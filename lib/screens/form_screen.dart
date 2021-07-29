@@ -6,6 +6,7 @@ import '../calculations.dart';
 import 'results_screen.dart';
 import 'package:provider/provider.dart';
 import '../user_data.dart';
+import 'package:health/health.dart';
 
 enum FormScreenState {
   DATA_NOT_FETCHED,
@@ -40,23 +41,22 @@ class MyCustomForm extends StatefulWidget {
   }
 }
 
-// need to make the fields required
-// also, this stores te same values/doesn't call again when you click back
-
 // Create a corresponding State class.
 // This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
 
   final _formKey = GlobalKey<FormState>();
+  FormScreenState _state = FormScreenState.DATA_NOT_FETCHED;
+  List<HealthDataPoint> _healthDataList = [];
 
   TextEditingController _ageController = TextEditingController();
   TextEditingController _psaController = TextEditingController();
-  TextEditingController _tStgController = TextEditingController();
+  /*TextEditingController _tStgController = TextEditingController();
   TextEditingController _gGController = TextEditingController();
   TextEditingController _trTController = TextEditingController();
   TextEditingController _ppcBController = TextEditingController();
   TextEditingController _brcaController = TextEditingController();
-  TextEditingController _comoController = TextEditingController();
+  TextEditingController _comoController = TextEditingController();*/
 
 
 
@@ -124,11 +124,69 @@ class MyCustomFormState extends State<MyCustomForm> {
       );
   }
 
+  Future fetchData() async {
+    /// Get everything from midnight until now
+    DateTime startDate = DateTime(2020, 11, 07, 0, 0, 0);
+    DateTime endDate = DateTime(2025, 11, 07, 23, 59, 59);
+
+    HealthFactory health = HealthFactory();
+
+    /// Define the types to get.
+    List<HealthDataType> types = [
+      HealthDataType.STEPS,
+      HealthDataType.WEIGHT,
+      HealthDataType.HEIGHT,
+      HealthDataType.BLOOD_GLUCOSE,
+      HealthDataType.DISTANCE_WALKING_RUNNING,
+    ];
+
+    setState(() => _state = FormScreenState.FETCHING_DATA);
+
+    /// You MUST request access to the data types before reading them
+    bool accessWasGranted = await health.requestAuthorization(types);
+
+    int steps = 0;
+
+    if (accessWasGranted) {
+      try {
+        /// Fetch new data
+        List<HealthDataPoint> healthData =
+        await health.getHealthDataFromTypes(startDate, endDate, types);
+
+        /// Save all the new data points
+        _healthDataList.addAll(healthData);
+      } catch (e) {
+        print("Caught exception in getHealthDataFromTypes: $e");
+      }
+
+      /// Filter out duplicates
+      _healthDataList = HealthFactory.removeDuplicates(_healthDataList);
+
+      /// Print the results
+      _healthDataList.forEach((x) {
+        print("Data point: $x");
+        steps += x.value.round();
+      });
+
+      print("Steps: $steps");
+
+      /// Update the UI to display the results
+      setState(() {
+        _state =
+        _healthDataList.isEmpty ? FormScreenState.NO_DATA
+                                : FormScreenState.DATA_READY;
+      });
+    } else {
+      print("Authorization not granted");
+      setState(() => _state = FormScreenState.DATA_NOT_FETCHED);
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
-    // don't need to make it a Scaffold again  b/c FormScreen is a scaffold
+    //fetchData();
     return Form(
         key: _formKey,
         child: SingleChildScrollView(

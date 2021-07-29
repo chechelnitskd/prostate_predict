@@ -1,12 +1,18 @@
 PODS:
+  - device_info_plus (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
+  - health (1.0.1):
+    - Flutter
   - TensorFlowLiteC (2.2.0)
   - tflite (1.1.2):
     - Flutter
     - TensorFlowLiteC
 
 DEPENDENCIES:
+  - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - Flutter (from `Flutter`)
+  - health (from `.symlinks/plugins/health/ios`)
   - tflite (from `.symlinks/plugins/tflite/ios`)
 
 SPEC REPOS:
@@ -14,13 +20,19 @@ SPEC REPOS:
     - TensorFlowLiteC
 
 EXTERNAL SOURCES:
+  device_info_plus:
+    :path: ".symlinks/plugins/device_info_plus/ios"
   Flutter:
     :path: Flutter
+  health:
+    :path: ".symlinks/plugins/health/ios"
   tflite:
     :path: ".symlinks/plugins/tflite/ios"
 
 SPEC CHECKSUMS:
+  device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  health: 44840ad4328aa5586e77bef289898bfed644a81c
   TensorFlowLiteC: b3ab9e867b0b71052ca102a32a786555b330b02e
   tflite: 7acd11db0915e2d90ab90474413068568eb605f0
 
