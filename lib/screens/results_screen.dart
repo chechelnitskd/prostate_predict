@@ -156,6 +156,42 @@ class _ResultsScreenState extends State<ResultsScreen>
           .toStringAsFixed(2);
   }
 
+  // IGNORE THIS FOR NOW!
+ /* Widget _riskNumbersView(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget> [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Container(
+              child: Center(
+                  child: Column(
+                    children: [
+                      Spacer(flex: 3),
+                      Text(
+                        "15 year risk",
+                      ),
+                      Spacer(),
+                      Text(
+                        "${calculateRisk(15)}%",
+                        style: TextStyle(fontSize: 80),
+                      ),
+                      ElevatedButton(
+                          child: Text("Re-Enter Data"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                      Spacer(flex: 3),
+                    ],
+                  ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  } */
 
 
   // this ends up kind of being the same result as having it inside the build
@@ -204,6 +240,7 @@ class _ResultsScreenState extends State<ResultsScreen>
         body: TabBarView(
           controller: _tabController,
           children: [
+
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Container(
