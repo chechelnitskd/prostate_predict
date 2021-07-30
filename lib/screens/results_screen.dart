@@ -7,6 +7,7 @@ import 'package:prostate_predict/calculations.dart';
 import 'form_screen.dart';
 import 'package:provider/provider.dart';
 import '../user_data.dart';
+import 'package:tflite/tflite.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 // is it better to getAge() here? or just use resultsScreen to print stuff out
@@ -22,6 +23,7 @@ class _ResultsScreenState extends State<ResultsScreen>
   late List<charts.Series<Pollution, String>> _seriesData;
   late List<charts.Series<Risk, int>> _seriesLineData;
   late TabController _tabController;
+
   //maybe implement as a dictionary
   int? age;
   int? psa;
@@ -111,26 +113,88 @@ class _ResultsScreenState extends State<ResultsScreen>
     age = Provider.of<UserData>(context, listen: false).getAge();
     psa = Provider.of<UserData>(context, listen: false).getPSA();
     if (age == null || psa == null) {
+      print("did not set -- input null");
       return false;
     } else {
       return true;
     }
   }
 
+  // see if we can return it just as a double rather than a string
+  String calculateRisk(int year) {
+    return
+      (applyStaticModel(yrs: year, age: age, psa: psa, tStage: tStage,
+          gradeGroup: gradeGroup, treatmentType: treatmentType,
+          ppcBiopsy: ppcBiopsy, brca: brca, comorbidity: comorbidity)
+      * 100)
+          .toStringAsFixed(2);
+  }
+
+  // IGNORE THIS FOR NOW!
+ /* Widget _riskNumbersView(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget> [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Container(
+              child: Center(
+                  child: Column(
+                    children: [
+                      Spacer(flex: 3),
+                      Text(
+                        "15 year risk",
+                      ),
+                      Spacer(),
+                      Text(
+                        "${calculateRisk(15)}%",
+                        style: TextStyle(fontSize: 80),
+                      ),
+                      ElevatedButton(
+                          child: Text("Re-Enter Data"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                      Spacer(flex: 3),
+                    ],
+                  ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  } */
+
+
+  // this ends up kind of being the same result as having it inside the build
+  // function for now, because we build this every time we update the input
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _seriesData = <charts.Series<Pollution, String>>[];
     _seriesLineData = <charts.Series<Risk, int>>[];
     _tabController = TabController(length: 2, vsync: this);
     setAllFactors(context);
     _generateData();
+    // the .then part means that the init function waits until the model is
+    // loaded before doing the first set state
+    loadMyModel().then((value) {
+      setState(() {});
+    });
   }
+  
+   // when is this called?
+  @override
+  void dispose() {
+    super.dispose();
+    Tflite.close();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    loadMyModel();
     if (setAllFactors(context)) {
       return Scaffold(
         appBar: AppBar(
@@ -151,6 +215,7 @@ class _ResultsScreenState extends State<ResultsScreen>
         body: TabBarView(
           controller: _tabController,
           children: [
+
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Container(
@@ -163,8 +228,7 @@ class _ResultsScreenState extends State<ResultsScreen>
                     ),
                     Spacer(),
                     Text(
-                      //"${100 - (log(getAgeFactor() + getPSA()) * 10)}%",
-                      "${applyStaticModel(yrs: 15, age: age, psa: psa, tStage: tStage, gradeGroup: gradeGroup, treatmentType: treatmentType, ppcBiopsy: ppcBiopsy, brca: brca, comorbidity: comorbidity)}%", //getAge()
+                      "${calculateRisk(15)}%", //getAge()
                       // can I do getAge() if I have it in the MyCustomFormState class?
                       style: TextStyle(fontSize: 80),
                     ),
