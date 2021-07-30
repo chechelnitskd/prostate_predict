@@ -52,7 +52,6 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   TextEditingController _ageController = TextEditingController();
   TextEditingController _psaController = TextEditingController();
-  int ageTest = 0;
   /*TextEditingController _tStgController = TextEditingController();
   TextEditingController _gGController = TextEditingController();
   TextEditingController _trTController = TextEditingController();
@@ -192,7 +191,6 @@ class MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     //fetchData();
-    print(_value);
     return
     // try the SafeArea -- not sure if it makes a difference
       SafeArea(
@@ -213,19 +211,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                       return 'Negative values not supported';
                     }
                   },
-                  onSaved: (value) => ageTest = value!,
+                  onSaved: (value) {
+                    Provider.of<UserData>(context, listen: false)
+                        .setAge(value!); }
                 ),
-                /*Slider(
-                  min: 0,
-                  max: 100,
-                  value: _value,
-                  //label: _value.round().toString(), // label not working
-                  onChanged: (value) {
-                    setState(() {
-                      _value = value;
-                    });
-                  },
-                ),*/
+
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child:
