@@ -7,6 +7,7 @@ import 'results_screen.dart';
 import 'package:provider/provider.dart';
 import '../user_data.dart';
 import 'package:health/health.dart';
+import '../form_fields.dart';
 
 enum FormScreenState {
   DATA_NOT_FETCHED,
@@ -51,6 +52,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   TextEditingController _ageController = TextEditingController();
   TextEditingController _psaController = TextEditingController();
+  int ageTest = 0;
   /*TextEditingController _tStgController = TextEditingController();
   TextEditingController _gGController = TextEditingController();
   TextEditingController _trTController = TextEditingController();
@@ -184,36 +186,62 @@ class MyCustomFormState extends State<MyCustomForm> {
 
 
 
+  // for testing:
+  double _value = 20;
+  
   @override
   Widget build(BuildContext context) {
     //fetchData();
-    return Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          //padding: const EdgeInsets.symmetric(vertical: 16.0),
+    print(_value);
+    return
+    // try the SafeArea -- not sure if it makes a difference
+      SafeArea(
+          child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            //padding: const EdgeInsets.symmetric(vertical: 16.0),
 
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
 
-            children: <Widget>[
-              createTextFormField(_ageController, "Age", _validateAge, _saveAge),
-              createTextFormField(_psaController, "PSA", _validatePSA, _savePSA),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child:
-                ElevatedButton(
-                  onPressed: () => _submit(context),
-                  child: Text('Submit'),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.red),
+              children: <Widget>[
+                createTextFormField(_ageController, "Age", _validateAge, _saveAge),
+                createTextFormField(_psaController, "PSA", _validatePSA, _savePSA),
+                SliderFormField(
+                  validator: (value) {
+                    if (value != null && value < 0) {
+                      return 'Negative values not supported';
+                    }
+                  },
+                  onSaved: (value) => ageTest = value!,
+                )
+                /*Slider(
+                  min: 0,
+                  max: 100,
+                  value: _value,
+                  //label: _value.round().toString(), // label not working
+                  onChanged: (value) {
+                    setState(() {
+                      _value = value;
+                    });
+                  },
+                ),*/
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child:
+                  ElevatedButton(
+                    onPressed: () => _submit(context),
+                    child: Text('Submit'),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.red),
+                    ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
+          ),
         ),
-        ),
-    );
+      );
   }
 
 }
