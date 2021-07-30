@@ -20,7 +20,7 @@ class ResultsScreen extends StatefulWidget {
 class _ResultsScreenState extends State<ResultsScreen>
     with TickerProviderStateMixin {
   late List<charts.Series<Pollution, String>> _seriesData;
-  late List<charts.Series<Sales, int>> _seriesLineData;
+  late List<charts.Series<Risk, int>> _seriesLineData;
   late TabController _tabController;
   //maybe implement as a dictionary
   int? age;
@@ -42,12 +42,84 @@ class _ResultsScreenState extends State<ResultsScreen>
   //come back to this
   _generateData() {
     var linesalesdata = [
-      new Sales(1, 95),
-      new Sales(5, 94),
-      new Sales(10, 93),
-      new Sales(15, 92),
-      new Sales(20, 91),
-      new Sales(25, 90),
+      new Risk(
+          1,
+          double.parse(applyStaticModel(
+                  yrs: 1,
+                  age: 65,
+                  psa: 12,
+                  tStage: tStage,
+                  gradeGroup: gradeGroup,
+                  treatmentType: treatmentType,
+                  ppcBiopsy: ppcBiopsy,
+                  brca: brca,
+                  comorbidity: comorbidity))
+              .round()),
+      new Risk(
+          5,
+          double.parse(applyStaticModel(
+                  yrs: 5,
+                  age: 65,
+                  psa: 12,
+                  tStage: tStage,
+                  gradeGroup: gradeGroup,
+                  treatmentType: treatmentType,
+                  ppcBiopsy: ppcBiopsy,
+                  brca: brca,
+                  comorbidity: comorbidity))
+              .round()),
+      new Risk(
+          10,
+          double.parse(applyStaticModel(
+                  yrs: 10,
+                  age: 65,
+                  psa: 12,
+                  tStage: tStage,
+                  gradeGroup: gradeGroup,
+                  treatmentType: treatmentType,
+                  ppcBiopsy: ppcBiopsy,
+                  brca: brca,
+                  comorbidity: comorbidity))
+              .round()),
+      new Risk(
+          15,
+          double.parse(applyStaticModel(
+                  yrs: 15,
+                  age: 65,
+                  psa: 12,
+                  tStage: tStage,
+                  gradeGroup: gradeGroup,
+                  treatmentType: treatmentType,
+                  ppcBiopsy: ppcBiopsy,
+                  brca: brca,
+                  comorbidity: comorbidity))
+              .round()),
+      new Risk(
+          20,
+          double.parse(applyStaticModel(
+                  yrs: 20,
+                  age: 65,
+                  psa: 12,
+                  tStage: tStage,
+                  gradeGroup: gradeGroup,
+                  treatmentType: treatmentType,
+                  ppcBiopsy: ppcBiopsy,
+                  brca: brca,
+                  comorbidity: comorbidity))
+              .round()),
+      new Risk(
+          25,
+          double.parse(applyStaticModel(
+                  yrs: 25,
+                  age: 65,
+                  psa: 12,
+                  tStage: tStage,
+                  gradeGroup: gradeGroup,
+                  treatmentType: treatmentType,
+                  ppcBiopsy: ppcBiopsy,
+                  brca: brca,
+                  comorbidity: comorbidity))
+              .round()),
     ];
 
     _seriesLineData.add(
@@ -55,8 +127,8 @@ class _ResultsScreenState extends State<ResultsScreen>
         colorFn: (__, _) => charts.ColorUtil.fromDartColor(Color(0xff990099)),
         id: 'Air Pollution',
         data: linesalesdata,
-        domainFn: (Sales sales, _) => sales.yearval,
-        measureFn: (Sales sales, _) => sales.percent,
+        domainFn: (Risk sales, _) => sales.yearval,
+        measureFn: (Risk sales, _) => sales.percent,
       ),
     );
   }
@@ -76,7 +148,7 @@ class _ResultsScreenState extends State<ResultsScreen>
     // TODO: implement initState
     super.initState();
     _seriesData = <charts.Series<Pollution, String>>[];
-    _seriesLineData = <charts.Series<Sales, int>>[];
+    _seriesLineData = <charts.Series<Risk, int>>[];
     _tabController = TabController(length: 2, vsync: this);
     _generateData();
   }
@@ -197,9 +269,9 @@ class Task {
   Task(this.task, this.taskvalue, this.colorval);
 }
 
-class Sales {
+class Risk {
   int yearval;
   int percent;
 
-  Sales(this.yearval, this.percent);
+  Risk(this.yearval, this.percent);
 }
