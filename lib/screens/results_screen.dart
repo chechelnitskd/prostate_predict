@@ -22,6 +22,7 @@ class _ResultsScreenState extends State<ResultsScreen>
   late List<charts.Series<Pollution, String>> _seriesData;
   late List<charts.Series<Sales, int>> _seriesLineData;
   late TabController _tabController;
+
   //maybe implement as a dictionary
   int? age;
   int? psa;
@@ -146,8 +147,52 @@ class _ResultsScreenState extends State<ResultsScreen>
     }
   }
 
+  // see if we can return it just as a double rather than a string
+  String calculateRisk(int year) {
+    return
+      (applyStaticModel(yrs: year, age: age, psa: psa, tStage: tStage,
+          gradeGroup: gradeGroup, treatmentType: treatmentType,
+          ppcBiopsy: ppcBiopsy, brca: brca, comorbidity: comorbidity)
+      * 100)
+          .toStringAsFixed(2);
+  }
 
-
+  // IGNORE THIS FOR NOW!
+ /* Widget _riskNumbersView(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget> [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Container(
+              child: Center(
+                  child: Column(
+                    children: [
+                      Spacer(flex: 3),
+                      Text(
+                        "15 year risk",
+                      ),
+                      Spacer(),
+                      Text(
+                        "${calculateRisk(15)}%",
+                        style: TextStyle(fontSize: 80),
+                      ),
+                      ElevatedButton(
+                          child: Text("Re-Enter Data"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                      Spacer(flex: 3),
+                    ],
+                  ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  } */
 
 
   // this ends up kind of being the same result as having it inside the build
@@ -176,9 +221,6 @@ class _ResultsScreenState extends State<ResultsScreen>
 
   @override
   Widget build(BuildContext context) {
-    //maybe throw error instead of else
-    //FIX THIS
-    // this doesn't work: if (setAllFactors(context) && age != null && psa != null) {
     if (setAllFactors(context)) {
       return Scaffold(
         appBar: AppBar(
@@ -199,6 +241,7 @@ class _ResultsScreenState extends State<ResultsScreen>
         body: TabBarView(
           controller: _tabController,
           children: [
+
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Container(
@@ -211,8 +254,7 @@ class _ResultsScreenState extends State<ResultsScreen>
                     ),
                     Spacer(),
                     Text(
-                      //"${100 - (log(getAgeFactor() + getPSA()) * 10)}%",
-                      "${applyStaticModel(yrs: 15, age: age, psa: psa, tStage: tStage, gradeGroup: gradeGroup, treatmentType: treatmentType, ppcBiopsy: ppcBiopsy, brca: brca, comorbidity: comorbidity)}%", //getAge()
+                      "${calculateRisk(15)}%", //getAge()
                       // can I do getAge() if I have it in the MyCustomFormState class?
                       style: TextStyle(fontSize: 80),
                     ),
