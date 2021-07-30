@@ -207,8 +207,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                 createTextFormField(_psaController, "PSA", _validatePSA, _savePSA),
                 SliderFormField(
                   validator: (value) {
-                    if (value != null && value < 0) {
-                      return 'Negative values not supported';
+                    if (value != null && (value < 35 || value > 95)) {
+                      return 'Model only accurate for ages 35-95';
                     }
                   },
                   onSaved: (value) {
