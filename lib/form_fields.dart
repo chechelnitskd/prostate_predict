@@ -12,7 +12,17 @@ class SliderFormField extends FormField<int> {
       initialValue: initialValue,
       //autovalidate: autovalidate,
       builder: (FormFieldState<int> state) {
-        return Row(
+        return
+          Slider(
+            min: 0,
+            max: 100,
+            value: state.value!.toDouble(),
+            //label: _value.round().toString(), // label not working
+            onChanged: (value) {
+              state.didChange(value.round());
+            },
+          );
+        /*Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             IconButton(
@@ -31,7 +41,7 @@ class SliderFormField extends FormField<int> {
               },
             ),
           ],
-        );
+        );*/
       }
   );
 }

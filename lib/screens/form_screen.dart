@@ -214,7 +214,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     }
                   },
                   onSaved: (value) => ageTest = value!,
-                )
+                ),
                 /*Slider(
                   min: 0,
                   max: 100,
