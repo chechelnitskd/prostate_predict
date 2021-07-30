@@ -74,16 +74,21 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
   }
 
-  // match decimals or change it to a sliding bar
-  String? _validateAge(String? age) {
+  // this is less relevant now
+  String? _validateAge(int? age) {
     RegExp regex = RegExp(r'[1-9]\d*(\.\d+)?');
-    if (age == null || age.isEmpty) {
+    if (age == null) {
       return 'Please enter age';
-    } else if (!regex.hasMatch(age)){
+    } else if (!regex.hasMatch(age.toString())){
       return 'Please enter age as a number';
     } else {
       return null;
     }
+    /*
+    if (value != null && (value < 35 || value > 95)) {
+                      return 'Model only accurate for ages 35-95';
+                    }
+     */
   }
 
   String? _validatePSA(String? psa) {
@@ -99,9 +104,9 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 
   // would this work without null check because validated?
-  void _saveAge(String? age) {
+  void _saveAge(int? age) {
     Provider.of<UserData>(context, listen: false)
-        .setAge(int.parse(age!));
+        .setAge(age!);
   }
 
   void _savePSA(String? psa) {
@@ -185,8 +190,6 @@ class MyCustomFormState extends State<MyCustomForm> {
 
 
 
-  // for testing:
-  double _value = 20;
   
   @override
   Widget build(BuildContext context) {
@@ -203,18 +206,10 @@ class MyCustomFormState extends State<MyCustomForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
 
               children: <Widget>[
-                createTextFormField(_ageController, "Age", _validateAge, _saveAge),
-                createTextFormField(_psaController, "PSA", _validatePSA, _savePSA),
                 SliderFormField(
-                  validator: (value) {
-                    if (value != null && value < 0) {
-                      return 'Negative values not supported';
-                    }
-                  },
-                  onSaved: (value) {
-                    Provider.of<UserData>(context, listen: false)
-                        .setAge(value!); }
+                  onSaved: _saveAge
                 ),
+                createTextFormField(_psaController, "PSA", _validatePSA, _savePSA),
 
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),

@@ -15,9 +15,10 @@ class SliderFormField extends FormField<int> {
         return
           Column(
             children: <Widget>[
+              Text("Age:"),
               Text(
                 state.value.toString()),
-              Slider(
+              Slider.adaptive(
                 min: 0,
                 max: 100,
                 value: state.value!.toDouble(),

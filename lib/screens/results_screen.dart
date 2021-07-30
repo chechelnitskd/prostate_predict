@@ -10,7 +10,7 @@ import '../user_data.dart';
 import 'package:tflite/tflite.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-// is it better to getAge() here? or just use resultsScreen to print stuff out
+
 class ResultsScreen extends StatefulWidget {
   const ResultsScreen({Key? key}) : super(key: key);
 
@@ -24,9 +24,9 @@ class _ResultsScreenState extends State<ResultsScreen>
   late List<charts.Series<Risk, int>> _seriesLineData;
   late TabController _tabController;
 
+  bool factorsSet = false;
   //maybe implement as a dictionary
-  int? age;
-  int? psa;
+  int? age, psa;
 /*  int? tStage;
   int? gradeGroup;
   int? treatmentType;
@@ -45,57 +45,17 @@ class _ResultsScreenState extends State<ResultsScreen>
   _generateData() {
     var linesalesdata = [
       new Risk(
-          1,
-          double.parse(applyStaticModel(
-                  yrs: 0,
-                  age: age,
-                  psa: psa,
-                  tStage: tStage,
-                  gradeGroup: gradeGroup,
-                  treatmentType: treatmentType,
-                  ppcBiopsy: ppcBiopsy,
-                  brca: brca,
-                  comorbidity: comorbidity))
-              .round()),
+          0,
+          double.parse(calculateRisk(0))),
       new Risk(
           5,
-          double.parse(applyStaticModel(
-                  yrs: 5,
-                  age: age,
-                  psa: psa,
-                  tStage: tStage,
-                  gradeGroup: gradeGroup,
-                  treatmentType: treatmentType,
-                  ppcBiopsy: ppcBiopsy,
-                  brca: brca,
-                  comorbidity: comorbidity))
-              .round()),
+          double.parse(calculateRisk(5))),
       new Risk(
           10,
-          double.parse(applyStaticModel(
-                  yrs: 10,
-                  age: age,
-                  psa: psa,
-                  tStage: tStage,
-                  gradeGroup: gradeGroup,
-                  treatmentType: treatmentType,
-                  ppcBiopsy: ppcBiopsy,
-                  brca: brca,
-                  comorbidity: comorbidity))
-              .round()),
+          double.parse(calculateRisk(10))),
       new Risk(
           15,
-          double.parse(applyStaticModel(
-                  yrs: 15,
-                  age: age,
-                  psa: psa,
-                  tStage: tStage,
-                  gradeGroup: gradeGroup,
-                  treatmentType: treatmentType,
-                  ppcBiopsy: ppcBiopsy,
-                  brca: brca,
-                  comorbidity: comorbidity))
-              .round()),
+          double.parse(calculateRisk(15))),
     ];
 
     _seriesLineData.add(
@@ -168,18 +128,19 @@ class _ResultsScreenState extends State<ResultsScreen>
   } */
 
 
-  // this ends up kind of being the same result as having it inside the build
-  // function for now, because we build this every time we update the input
   @override
   void initState() {
     super.initState();
     _seriesData = <charts.Series<Pollution, String>>[];
     _seriesLineData = <charts.Series<Risk, int>>[];
     _tabController = TabController(length: 2, vsync: this);
-    setAllFactors(context);
+    factorsSet = setAllFactors(context);
     _generateData();
+
     // the .then part means that the init function waits until the model is
     // loaded before doing the first set state
+    // this ends up kind of being the same result as having it inside the build
+    // function for now, because we build this every time we update the input
     loadMyModel().then((value) {
       setState(() {});
     });
@@ -195,7 +156,7 @@ class _ResultsScreenState extends State<ResultsScreen>
 
   @override
   Widget build(BuildContext context) {
-    if (setAllFactors(context)) {
+    if (factorsSet) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff1976d2),
@@ -228,8 +189,7 @@ class _ResultsScreenState extends State<ResultsScreen>
                     ),
                     Spacer(),
                     Text(
-                      "${calculateRisk(15)}%", //getAge()
-                      // can I do getAge() if I have it in the MyCustomFormState class?
+                      "${calculateRisk(15)}%",
                       style: TextStyle(fontSize: 80),
                     ),
                     ElevatedButton(
@@ -310,7 +270,7 @@ class Task {
 
 class Risk {
   int yearval;
-  int percent;
+  double percent;
 
   Risk(this.yearval, this.percent);
 }
