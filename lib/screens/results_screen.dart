@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'dart:math';
 //import 'package:prostate_predict/screens/form_screen.dart';
 import 'package:prostate_predict/calculations.dart';
@@ -20,7 +21,7 @@ class ResultsScreen extends StatefulWidget {
 class _ResultsScreenState extends State<ResultsScreen>
     with TickerProviderStateMixin {
   late List<charts.Series<Pollution, String>> _seriesData;
-  late List<charts.Series<Sales, int>> _seriesLineData;
+  late List<charts.Series<Risk, int>> _seriesLineData;
   late TabController _tabController;
 
   //maybe implement as a dictionary
@@ -40,98 +41,70 @@ class _ResultsScreenState extends State<ResultsScreen>
   int brca = 1; // 1 for true, 0 for false
   int comorbidity = 0;
 
+  //come back to this
   _generateData() {
-    var data1 = [
-      new Pollution(1980, 'USA', 30),
-      new Pollution(1980, 'Asia', 40),
-      new Pollution(1980, 'Europe', 10),
-    ];
-    var data2 = [
-      new Pollution(1985, 'USA', 100),
-      new Pollution(1980, 'Asia', 150),
-      new Pollution(1985, 'Europe', 80),
-    ];
-    var data3 = [
-      new Pollution(1985, 'USA', 200),
-      new Pollution(1980, 'Asia', 300),
-      new Pollution(1985, 'Europe', 180),
-    ];
-
     var linesalesdata = [
-      new Sales(0, 45),
-      new Sales(1, 56),
-      new Sales(2, 55),
-      new Sales(3, 60),
-      new Sales(4, 61),
-      new Sales(5, 70),
+      new Risk(
+          1,
+          double.parse(applyStaticModel(
+                  yrs: 0,
+                  age: age,
+                  psa: psa,
+                  tStage: tStage,
+                  gradeGroup: gradeGroup,
+                  treatmentType: treatmentType,
+                  ppcBiopsy: ppcBiopsy,
+                  brca: brca,
+                  comorbidity: comorbidity))
+              .round()),
+      new Risk(
+          5,
+          double.parse(applyStaticModel(
+                  yrs: 5,
+                  age: age,
+                  psa: psa,
+                  tStage: tStage,
+                  gradeGroup: gradeGroup,
+                  treatmentType: treatmentType,
+                  ppcBiopsy: ppcBiopsy,
+                  brca: brca,
+                  comorbidity: comorbidity))
+              .round()),
+      new Risk(
+          10,
+          double.parse(applyStaticModel(
+                  yrs: 10,
+                  age: age,
+                  psa: psa,
+                  tStage: tStage,
+                  gradeGroup: gradeGroup,
+                  treatmentType: treatmentType,
+                  ppcBiopsy: ppcBiopsy,
+                  brca: brca,
+                  comorbidity: comorbidity))
+              .round()),
+      new Risk(
+          15,
+          double.parse(applyStaticModel(
+                  yrs: 15,
+                  age: age,
+                  psa: psa,
+                  tStage: tStage,
+                  gradeGroup: gradeGroup,
+                  treatmentType: treatmentType,
+                  ppcBiopsy: ppcBiopsy,
+                  brca: brca,
+                  comorbidity: comorbidity))
+              .round()),
     ];
-    var linesalesdata1 = [
-      new Sales(0, 35),
-      new Sales(1, 46),
-      new Sales(2, 45),
-      new Sales(3, 50),
-      new Sales(4, 51),
-      new Sales(5, 60),
-    ];
-
-    var linesalesdata2 = [
-      new Sales(0, 20),
-      new Sales(1, 24),
-      new Sales(2, 25),
-      new Sales(3, 40),
-      new Sales(4, 45),
-      new Sales(5, 60),
-    ];
-
-    _seriesData.add(
-      charts.Series(
-        domainFn: (Pollution pollution, _) => pollution.place,
-        measureFn: (Pollution pollution, _) => pollution.quantity,
-        id: '2017',
-        data: data1,
-        fillPatternFn: (_, __) => charts.FillPatternType.solid,
-        fillColorFn: (Pollution pollution, _) =>
-            charts.ColorUtil.fromDartColor(Color(0xff990099)),
-      ),
-    );
-
-    _seriesData.add(
-      charts.Series(
-        domainFn: (Pollution pollution, _) => pollution.place,
-        measureFn: (Pollution pollution, _) => pollution.quantity,
-        id: '2018',
-        data: data2,
-        fillPatternFn: (_, __) => charts.FillPatternType.solid,
-        fillColorFn: (Pollution pollution, _) =>
-            charts.ColorUtil.fromDartColor(Color(0xff109618)),
-      ),
-    );
 
     _seriesLineData.add(
       charts.Series(
         colorFn: (__, _) => charts.ColorUtil.fromDartColor(Color(0xff990099)),
         id: 'Air Pollution',
         data: linesalesdata,
-        domainFn: (Sales sales, _) => sales.yearval,
-        measureFn: (Sales sales, _) => sales.salesval,
-      ),
-    );
-    _seriesLineData.add(
-      charts.Series(
-        colorFn: (__, _) => charts.ColorUtil.fromDartColor(Color(0xff109618)),
-        id: 'Air Pollution',
-        data: linesalesdata1,
-        domainFn: (Sales sales, _) => sales.yearval,
-        measureFn: (Sales sales, _) => sales.salesval,
-      ),
-    );
-    _seriesLineData.add(
-      charts.Series(
-        colorFn: (__, _) => charts.ColorUtil.fromDartColor(Color(0xffff9900)),
-        id: 'Air Pollution',
-        data: linesalesdata2,
-        domainFn: (Sales sales, _) => sales.yearval,
-        measureFn: (Sales sales, _) => sales.salesval,
+        domainFn: (Risk sales, _) => sales.yearval,
+        measureFn: (Risk sales, _) => sales.percent,
       ),
     );
   }
@@ -201,8 +174,9 @@ class _ResultsScreenState extends State<ResultsScreen>
   void initState() {
     super.initState();
     _seriesData = <charts.Series<Pollution, String>>[];
-    _seriesLineData = <charts.Series<Sales, int>>[];
+    _seriesLineData = <charts.Series<Risk, int>>[];
     _tabController = TabController(length: 2, vsync: this);
+    setAllFactors(context);
     _generateData();
     // the .then part means that the init function waits until the model is
     // loaded before doing the first set state
@@ -250,7 +224,7 @@ class _ResultsScreenState extends State<ResultsScreen>
                   children: [
                     Spacer(flex: 3),
                     Text(
-                      "10 year risk",
+                      "15 year risk",
                     ),
                     Spacer(),
                     Text(
@@ -275,7 +249,7 @@ class _ResultsScreenState extends State<ResultsScreen>
                   child: Column(
                     children: <Widget>[
                       Text(
-                        'Sales for the first 5 years',
+                        'Risk over time',
                         style: TextStyle(
                             fontSize: 24.0, fontWeight: FontWeight.bold),
                       ),
@@ -291,13 +265,13 @@ class _ResultsScreenState extends State<ResultsScreen>
                                       charts.BehaviorPosition.bottom,
                                   titleOutsideJustification: charts
                                       .OutsideJustification.middleDrawArea),
-                              new charts.ChartTitle('Sales',
+                              new charts.ChartTitle('Percent',
                                   behaviorPosition:
                                       charts.BehaviorPosition.start,
                                   titleOutsideJustification: charts
                                       .OutsideJustification.middleDrawArea),
                               new charts.ChartTitle(
-                                'Departments',
+                                '',
                                 behaviorPosition: charts.BehaviorPosition.end,
                                 titleOutsideJustification:
                                     charts.OutsideJustification.middleDrawArea,
@@ -334,9 +308,9 @@ class Task {
   Task(this.task, this.taskvalue, this.colorval);
 }
 
-class Sales {
+class Risk {
   int yearval;
-  int salesval;
+  int percent;
 
-  Sales(this.yearval, this.salesval);
+  Risk(this.yearval, this.percent);
 }

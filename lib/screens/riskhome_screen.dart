@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:prostate_predict/constants.dart';
 import 'package:prostate_predict/screens/form_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class RiskHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
