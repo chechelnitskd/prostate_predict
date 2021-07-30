@@ -74,7 +74,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
   }
 
-  // match decimals or change it to a sliding bar
+  // this is less relevant now
   String? _validateAge(int? age) {
     RegExp regex = RegExp(r'[1-9]\d*(\.\d+)?');
     if (age == null) {
@@ -207,7 +207,6 @@ class MyCustomFormState extends State<MyCustomForm> {
 
               children: <Widget>[
                 SliderFormField(
-                  validator: _validateAge,
                   onSaved: _saveAge
                 ),
                 createTextFormField(_psaController, "PSA", _validatePSA, _savePSA),

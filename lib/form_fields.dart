@@ -18,7 +18,7 @@ class SliderFormField extends FormField<int> {
               Text("Age:"),
               Text(
                 state.value.toString()),
-              Slider(
+              Slider.adaptive(
                 min: 0,
                 max: 100,
                 value: state.value!.toDouble(),
