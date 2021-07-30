@@ -45,9 +45,9 @@ class _ResultsScreenState extends State<ResultsScreen>
       new Risk(
           1,
           double.parse(applyStaticModel(
-                  yrs: 1,
-                  age: 65,
-                  psa: 12,
+                  yrs: 0,
+                  age: age,
+                  psa: psa,
                   tStage: tStage,
                   gradeGroup: gradeGroup,
                   treatmentType: treatmentType,
@@ -59,8 +59,8 @@ class _ResultsScreenState extends State<ResultsScreen>
           5,
           double.parse(applyStaticModel(
                   yrs: 5,
-                  age: 65,
-                  psa: 12,
+                  age: age,
+                  psa: psa,
                   tStage: tStage,
                   gradeGroup: gradeGroup,
                   treatmentType: treatmentType,
@@ -72,8 +72,8 @@ class _ResultsScreenState extends State<ResultsScreen>
           10,
           double.parse(applyStaticModel(
                   yrs: 10,
-                  age: 65,
-                  psa: 12,
+                  age: age,
+                  psa: psa,
                   tStage: tStage,
                   gradeGroup: gradeGroup,
                   treatmentType: treatmentType,
@@ -85,34 +85,8 @@ class _ResultsScreenState extends State<ResultsScreen>
           15,
           double.parse(applyStaticModel(
                   yrs: 15,
-                  age: 65,
-                  psa: 12,
-                  tStage: tStage,
-                  gradeGroup: gradeGroup,
-                  treatmentType: treatmentType,
-                  ppcBiopsy: ppcBiopsy,
-                  brca: brca,
-                  comorbidity: comorbidity))
-              .round()),
-      new Risk(
-          20,
-          double.parse(applyStaticModel(
-                  yrs: 20,
-                  age: 65,
-                  psa: 12,
-                  tStage: tStage,
-                  gradeGroup: gradeGroup,
-                  treatmentType: treatmentType,
-                  ppcBiopsy: ppcBiopsy,
-                  brca: brca,
-                  comorbidity: comorbidity))
-              .round()),
-      new Risk(
-          25,
-          double.parse(applyStaticModel(
-                  yrs: 25,
-                  age: 65,
-                  psa: 12,
+                  age: age,
+                  psa: psa,
                   tStage: tStage,
                   gradeGroup: gradeGroup,
                   treatmentType: treatmentType,
@@ -150,6 +124,7 @@ class _ResultsScreenState extends State<ResultsScreen>
     _seriesData = <charts.Series<Pollution, String>>[];
     _seriesLineData = <charts.Series<Risk, int>>[];
     _tabController = TabController(length: 2, vsync: this);
+    setAllFactors(context);
     _generateData();
   }
 
