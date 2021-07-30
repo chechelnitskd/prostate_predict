@@ -45,8 +45,8 @@ class _ResultsScreenState extends State<ResultsScreen>
   _generateData() {
     var linesalesdata = [
       new Risk(
-          1,
-          double.parse(calculateRisk(1))),
+          0,
+          double.parse(calculateRisk(0))),
       new Risk(
           5,
           double.parse(calculateRisk(5))),
