@@ -147,6 +147,7 @@ class _ResultsScreenState extends State<ResultsScreen>
     }
   }
 
+  // see if we can return it just as a double rather than a string
   String calculateRisk(int year) {
     return
       (applyStaticModel(yrs: year, age: age, psa: psa, tStage: tStage,
