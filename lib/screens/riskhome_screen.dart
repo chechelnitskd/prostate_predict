@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:prostate_predict/constants.dart';
 import 'package:prostate_predict/screens/form_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class RiskHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,25 +14,12 @@ class HomeScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Spacer(flex: 2), //2/6
                   Text(
                     "Welcome to Prostate Predict",
                   ),
-                  Text("Enter your informations below:"),
-                  Spacer(), // 1/6
-                  TextField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Color(0xFF1C2341),
-                      hintText: "Full Name",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                      ),
-                    ),
-                  ),
-                  Spacer(), // 1/6
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: ElevatedButton(
