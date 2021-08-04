@@ -25,7 +25,8 @@ class _ResultsScreenState extends State<ResultsScreen>
   late List<charts.Series<Risk, int>> _seriesLineData;
   late TabController _tabController;
 
-  final Loading loadingTest = Loading();
+  final Loading _loading = Loading();
+  final Calculations _calculations = Calculations();
 
   bool factorsSet = false;
   //maybe implement as a dictionary
@@ -86,7 +87,7 @@ class _ResultsScreenState extends State<ResultsScreen>
   // see if we can return it just as a double rather than a string
   String calculateRisk(int year) {
     return
-      (applyStaticModel(yrs: year, age: age, psa: psa, tStage: tStage,
+      (_calculations.applyStaticModel(yrs: year, age: age, psa: psa, tStage: tStage,
           gradeGroup: gradeGroup, treatmentType: treatmentType,
           ppcBiopsy: ppcBiopsy, brca: brca, comorbidity: comorbidity)
       * 100)
@@ -144,7 +145,7 @@ class _ResultsScreenState extends State<ResultsScreen>
     // loaded before doing the first set state
     // this ends up kind of being the same result as having it inside the build
     // function for now, because we build this every time we update the input
-    loadingTest.loadMyModel().then((value) {
+    _loading.loadMyModel().then((value) {
       setState(() {});
     });
   }
