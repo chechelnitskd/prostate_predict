@@ -8,16 +8,17 @@ import '../data/user_data.dart';
 
 class Loading {
 
-  loadMyModel() async {
+  Future loadMyModel() async {
     await Tflite.loadModel(
       model: "assets/model_unquant.tflite",
       labels: "assets/labels.txt",
     );
-    print("Loaded");
   }
 
-  List<HealthDataPoint> _healthDataList = [];
+  //List<HealthDataPoint> _healthDataList = [];
 
+  //get healthDataList => _healthDataList;
+/*
   Future fetchData() async {
     /// Get everything from midnight until now
     DateTime startDate = DateTime(2020, 11, 07, 0, 0, 0);
@@ -48,22 +49,25 @@ class Loading {
         await health.getHealthDataFromTypes(startDate, endDate, types);
 
         /// Save all the new data points
-        _healthDataList.addAll(healthData);
+        //_healthDataList.addAll(healthData);
+        return HealthFactory.removeDuplicates(healthData);
+
       } catch (e) {
         print("Caught exception in getHealthDataFromTypes: $e");
       }
 
       /// Filter out duplicates
-      _healthDataList = HealthFactory.removeDuplicates(_healthDataList);
+
+      //_healthDataList = HealthFactory.removeDuplicates(_healthDataList);
 
       /// Print the results
-      _healthDataList.forEach((x) {
+      /*_healthDataList.forEach((x) {
         print("Data point: $x");
         steps += x.value.round();
-      });
+      });*/
 
-      print("Steps: $steps");
-      Provider.of<UserData>(context, listen: false).setTStage();
+      //print("Steps: $steps");
+      //Provider.of<UserData>(context, listen: false).setTStage();
 
       /// Update the UI to display the results
       /*setState(() {
@@ -74,6 +78,7 @@ class Loading {
       print("Authorization not granted");
       //setState(() => _state = AppState.DATA_NOT_FETCHED);
     }
+    //return _healthDataList;
   }
-
+*/
 }

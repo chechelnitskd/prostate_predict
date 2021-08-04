@@ -145,9 +145,14 @@ class _ResultsScreenState extends State<ResultsScreen>
     // loaded before doing the first set state
     // this ends up kind of being the same result as having it inside the build
     // function for now, because we build this every time we update the input
-    _loading.loadMyModel().then((value) {
-      setState(() {});
-    });
+    try {
+      _loading.loadMyModel().then((value) {
+        setState(() {});
+      });
+    } catch (e) {
+      print("Model did not load");
+    }
+
   }
   
    // when is this called?

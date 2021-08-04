@@ -49,7 +49,6 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   final _formKey = GlobalKey<FormState>();
   FormScreenState _state = FormScreenState.DATA_NOT_FETCHED;
-  List<HealthDataPoint> _healthDataList = [];
 
   TextEditingController _ageController = TextEditingController();
   TextEditingController _psaController = TextEditingController();
@@ -133,10 +132,20 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   final Loading _loadTest = Loading();
 
+  //late Future <List<HealthDataPoint>> _healthDataList;
+
+  @override
+  void initState() {
+    super.initState();
+    try {
+      _healthDataList = _loadTest.fetchData();
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
-    //fetchData();
+    //_loadTest.fetchData(); <-- need to do this when setting state
+    //print(_loadTest.healthDataList);
     return
     // try the SafeArea -- not sure if it makes a difference
       SafeArea(
@@ -149,9 +158,9 @@ class MyCustomFormState extends State<MyCustomForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
 
               children: <Widget>[
-                ElevatedButton(
+                /*ElevatedButton(
                     onPressed: () => _loadTest.fetchData(),
-                    child: Text("test")),
+                    child: Text("test")),*/
                 SliderFormField(
                   onSaved: _saveAge
                 ),
@@ -176,4 +185,6 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 
 }
+
+
 
