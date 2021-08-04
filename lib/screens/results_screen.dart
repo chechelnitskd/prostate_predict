@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math';
 //import 'package:prostate_predict/screens/form_screen.dart';
-import 'package:prostate_predict/calculations.dart';
+import 'package:prostate_predict/functions/calculations.dart';
 import 'form_screen.dart';
 import 'package:provider/provider.dart';
-import '../user_data.dart';
+import '../data/user_data.dart';
 import 'package:tflite/tflite.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 

@@ -1,10 +1,10 @@
 //import 'package:flutter/material.dart';
 import 'dart:math';
-import 'screens/form_screen.dart';
+import '../screens/form_screen.dart';
 import 'package:tflite/tflite.dart';
 import 'package:provider/provider.dart';
 import 'package:meta/meta.dart';
-import 'user_data.dart';
+import '../data/user_data.dart';
 
 /*int age = getAge();
 int psa = getPSA();

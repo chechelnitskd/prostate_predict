@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import '../calculations.dart';
+import '../functions/calculations.dart';
 import 'results_screen.dart';
 import 'package:provider/provider.dart';
-import '../user_data.dart';
+import '../data/user_data.dart';
 import 'package:health/health.dart';
-import '../form_fields.dart';
+import '../widgets/form_fields.dart';
 
 enum FormScreenState {
   DATA_NOT_FETCHED,
@@ -130,7 +130,7 @@ class MyCustomFormState extends State<MyCustomForm> {
       );
   }
 
-  Future fetchData() async {
+/*  Future fetchData() async {
     /// Get everything from midnight until now
     DateTime startDate = DateTime(2020, 11, 07, 0, 0, 0);
     DateTime endDate = DateTime(2025, 11, 07, 23, 59, 59);
@@ -186,9 +186,9 @@ class MyCustomFormState extends State<MyCustomForm> {
       print("Authorization not granted");
       setState(() => _state = FormScreenState.DATA_NOT_FETCHED);
     }
-  }
+  }*/
 
-
+  final UserData userdataTest = UserData();
 
   
   @override
@@ -206,6 +206,9 @@ class MyCustomFormState extends State<MyCustomForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
 
               children: <Widget>[
+                ElevatedButton(
+                    onPressed: () => userdataTest.fetchData(),
+                    child: Text("test")),
                 SliderFormField(
                   onSaved: _saveAge
                 ),
