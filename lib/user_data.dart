@@ -12,60 +12,70 @@ class UserData extends ChangeNotifier {
   int? brca;
   int? comorbidity;*/
 
-  int age = 0;
+  Map<String, dynamic> psaData =
+  {"age" : 0,
+  "psa" : 0,
+  "tStage" : 1,
+  "gradeGroup" : 1,
+  "treatmentType" : 0,
+  "ppcBiopsy" : 0,
+  "brca" : 0,
+  "comorbidity" : 0};
+
+/*  int age = 0;
   int psa = 0;
   int tStage = 1;
   int gradeGroup = 1;
   int treatmentType = 0;
   int ppcBiopsy = 0;
   int brca = 0;
-  int comorbidity = 0;
+  int comorbidity = 0;*/
 
-  getAge() => age;
+  getAge() => psaData['age'];
   setAge(int newAge) {
-    age = newAge;
+    psaData['age'] = newAge;
     notifyListeners();
   }
 
-  getPSA() => psa;
+  getPSA() => psaData['psa'];
   setPSA(int newPSA) {
-    psa = newPSA;
+    psaData['psa'] = newPSA;
     notifyListeners();
   }
 
-  getTStage() => tStage;
+  getTStage() => psaData['tStage'];
   setTStage(int newTStage) {
-    tStage = newTStage;
+    psaData['tStage'] = newTStage;
     notifyListeners();
   }
 
-  getGradeGroup() => gradeGroup;
+  getGradeGroup() => psaData['gradeGroup'];
   setGradeGroup(int newGG) {
-    gradeGroup = newGG;
+    psaData['gradeGroup'] = newGG;
     notifyListeners();
   }
 
-  getTreatmentType() => treatmentType;
+  getTreatmentType() => psaData['treatmentType'];
   setTreatmentType(int newTreatment) {
-    treatmentType = newTreatment;
+    psaData['treatmentType'] = newTreatment;
     notifyListeners();
   }
 
-  getPPCBiopsy() => ppcBiopsy;
+  getPPCBiopsy() => psaData['ppcBiopsy'];
   setPPCBiopsy(int newPPC) {
-    ppcBiopsy = newPPC;
+    psaData['ppcBiopsy'] = newPPC;
     notifyListeners();
   }
 
-  getBRCA() => brca;
+  getBRCA() => psaData['brca'];
   setBRCA(int newBR) {
-    brca = newBR;
+    psaData['brca'] = newBR;
     notifyListeners();
   }
 
-  getComorbidity() => comorbidity;
+  getComorbidity() => psaData['comorbidity'];
   setComorbidity(int newCom) {
-    comorbidity = newCom;
+    psaData['comorbidity'] = newCom;
     notifyListeners();
   }
 }
