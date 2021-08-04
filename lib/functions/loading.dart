@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:health/health.dart';
 import 'package:tflite/tflite.dart';
 import 'package:flutter/cupertino.dart';
+import '../data/user_data.dart';
 
 class Loading {
 
@@ -62,6 +63,7 @@ class Loading {
       });
 
       print("Steps: $steps");
+      Provider.of<UserData>(context, listen: false).setTStage();
 
       /// Update the UI to display the results
       /*setState(() {
