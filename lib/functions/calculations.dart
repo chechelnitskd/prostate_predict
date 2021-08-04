@@ -5,6 +5,7 @@ import 'package:tflite/tflite.dart';
 import 'package:provider/provider.dart';
 import 'package:meta/meta.dart';
 import '../data/user_data.dart';
+import '../functions/loading.dart';
 
 /*int age = getAge();
 int psa = getPSA();
@@ -137,13 +138,13 @@ applyStaticModel({required int yrs, required int? age, required int? psa,
 }
 
 
-loadMyModel() async {
+/*loadMyModel() async {
   await Tflite.loadModel(
     model: "assets/model_unquant.tflite",
     labels: "assets/labels.txt",
   );
   print("Loaded");
-}
+}*/
 /*
 applyModelOnImage(File file) async {
   var res = await Tflite.runModelOnImage(

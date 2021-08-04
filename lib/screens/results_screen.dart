@@ -8,6 +8,7 @@ import 'form_screen.dart';
 import 'package:provider/provider.dart';
 import '../data/user_data.dart';
 import 'package:tflite/tflite.dart';
+import '../functions/loading.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 
@@ -23,6 +24,8 @@ class _ResultsScreenState extends State<ResultsScreen>
   late List<charts.Series<Pollution, String>> _seriesData;
   late List<charts.Series<Risk, int>> _seriesLineData;
   late TabController _tabController;
+
+  final Loading loadingTest = Loading();
 
   bool factorsSet = false;
   //maybe implement as a dictionary
@@ -141,7 +144,7 @@ class _ResultsScreenState extends State<ResultsScreen>
     // loaded before doing the first set state
     // this ends up kind of being the same result as having it inside the build
     // function for now, because we build this every time we update the input
-    loadMyModel().then((value) {
+    loadingTest.loadMyModel().then((value) {
       setState(() {});
     });
   }

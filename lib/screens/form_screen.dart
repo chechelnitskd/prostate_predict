@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../data/user_data.dart';
 import 'package:health/health.dart';
 import '../widgets/form_fields.dart';
+import '../functions/loading.dart';
 
 enum FormScreenState {
   DATA_NOT_FETCHED,
@@ -188,7 +189,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
   }*/
 
-  final UserData userdataTest = UserData();
+  final Loading userdataTest = Loading();
 
   
   @override
