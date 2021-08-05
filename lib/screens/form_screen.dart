@@ -19,7 +19,6 @@ enum FormScreenState {
 }
 
 
-
 class FormScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -59,7 +58,6 @@ class MyCustomFormState extends State<MyCustomForm> {
   TextEditingController _ppcBController = TextEditingController();
   TextEditingController _brcaController = TextEditingController();
   TextEditingController _comoController = TextEditingController();*/
-
 
 
   void _submit(BuildContext context) {
@@ -112,7 +110,6 @@ class MyCustomFormState extends State<MyCustomForm> {
     Provider.of<UserData>(context, listen: false)
         .setPSA(int.parse(psa!));
   }
-
 
 
   void fetchData() {
