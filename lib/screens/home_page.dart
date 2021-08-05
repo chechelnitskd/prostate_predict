@@ -63,11 +63,23 @@ class HomePage extends StatelessWidget {
             ),
             IconButton(
               icon: Icon(CupertinoIcons.cube),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new RiskHomeScreen()),
+                );
+              },
             ),
             IconButton(
               icon: Icon(CupertinoIcons.cube),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new RiskHomeScreen()),
+                );
+              },
             ),
           ],
         ),
