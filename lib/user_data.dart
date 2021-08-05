@@ -10,15 +10,6 @@ class UserData extends ChangeNotifier {
   int? brca;
   int? comorbidity;
 
-  //int age = 0;
-  // int psa = 0;
-  // int tStage = 1;
-  // int gradeGroup = 1;
-  // int treatmentType = 0;
-  // int ppcBiopsy = 0;
-  // int brca = 0;
-//  int comorbidity = 0;
-
   getAge() => age;
   setAge(int newAge) {
     age = newAge;
