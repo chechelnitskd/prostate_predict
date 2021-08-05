@@ -46,13 +46,14 @@ class Loading {
 
         /// Save all the new data points
         //_healthDataList.addAll(healthData);
+        return HealthFactory.removeDuplicates(healthData);
       } catch (e) {
         print("Caught exception in getHealthDataFromTypes: $e");
       }
 
       /// Filter out duplicates
       //_healthDataList = HealthFactory.removeDuplicates(_healthDataList);
-      return HealthFactory.removeDuplicates(_healthDataList);
+
       print("yay");
 
     } else {

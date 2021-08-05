@@ -169,7 +169,6 @@ class _ResultsScreenState extends State<ResultsScreen>
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff1976d2),
-          //backgroundColor: Color(0xff308e1c),
           bottom: TabBar(
             controller: _tabController,
             indicatorColor: Color(0xff9962D0),
