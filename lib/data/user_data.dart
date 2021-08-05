@@ -7,6 +7,8 @@ import '../functions/loading.dart';
 
 class UserData extends ChangeNotifier {
 
+  List<HealthDataPoint> _healthDataList = [];
+
   Map<String, dynamic> psaData =
   {"age" : 0,
   "psa" : 0,
@@ -17,6 +19,11 @@ class UserData extends ChangeNotifier {
   "brca" : 0,
   "comorbidity" : 0};
 
+  setList(List<HealthDataPoint> healthDataList) {
+    _healthDataList = healthDataList;
+    notifyListeners();
+  }
+  getList() => _healthDataList;
 
   getAge() => psaData['age'];
   setAge(int newAge) {
