@@ -18,8 +18,7 @@ enum FormScreenState {
   AUTH_NOT_GRANTED
 }
 
-typedef Validator<T> = String? Function(T a);
-typedef Saver<T> = void Function(T a);
+
 
 class FormScreen extends StatelessWidget {
   @override
@@ -114,21 +113,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         .setPSA(int.parse(psa!));
   }
 
-  Widget createTextFormField(TextEditingController ctrlr, String field,
-      Validator<String?> validator, Saver<String?> saver) {
-    return
-      TextFormField(
-        controller: ctrlr,
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-            hintText: "Your " + field,
-            labelText: field,
-            labelStyle: TextStyle(fontSize: 24),
-            border: InputBorder.none),
-        validator: validator,
-        onSaved: saver,
-      );
-  }
+
 
   void fetchData() {
     _loadTest.fetchDataLoading().then( (value) {
