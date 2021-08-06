@@ -5,12 +5,12 @@ import 'dart:math';
 //import 'package:prostate_predict/screens/form_screen.dart';
 import 'package:prostate_predict/functions/calculations.dart';
 import 'form_screen.dart';
+import 'home_page.dart';
 import 'package:provider/provider.dart';
 import '../data/user_data.dart';
 import 'package:tflite/tflite.dart';
 import '../functions/loading.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-
 
 class ResultsScreen extends StatefulWidget {
   const ResultsScreen({Key? key}) : super(key: key);
@@ -48,18 +48,10 @@ class _ResultsScreenState extends State<ResultsScreen>
   //come back to this
   _generateData() {
     var linesalesdata = [
-      new Risk(
-          0,
-          double.parse(calculateRisk(0))),
-      new Risk(
-          5,
-          double.parse(calculateRisk(5))),
-      new Risk(
-          10,
-          double.parse(calculateRisk(10))),
-      new Risk(
-          15,
-          double.parse(calculateRisk(15))),
+      new Risk(0, double.parse(calculateRisk(0))),
+      new Risk(5, double.parse(calculateRisk(5))),
+      new Risk(10, double.parse(calculateRisk(10))),
+      new Risk(15, double.parse(calculateRisk(15))),
     ];
 
     _seriesLineData.add(
@@ -86,16 +78,23 @@ class _ResultsScreenState extends State<ResultsScreen>
 
   // see if we can return it just as a double rather than a string
   String calculateRisk(int year) {
-    return
-      (_calculations.applyStaticModel(yrs: year, age: age, psa: psa, tStage: tStage,
-          gradeGroup: gradeGroup, treatmentType: treatmentType,
-          ppcBiopsy: ppcBiopsy, brca: brca, comorbidity: comorbidity)
-      * 100)
-          .toStringAsFixed(2);
+
+    return (_calculations.applyStaticModel(
+                yrs: year,
+                age: age,
+                psa: psa,
+                tStage: tStage,
+                gradeGroup: gradeGroup,
+                treatmentType: treatmentType,
+                ppcBiopsy: ppcBiopsy,
+                brca: brca,
+                comorbidity: comorbidity) *
+            100)
+        .toStringAsFixed(2);
   }
 
   // IGNORE THIS FOR NOW!
- /* Widget _riskNumbersView(BuildContext context) {
+  /* Widget _riskNumbersView(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,7 +130,6 @@ class _ResultsScreenState extends State<ResultsScreen>
     );
   } */
 
-
   @override
   void initState() {
     super.initState();
@@ -154,21 +152,49 @@ class _ResultsScreenState extends State<ResultsScreen>
     }
 
   }
-  
-   // when is this called?
+
+  // when is this called?
   @override
   void dispose() {
     super.dispose();
     Tflite.close();
   }
 
-
   @override
   Widget build(BuildContext context) {
     if (factorsSet) {
       return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+              // Validate returns true if the form is valid, or false otherwise.
+            },
+          ),
           backgroundColor: Color(0xff1976d2),
+          elevation: 4,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (context) => new HomePage()),
+                  );
+                  // Validate returns true if the form is valid, or false otherwise.
+                },
+                icon: Icon(Icons.home)),
+            IconButton(onPressed: () {}, icon: Icon(Icons.menu))
+          ],
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Colors.purple, Colors.red],
+                  begin: Alignment.bottomRight,
+                  end: Alignment.topLeft),
+            ),
+          ),
+          //backgroundColor: Color(0xff308e1c),
           bottom: TabBar(
             controller: _tabController,
             indicatorColor: Color(0xff9962D0),
@@ -184,7 +210,6 @@ class _ResultsScreenState extends State<ResultsScreen>
         body: TabBarView(
           controller: _tabController,
           children: [
-
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Container(
