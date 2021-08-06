@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:prostate_predict/screens/riskhome_screen.dart';
 import '../calculations.dart';
 import 'results_screen.dart';
 import 'package:provider/provider.dart';
 import '../user_data.dart';
 import 'package:health/health.dart';
 import '../form_fields.dart';
+import 'home_page.dart';
 
 enum FormScreenState {
   DATA_NOT_FETCHED,
@@ -25,8 +27,35 @@ class FormScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calculate Prostate Cancer Risk'),
-        backgroundColor: Colors.red,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+            // Validate returns true if the form is valid, or false otherwise.
+          },
+        ),
+        backgroundColor: Colors.orange,
+        elevation: 4,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(builder: (context) => new HomePage()),
+                );
+                // Validate returns true if the form is valid, or false otherwise.
+              },
+              icon: Icon(Icons.home)),
+          IconButton(onPressed: () {}, icon: Icon(Icons.menu))
+        ],
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [Colors.purple, Colors.red],
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft),
+          ),
+        ),
       ),
       body: MyCustomForm(),
       backgroundColor: Colors.pink[50],
@@ -45,7 +74,6 @@ class MyCustomForm extends StatefulWidget {
 // Create a corresponding State class.
 // This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
-
   final _formKey = GlobalKey<FormState>();
   FormScreenState _state = FormScreenState.DATA_NOT_FETCHED;
   List<HealthDataPoint> _healthDataList = [];
@@ -59,8 +87,6 @@ class MyCustomFormState extends State<MyCustomForm> {
   TextEditingController _brcaController = TextEditingController();
   TextEditingController _comoController = TextEditingController();*/
 
-
-
   void _submit(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       // saving calls onSaved: ... for each field (so we have to write it!)
@@ -69,7 +95,8 @@ class MyCustomFormState extends State<MyCustomForm> {
         context,
         //TO DO: change to named navigation
         MaterialPageRoute(
-            builder: (context) => ResultsScreen()), // instead of new ResultsScreen()
+            builder: (context) =>
+                ResultsScreen()), // instead of new ResultsScreen()
       );
     }
   }
@@ -79,7 +106,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     RegExp regex = RegExp(r'[1-9]\d*(\.\d+)?');
     if (age == null) {
       return 'Please enter age';
-    } else if (!regex.hasMatch(age.toString())){
+    } else if (!regex.hasMatch(age.toString())) {
       return 'Please enter age as a number';
     } else {
       return null;
@@ -96,7 +123,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     // trying new regex with no ^ and $
     if (psa == null || psa.isEmpty) {
       return 'Please enter PSA';
-    } else if (!regex.hasMatch(psa)){
+    } else if (!regex.hasMatch(psa)) {
       return 'Please enter PSA as a number';
     } else {
       return null;
@@ -105,29 +132,26 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   // would this work without null check because validated?
   void _saveAge(int? age) {
-    Provider.of<UserData>(context, listen: false)
-        .setAge(age!);
+    Provider.of<UserData>(context, listen: false).setAge(age!);
   }
 
   void _savePSA(String? psa) {
-    Provider.of<UserData>(context, listen: false)
-        .setPSA(int.parse(psa!));
+    Provider.of<UserData>(context, listen: false).setPSA(int.parse(psa!));
   }
 
   Widget createTextFormField(TextEditingController ctrlr, String field,
       Validator<String?> validator, Saver<String?> saver) {
-    return
-      TextFormField(
-        controller: ctrlr,
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-            hintText: "Your " + field,
-            labelText: field,
-            labelStyle: TextStyle(fontSize: 24),
-            border: InputBorder.none),
-        validator: validator,
-        onSaved: saver,
-      );
+    return TextFormField(
+      controller: ctrlr,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+          hintText: "Your " + field,
+          labelText: field,
+          labelStyle: TextStyle(fontSize: 24),
+          border: InputBorder.none),
+      validator: validator,
+      onSaved: saver,
+    );
   }
 
   Future fetchData() async {
@@ -157,7 +181,7 @@ class MyCustomFormState extends State<MyCustomForm> {
       try {
         /// Fetch new data
         List<HealthDataPoint> healthData =
-        await health.getHealthDataFromTypes(startDate, endDate, types);
+            await health.getHealthDataFromTypes(startDate, endDate, types);
 
         /// Save all the new data points
         _healthDataList.addAll(healthData);
@@ -178,9 +202,9 @@ class MyCustomFormState extends State<MyCustomForm> {
 
       /// Update the UI to display the results
       setState(() {
-        _state =
-        _healthDataList.isEmpty ? FormScreenState.NO_DATA
-                                : FormScreenState.DATA_READY;
+        _state = _healthDataList.isEmpty
+            ? FormScreenState.NO_DATA
+            : FormScreenState.DATA_READY;
       });
     } else {
       print("Authorization not granted");
@@ -188,46 +212,37 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
   }
 
-
-
-  
   @override
   Widget build(BuildContext context) {
     //fetchData();
     return
-    // try the SafeArea -- not sure if it makes a difference
-      SafeArea(
-          child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            //padding: const EdgeInsets.symmetric(vertical: 16.0),
+        // try the SafeArea -- not sure if it makes a difference
+        SafeArea(
+      child: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          //padding: const EdgeInsets.symmetric(vertical: 16.0),
 
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-
-              children: <Widget>[
-                SliderFormField(
-                  onSaved: _saveAge
-                ),
-                createTextFormField(_psaController, "PSA", _validatePSA, _savePSA),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child:
-                  ElevatedButton(
-                    onPressed: () => _submit(context),
-                    child: Text('Submit'),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.red),
-                    ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SliderFormField(onSaved: _saveAge),
+              createTextFormField(
+                  _psaController, "PSA", _validatePSA, _savePSA),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: ElevatedButton(
+                  onPressed: () => _submit(context),
+                  child: Text('Submit'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.red),
                   ),
                 ),
+              ),
             ],
           ),
-          ),
         ),
-      );
+      ),
+    );
   }
-
 }
-

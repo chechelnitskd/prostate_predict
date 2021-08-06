@@ -7,6 +7,19 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.orange,
+        elevation: 4,
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.menu))],
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [Colors.purple, Colors.red],
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft),
+          ),
+        ),
+      ),
       backgroundColor: kSecondaryColor,
       body: Container(
         decoration: BoxDecoration(
