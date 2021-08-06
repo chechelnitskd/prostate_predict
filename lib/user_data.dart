@@ -1,19 +1,16 @@
-
 import 'package:flutter/cupertino.dart';
 
 class UserData extends ChangeNotifier {
-
-  /*int? age;
+  int? age;
   int? psa;
-  int? tStage;
+  /*int? tStage;
   int? gradeGroup;
   int? treatmentType;
   int? ppcBiopsy;
   int? brca;
-  int? comorbidity;*/
-
-  int age = 0;
-  int psa = 0;
+  int? comorbidity; */
+  //int age = 0;
+  // int psa = 0;
   int tStage = 1;
   int gradeGroup = 1;
   int treatmentType = 0;
