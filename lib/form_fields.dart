@@ -5,6 +5,7 @@ class SliderFormField extends FormField<int> {
     FormFieldSetter<int>? onSaved,
     FormFieldValidator<int>? validator,
     int initialValue = 0,
+    //bool autovalidate = false
   }) : super(
             onSaved: onSaved,
             validator: validator,
