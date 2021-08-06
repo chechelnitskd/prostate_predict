@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import '../functions/calculations.dart';
 import 'package:prostate_predict/screens/riskhome_screen.dart';
-import '../calculations.dart';
 import 'results_screen.dart';
 import 'package:provider/provider.dart';
-import '../user_data.dart';
+import '../data/user_data.dart';
 import 'package:health/health.dart';
-import '../form_fields.dart';
+import '../widgets/form_fields.dart';
+import '../functions/loading.dart';
 import 'home_page.dart';
 
 enum FormScreenState {
@@ -19,8 +20,6 @@ enum FormScreenState {
   AUTH_NOT_GRANTED
 }
 
-typedef Validator<T> = String? Function(T a);
-typedef Saver<T> = void Function(T a);
 
 class FormScreen extends StatelessWidget {
   @override
@@ -76,7 +75,8 @@ class MyCustomForm extends StatefulWidget {
 class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
   FormScreenState _state = FormScreenState.DATA_NOT_FETCHED;
-  List<HealthDataPoint> _healthDataList = [];
+
+  final Loading _loadTest = Loading();
 
   TextEditingController _ageController = TextEditingController();
   TextEditingController _psaController = TextEditingController();
@@ -101,7 +101,6 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
   }
 
-  // this is less relevant now
   String? _validateAge(int? age) {
     RegExp regex = RegExp(r'[1-9]\d*(\.\d+)?');
     if (age == null) {
@@ -130,7 +129,6 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
   }
 
-  // would this work without null check because validated?
   void _saveAge(int? age) {
     Provider.of<UserData>(context, listen: false).setAge(age!);
   }
@@ -139,82 +137,30 @@ class MyCustomFormState extends State<MyCustomForm> {
     Provider.of<UserData>(context, listen: false).setPSA(int.parse(psa!));
   }
 
-  Widget createTextFormField(TextEditingController ctrlr, String field,
-      Validator<String?> validator, Saver<String?> saver) {
-    return TextFormField(
-      controller: ctrlr,
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-          hintText: "Your " + field,
-          labelText: field,
-          labelStyle: TextStyle(fontSize: 24),
-          border: InputBorder.none),
-      validator: validator,
-      onSaved: saver,
-    );
-  }
 
-  Future fetchData() async {
-    /// Get everything from midnight until now
-    DateTime startDate = DateTime(2020, 11, 07, 0, 0, 0);
-    DateTime endDate = DateTime(2025, 11, 07, 23, 59, 59);
-
-    HealthFactory health = HealthFactory();
-
-    /// Define the types to get.
-    List<HealthDataType> types = [
-      HealthDataType.STEPS,
-      HealthDataType.WEIGHT,
-      HealthDataType.HEIGHT,
-      HealthDataType.BLOOD_GLUCOSE,
-      HealthDataType.DISTANCE_WALKING_RUNNING,
-    ];
-
-    setState(() => _state = FormScreenState.FETCHING_DATA);
-
-    /// You MUST request access to the data types before reading them
-    bool accessWasGranted = await health.requestAuthorization(types);
-
-    int steps = 0;
-
-    if (accessWasGranted) {
-      try {
-        /// Fetch new data
-        List<HealthDataPoint> healthData =
-            await health.getHealthDataFromTypes(startDate, endDate, types);
-
-        /// Save all the new data points
-        _healthDataList.addAll(healthData);
-      } catch (e) {
-        print("Caught exception in getHealthDataFromTypes: $e");
-      }
-
-      /// Filter out duplicates
-      _healthDataList = HealthFactory.removeDuplicates(_healthDataList);
-
-      /// Print the results
-      _healthDataList.forEach((x) {
-        print("Data point: $x");
-        steps += x.value.round();
-      });
-
-      print("Steps: $steps");
-
-      /// Update the UI to display the results
+  void fetchData() {
+    _loadTest.fetchDataLoading().then( (value) {
       setState(() {
-        _state = _healthDataList.isEmpty
+        Provider.of<UserData>(context, listen: false)
+            .setList(value);
+        _state = Provider.of<UserData>(context, listen: false)
+            .getList().isEmpty
             ? FormScreenState.NO_DATA
             : FormScreenState.DATA_READY;
       });
-    } else {
-      print("Authorization not granted");
-      setState(() => _state = FormScreenState.DATA_NOT_FETCHED);
-    }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    //fetchData();
+    //_loadTest.fetchData(); <-- need to do this when setting state
+    //print(_loadTest.healthDataList);
     return
         // try the SafeArea -- not sure if it makes a difference
         SafeArea(

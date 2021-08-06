@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math';
 //import 'package:prostate_predict/screens/form_screen.dart';
-import 'package:prostate_predict/calculations.dart';
+import 'package:prostate_predict/functions/calculations.dart';
 import 'form_screen.dart';
 import 'home_page.dart';
 import 'package:provider/provider.dart';
-import '../user_data.dart';
+import '../data/user_data.dart';
 import 'package:tflite/tflite.dart';
+import '../functions/loading.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 class ResultsScreen extends StatefulWidget {
@@ -23,6 +24,9 @@ class _ResultsScreenState extends State<ResultsScreen>
   late List<charts.Series<Pollution, String>> _seriesData;
   late List<charts.Series<Risk, int>> _seriesLineData;
   late TabController _tabController;
+
+  final Loading _loading = Loading();
+  final Calculations _calculations = Calculations();
 
   bool factorsSet = false;
   //maybe implement as a dictionary
@@ -74,7 +78,8 @@ class _ResultsScreenState extends State<ResultsScreen>
 
   // see if we can return it just as a double rather than a string
   String calculateRisk(int year) {
-    return (applyStaticModel(
+
+    return (_calculations.applyStaticModel(
                 yrs: year,
                 age: age,
                 psa: psa,
@@ -138,9 +143,14 @@ class _ResultsScreenState extends State<ResultsScreen>
     // loaded before doing the first set state
     // this ends up kind of being the same result as having it inside the build
     // function for now, because we build this every time we update the input
-    loadMyModel().then((value) {
-      setState(() {});
-    });
+    try {
+      _loading.loadMyModel().then((value) {
+        setState(() {});
+      });
+    } catch (e) {
+      print("Model did not load");
+    }
+
   }
 
   // when is this called?

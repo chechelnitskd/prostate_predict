@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'user_data.dart';
+import 'data/user_data.dart';
 import 'package:prostate_predict/screens/home_page.dart';
 
 void main() => runApp(
