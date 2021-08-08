@@ -11,22 +11,25 @@ class RiskHomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
+          // TO DO: make this not keep popping if reach home page/
+          // save the previous form instead of having multiple possible
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
-            // Validate returns true if the form is valid, or false otherwise.
           },
         ),
         backgroundColor: Colors.orange,
         elevation: 4,
         actions: [
+
           IconButton(
+            /// CHANGED THIS:
               onPressed: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(builder: (context) => new HomePage()),
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil(
+                  '/',
+                      (Route<dynamic> route) => false,
                 );
-                // Validate returns true if the form is valid, or false otherwise.
               },
               icon: Icon(Icons.home)),
           IconButton(onPressed: () {}, icon: Icon(Icons.menu))
