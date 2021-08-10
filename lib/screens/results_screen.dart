@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'dart:math';
 //import 'package:prostate_predict/screens/form_screen.dart';
 import 'package:prostate_predict/functions/calculations.dart';
+import 'package:prostate_predict/widgets/screen_widgets.dart';
 import 'form_screen.dart';
 import 'home_page.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,7 @@ import '../data/user_data.dart';
 import 'package:tflite/tflite.dart';
 import '../functions/loading.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import '../widgets/screen_widgets.dart';
 
 class ResultsScreen extends StatefulWidget {
   const ResultsScreen({Key? key}) : super(key: key);
@@ -165,27 +167,12 @@ class _ResultsScreenState extends State<ResultsScreen>
     if (factorsSet) {
       return Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-              // Validate returns true if the form is valid, or false otherwise.
-            },
-          ),
+          leading: BackButton(),
           backgroundColor: Color(0xff1976d2),
           elevation: 4,
           actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil(
-                    'home',
-                        (Route<dynamic> route) => false,
-                  );
-                  // Validate returns true if the form is valid, or false otherwise.
-                },
-                icon: Icon(Icons.home)),
-            IconButton(onPressed: () {}, icon: Icon(Icons.menu))
+            HomeButton(context),
+            MenuButton(context),
           ],
           flexibleSpace: Container(
             decoration: BoxDecoration(

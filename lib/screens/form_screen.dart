@@ -11,6 +11,7 @@ import 'package:health/health.dart';
 import '../widgets/form_fields.dart';
 import '../functions/loading.dart';
 import 'home_page.dart';
+import '../widgets/screen_widgets.dart';
 
 enum FormScreenState {
   DATA_NOT_FETCHED,
@@ -26,27 +27,12 @@ class FormScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-            // Validate returns true if the form is valid, or false otherwise.
-          },
-        ),
+        leading: BackButton(),
         backgroundColor: Colors.orange,
         elevation: 4,
         actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil(
-                  'home',
-                      (Route<dynamic> route) => false,
-                );
-                // Validate returns true if the form is valid, or false otherwise.
-              },
-              icon: Icon(Icons.home)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.menu))
+          HomeButton(context),
+          MenuButton(context),
         ],
         flexibleSpace: Container(
           decoration: BoxDecoration(

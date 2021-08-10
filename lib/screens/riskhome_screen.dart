@@ -4,32 +4,19 @@ import 'package:get/get.dart';
 import 'package:prostate_predict/constants.dart';
 import 'package:prostate_predict/screens/form_screen.dart';
 import 'package:prostate_predict/screens/home_page.dart';
+import '../widgets/screen_widgets.dart';
 
 class RiskHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          // TO DO: make this not keep popping if reach home page/
-          // save the previous form instead of having multiple possible
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        leading: BackButton(),
         backgroundColor: Colors.orange,
         elevation: 4,
         actions: [
-
-          IconButton(
-            /// CHANGED THIS:
-              onPressed: () {
-                Navigator.of(context)
-                    .popUntil(ModalRoute.withName('home'));
-              },
-              icon: Icon(Icons.home)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.menu))
+          HomeButton(context),
+          MenuButton(context),
         ],
         flexibleSpace: Container(
           decoration: BoxDecoration(
