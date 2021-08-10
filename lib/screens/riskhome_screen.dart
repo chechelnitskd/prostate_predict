@@ -26,10 +26,7 @@ class RiskHomeScreen extends StatelessWidget {
             /// CHANGED THIS:
               onPressed: () {
                 Navigator.of(context)
-                    .pushNamedAndRemoveUntil(
-                  '/',
-                      (Route<dynamic> route) => false,
-                );
+                    .popUntil(ModalRoute.withName('home'));
               },
               icon: Icon(Icons.home)),
           IconButton(onPressed: () {}, icon: Icon(Icons.menu))

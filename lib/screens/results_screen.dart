@@ -177,9 +177,10 @@ class _ResultsScreenState extends State<ResultsScreen>
           actions: [
             IconButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(builder: (context) => new HomePage()),
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil(
+                    'home',
+                        (Route<dynamic> route) => false,
                   );
                   // Validate returns true if the form is valid, or false otherwise.
                 },

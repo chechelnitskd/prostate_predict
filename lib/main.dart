@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prostate_predict/screens/form_screen.dart';
 import 'package:prostate_predict/screens/riskhome_screen.dart';
 import 'package:provider/provider.dart';
 import 'data/user_data.dart';
@@ -13,11 +14,15 @@ class MyApp extends StatelessWidget {
     final appTitle = 'Prostate Cancer Risk Calculator';
     return MaterialApp(
       title: appTitle,
-      initialRoute: '/', // try naming route without slash
+      initialRoute: 'home', // try naming route without slash
       routes: {
         '/': (context) => HomePage(),
-        '/risk_home': (context) => RiskHomeScreen(),
+        'home': (context) => HomePage(),
+        'risk_home': (context) => RiskHomeScreen(),
+        'prostate_form': (context) => FormScreen(),
       },
     );
   }
 }
+
+
