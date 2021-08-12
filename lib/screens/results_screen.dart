@@ -79,7 +79,6 @@ class _ResultsScreenState extends State<ResultsScreen>
     }
   }
 
-  // see if we can return it just as a double rather than a string
   String calculateRisk(int year) {
 
     return (_calculations.applyStaticModel(
@@ -96,42 +95,7 @@ class _ResultsScreenState extends State<ResultsScreen>
         .toStringAsFixed(2);
   }
 
-  // IGNORE THIS FOR NOW!
-  /* Widget _riskNumbersView(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget> [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Container(
-              child: Center(
-                  child: Column(
-                    children: [
-                      Spacer(flex: 3),
-                      Text(
-                        "15 year risk",
-                      ),
-                      Spacer(),
-                      Text(
-                        "${calculateRisk(15)}%",
-                        style: TextStyle(fontSize: 80),
-                      ),
-                      ElevatedButton(
-                          child: Text("Re-Enter Data"),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                      Spacer(flex: 3),
-                    ],
-                  ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  } */
+
 
   @override
   void initState() {
@@ -142,11 +106,9 @@ class _ResultsScreenState extends State<ResultsScreen>
     factorsSet = setAllFactors(context);
     _generateData();
 
-    // the .then part means that the init function waits until the model is
-    // loaded before doing the first set state
-    // this ends up kind of being the same result as having it inside the build
-    // function for now, because we build this every time we update the input
     try {
+      // this ends up kind of being the same result as having it inside the build
+      // function for now, because we build this every time we update the input
       _loading.loadMyModel().then((value) {
         setState(() {});
       });
@@ -156,7 +118,6 @@ class _ResultsScreenState extends State<ResultsScreen>
 
   }
 
-  // when is this called?
   @override
   void dispose() {
     super.dispose();
@@ -283,14 +244,6 @@ class Pollution {
   int quantity;
 
   Pollution(this.year, this.place, this.quantity);
-}
-
-class Task {
-  String task;
-  double taskvalue;
-  Color colorval;
-
-  Task(this.task, this.taskvalue, this.colorval);
 }
 
 class Risk {

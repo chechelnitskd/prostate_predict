@@ -36,7 +36,6 @@ class FormScreen extends StatelessWidget {
   }
 }
 
-// Create a Form widget.
 class MyCustomForm extends StatefulWidget {
   @override
   MyCustomFormState createState() {
@@ -44,8 +43,6 @@ class MyCustomForm extends StatefulWidget {
   }
 }
 
-// Create a corresponding State class.
-// This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
   FormScreenState _state = FormScreenState.DATA_NOT_FETCHED;
@@ -63,14 +60,10 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   void _submit(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      // saving calls onSaved: ... for each field (so we have to write it!)
       _formKey.currentState!.save();
-      Navigator.push(
-        context,
-        //TO DO: change to named navigation
-        MaterialPageRoute(
-            builder: (context) =>
-                ResultsScreen()), // instead of new ResultsScreen()
+      Navigator.pushNamed(
+          context,
+        'results'
       );
     }
   }
@@ -141,8 +134,6 @@ class MyCustomFormState extends State<MyCustomForm> {
       child: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          //padding: const EdgeInsets.symmetric(vertical: 16.0),
-
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

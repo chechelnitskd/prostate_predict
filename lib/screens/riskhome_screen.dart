@@ -25,7 +25,7 @@ class RiskHomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Spacer(flex: 5), //2/6
+                  Spacer(flex: 5),
                   Text(
                     "Select Risk",
                   ),
@@ -55,7 +55,7 @@ class RiskHomeScreen extends StatelessWidget {
                         backgroundColor: MaterialStateProperty.all(Colors.red),
                       ),
                     ),
-                  ), // it will take 2/6 spaces
+                  ),
                 ],
               ),
             ),

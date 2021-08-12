@@ -76,3 +76,41 @@ Drawer SideBar(BuildContext context) {
     ),
   );
 }
+
+
+// IGNORE THIS FOR NOW!
+/* Widget _riskNumbersView(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget> [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Container(
+              child: Center(
+                  child: Column(
+                    children: [
+                      Spacer(flex: 3),
+                      Text(
+                        "15 year risk",
+                      ),
+                      Spacer(),
+                      Text(
+                        "${calculateRisk(15)}%",
+                        style: TextStyle(fontSize: 80),
+                      ),
+                      ElevatedButton(
+                          child: Text("Re-Enter Data"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                      Spacer(flex: 3),
+                    ],
+                  ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  } */

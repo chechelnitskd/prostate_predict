@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prostate_predict/screens/form_screen.dart';
+import 'package:prostate_predict/screens/results_screen.dart';
 import 'package:prostate_predict/screens/riskhome_screen.dart';
 import 'package:provider/provider.dart';
 import 'data/user_data.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         'home': (context) => HomePage(),
         'risk_home': (context) => RiskHomeScreen(),
         'prostate_form': (context) => FormScreen(),
+        'results': (context) => ResultsScreen(),
       },
     );
   }
