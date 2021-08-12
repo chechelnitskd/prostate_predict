@@ -24,7 +24,7 @@ enum FormScreenState {
 
 class FormScreen extends StatelessWidget {
   // THE MENU IS NOT WORKING HERE! b/c it's stateless?
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
+  GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
