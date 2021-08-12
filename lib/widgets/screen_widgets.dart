@@ -10,19 +10,21 @@ Widget HomeButton(BuildContext context) {
       icon: Icon(Icons.home));
 }
 
-Widget MenuButton(BuildContext context) {
+Widget MenuButton(BuildContext context, GlobalKey<ScaffoldState> globalKey) {
   return IconButton(
-      onPressed: () {}, icon: Icon(Icons.menu));
+      onPressed: () {
+        globalKey.currentState!.openEndDrawer();
+      }, icon: Icon(Icons.menu));
 }
 
-PreferredSizeWidget ColorAppBar(BuildContext context) {
+PreferredSizeWidget ColorAppBar(BuildContext context, GlobalKey<ScaffoldState> globalKey) {
   return AppBar(
     leading: BackButton(),
     backgroundColor: Colors.orange,
     elevation: 4,
     actions: [
       HomeButton(context),
-      //MenuButton(context),
+      MenuButton(context, globalKey),
     ],
     flexibleSpace: Container(
       decoration: BoxDecoration(
@@ -35,10 +37,42 @@ PreferredSizeWidget ColorAppBar(BuildContext context) {
   );
 }
 
-PreferredSizeWidget HomeAppBar(BuildContext context) {
+PreferredSizeWidget HomeAppBar(BuildContext context, GlobalKey<ScaffoldState> globalKey) {
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
-    //actions: [IconButton(onPressed: () {}, icon: Icon(Icons.menu))],
+    actions: [MenuButton(context, globalKey)],
+  );
+}
+
+Drawer SideBar(BuildContext context) {
+  return Drawer(
+    // Add a ListView to the drawer. This ensures the user can scroll
+    // through the options in the drawer if there isn't enough vertical
+    // space to fit everything.
+    child: ListView(
+      // Important: Remove any padding from the ListView.
+      padding: EdgeInsets.zero,
+      children: [
+        const DrawerHeader(
+          decoration: BoxDecoration(
+            color: Colors.blue,
+          ),
+          child: Text('Drawer Header'),
+        ),
+        ListTile(
+          title: const Text('Item 1'),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          title: const Text('Item 2'),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
+    ),
   );
 }

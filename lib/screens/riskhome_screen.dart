@@ -7,10 +7,14 @@ import 'package:prostate_predict/screens/home_page.dart';
 import '../widgets/screen_widgets.dart';
 
 class RiskHomeScreen extends StatelessWidget {
+  GlobalKey<ScaffoldState> _key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ColorAppBar(context),
+      key: _key,
+      appBar: ColorAppBar(context, _key),
+      endDrawer: SideBar(context),
       body: Stack(
         alignment: Alignment.center,
         children: [

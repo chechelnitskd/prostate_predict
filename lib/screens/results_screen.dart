@@ -29,6 +29,7 @@ class _ResultsScreenState extends State<ResultsScreen>
 
   final Loading _loading = Loading();
   final Calculations _calculations = Calculations();
+  GlobalKey<ScaffoldState> _key = GlobalKey();
 
   bool factorsSet = false;
   //maybe implement as a dictionary
@@ -166,13 +167,14 @@ class _ResultsScreenState extends State<ResultsScreen>
   Widget build(BuildContext context) {
     if (factorsSet) {
       return Scaffold(
+        key: _key,
         appBar: AppBar(
           leading: BackButton(),
           backgroundColor: Color(0xff1976d2),
           elevation: 4,
           actions: [
             HomeButton(context),
-            MenuButton(context),
+            MenuButton(context, _key),
           ],
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -183,6 +185,7 @@ class _ResultsScreenState extends State<ResultsScreen>
             ),
           ),
           //backgroundColor: Color(0xff308e1c),
+
           bottom: TabBar(
             controller: _tabController,
             indicatorColor: Color(0xff9962D0),
@@ -195,6 +198,7 @@ class _ResultsScreenState extends State<ResultsScreen>
           ),
           title: Text('Flutter Charts'),
         ),
+        endDrawer: SideBar(context),
         body: TabBarView(
           controller: _tabController,
           children: [
