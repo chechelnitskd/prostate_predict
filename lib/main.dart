@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final appTitle = 'Prostate Cancer Risk Calculator';
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: appTitle,
       initialRoute: 'home', // try naming route without slash
       routes: {

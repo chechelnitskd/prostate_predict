@@ -10,23 +10,7 @@ class RiskHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(),
-        backgroundColor: Colors.orange,
-        elevation: 4,
-        actions: [
-          HomeButton(context),
-          MenuButton(context),
-        ],
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Colors.purple, Colors.red],
-                begin: Alignment.bottomRight,
-                end: Alignment.topLeft),
-          ),
-        ),
-      ),
+      appBar: ColorAppBar(context),
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -45,12 +29,11 @@ class RiskHomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
+                        // this still doesn't save the form data
+                        Navigator.pushNamed(
                           context,
-                          new MaterialPageRoute(
-                              builder: (context) => new FormScreen()),
+                          'prostate_form'
                         );
-                        // Validate returns true if the form is valid, or false otherwise.
                       },
                       child: Text('Prostate Risk'),
                       style: ButtonStyle(

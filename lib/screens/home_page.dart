@@ -2,32 +2,45 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:prostate_predict/constants.dart';
 import 'package:prostate_predict/screens/riskhome_screen.dart';
+import '../widgets/screen_widgets.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.orange,
-        elevation: 4,
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.menu))],
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Colors.purple, Colors.red],
-                begin: Alignment.bottomRight,
-                end: Alignment.topLeft),
-          ),
+      extendBodyBehindAppBar: true,
+      appBar: HomeAppBar(context),
+      endDrawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Drawer Header'),
+            ),
+            ListTile(
+              title: const Text('Item 1'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Item 2'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
         ),
       ),
-      backgroundColor: kSecondaryColor,
+      backgroundColor: kYellow,
       body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [kSecondaryColor, kGrayColor],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.3, 0.7])),
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

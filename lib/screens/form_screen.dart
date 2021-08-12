@@ -26,23 +26,7 @@ class FormScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(),
-        backgroundColor: Colors.orange,
-        elevation: 4,
-        actions: [
-          HomeButton(context),
-          MenuButton(context),
-        ],
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Colors.purple, Colors.red],
-                begin: Alignment.bottomRight,
-                end: Alignment.topLeft),
-          ),
-        ),
-      ),
+      appBar: ColorAppBar(context),
       body: MyCustomForm(),
       backgroundColor: Colors.pink[50],
     );
