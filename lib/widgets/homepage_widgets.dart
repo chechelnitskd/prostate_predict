@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:prostate_predict/constants.dart';
+import 'package:prostate_predict/data/user_data.dart';
+import 'package:provider/provider.dart';
 
 class RiskSelectOption{
 
@@ -95,3 +97,54 @@ List<RiskSelectOption> getRiskSelectOptions(){
 
   return specialities;
 }
+
+class RiskListView extends StatelessWidget {
+
+  final List<RiskSelectOption> riskList;
+  RiskListView({Key? key, required this.riskList}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 250,
+      child: ListView.builder(
+          itemCount: riskList.length,
+          shrinkWrap: true,
+          physics: ClampingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index){
+            return RiskSelectTile(
+              speciality: riskList[index].speciality,
+              noOfDoctors: riskList[index].noOfDoctors,
+              backColor: riskList[index].backgroundColor,
+            );
+          }),
+    );
+  }
+}
+
+class PercentCircle extends StatefulWidget {
+  const PercentCircle({Key? key}) : super(key: key);
+
+  @override
+  _PercentCircleState createState() => _PercentCircleState();
+}
+
+class _PercentCircleState extends State<PercentCircle> {
+  @override
+  Widget build(BuildContext context) {
+    MediaQueryData queryData = MediaQuery.of(context);
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 24),
+      child: CircularPercentIndicator(
+        radius: queryData.size.shortestSide * 0.5,
+        lineWidth: queryData.size.shortestSide * 0.05,
+        percent: Provider.of<UserData>(context, listen: false).getPercent(),
+        center: new Text("8/10 Risks Calculated"),
+        progressColor: kGreen,
+      ),
+    );
+  }
+}
+
+

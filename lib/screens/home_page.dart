@@ -46,32 +46,9 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 40,),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 24),
-                    child: CircularPercentIndicator(
-                      radius: queryData.size.shortestSide * 0.5,
-                      lineWidth: queryData.size.shortestSide * 0.05,
-                      percent: .79,
-                      center: new Text("8/10 Risks Calculated"),
-                      progressColor: kGreen,
-                    ),
-                  ),
+                  PercentCircle(),
                   SizedBox(height: 60,),
-                  Container(
-                    height: 250,
-                    child: ListView.builder(
-                        itemCount: specialities.length,
-                        shrinkWrap: true,
-                        physics: ClampingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index){
-                          return RiskSelectTile(
-                            speciality: specialities[index].speciality,
-                            noOfDoctors: specialities[index].noOfDoctors,
-                            backColor: specialities[index].backgroundColor,
-                          );
-                        }),
-                  ),
+                  RiskListView(riskList: specialities),
                 ],
               ),
             ),

@@ -7,6 +7,10 @@ import '../functions/loading.dart';
 
 class UserData extends ChangeNotifier {
 
+  int numRisksCalculated = 2;
+  int totalRiskOptions = 3;
+  double getPercent() => (1.0 * numRisksCalculated) / totalRiskOptions;
+
   List<HealthDataPoint> _healthDataList = [];
 
   Map<String, dynamic> psaData =
@@ -72,7 +76,5 @@ class UserData extends ChangeNotifier {
     psaData['comorbidity'] = newCom;
     notifyListeners();
   }
-
-
 
 }
