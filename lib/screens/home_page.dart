@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:prostate_predict/constants.dart';
+import 'package:prostate_predict/data/user_data.dart';
 import 'package:prostate_predict/screens/riskhome_screen.dart';
 import 'package:prostate_predict/widgets/screen_widgets.dart';
+import 'package:provider/provider.dart';
 import '../widgets/homepage_widgets.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -18,7 +20,7 @@ class HomePage extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: HomeAppBar(context, _key),
       endDrawer: buildSideBar(context),
-      backgroundColor: kYellow,
+      backgroundColor: kDarkPurple,
       body: SafeArea(
         child: Container(
           margin: EdgeInsets.all(20.0),

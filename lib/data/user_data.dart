@@ -9,6 +9,8 @@ class UserData extends ChangeNotifier {
 
   int numRisksCalculated = 2;
   int totalRiskOptions = 3;
+  int getNumRisksCalc() => numRisksCalculated;
+  int getTotalRisks() => totalRiskOptions;
   double getPercent() => (1.0 * numRisksCalculated) / totalRiskOptions;
 
   List<HealthDataPoint> _healthDataList = [];

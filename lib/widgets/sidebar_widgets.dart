@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prostate_predict/constants.dart';
 
 class SideBarItem {
   String itemName;
@@ -17,29 +18,32 @@ class SideBar extends StatelessWidget {
       // Add a ListView to the drawer. This ensures the user can scroll
       // through the options in the drawer if there isn't enough vertical
       // space to fit everything.
-      child: ListView(
-        // Important: Remove any padding from the ListView.
-        padding: EdgeInsets.zero,
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
+      child: Container(
+        color: kWhite,
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: kLightPurple,
+              ),
+              child: Text('Drawer Header'),
             ),
-            child: Text('Drawer Header'),
-          ),
-          ListTile(
-            title: const Text('Item 1'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text('Item 2'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
+            ListTile(
+              title: const Text('Privacy Policy'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Risk History'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

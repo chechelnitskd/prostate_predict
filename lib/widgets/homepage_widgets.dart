@@ -70,7 +70,7 @@ List<RiskSelectOption> getRiskSelectOptions(){
   new RiskSelectOption(
       speciality: "Prostate Calculator",
       noOfDoctors: 10,
-      backgroundColor: kLightRed);
+      backgroundColor: kGreen);
   specialities.add(prostateCalculator);
 
   // Add examples for now
@@ -78,14 +78,14 @@ List<RiskSelectOption> getRiskSelectOptions(){
   new RiskSelectOption(
       speciality: "Heart Calculator",
       noOfDoctors: 17,
-      backgroundColor: kLightPurple);
+      backgroundColor: kRed);
   specialities.add(testA);
 
   RiskSelectOption testB =
   new RiskSelectOption(
       speciality: "Heart Specialist",
       noOfDoctors: 17,
-      backgroundColor: kLightRed);
+      backgroundColor: kRed);
   specialities.add(testB);
 
   RiskSelectOption testC =
@@ -124,23 +124,31 @@ class RiskListView extends StatelessWidget {
 }
 
 class PercentCircle extends StatefulWidget {
-  const PercentCircle({Key? key}) : super(key: key);
+  PercentCircle({Key? key}) : super(key: key);
 
   @override
   _PercentCircleState createState() => _PercentCircleState();
 }
 
 class _PercentCircleState extends State<PercentCircle> {
+
   @override
   Widget build(BuildContext context) {
+    int numRisksCalculated =
+    Provider.of<UserData>(context, listen: false).getNumRisksCalc();
+    int totalRiskOptions =
+    Provider.of<UserData>(context, listen: false).getTotalRisks();
+    double percentCalculated =
+    Provider.of<UserData>(context, listen: false).getPercent();
+
     MediaQueryData queryData = MediaQuery.of(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24),
       child: CircularPercentIndicator(
         radius: queryData.size.shortestSide * 0.5,
         lineWidth: queryData.size.shortestSide * 0.05,
-        percent: Provider.of<UserData>(context, listen: false).getPercent(),
-        center: new Text("8/10 Risks Calculated"),
+        percent: percentCalculated,
+        center: new Text("$numRisksCalculated/$totalRiskOptions Risks Calculated"),
         progressColor: kGreen,
       ),
     );
