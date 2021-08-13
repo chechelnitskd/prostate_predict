@@ -2,18 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:prostate_predict/constants.dart';
 import 'package:prostate_predict/screens/riskhome_screen.dart';
-import '../widgets/screen_widgets.dart';
+import 'package:prostate_predict/widgets/screen_widgets.dart';
 import '../widgets/homepage_widgets.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 
 class HomePage extends StatelessWidget {
-  List<RiskSelectOption> specialities = getRiskSelectOptions();
-  GlobalKey<ScaffoldState> _key = GlobalKey();
+  final List<RiskSelectOption> calculatorOptions = getRiskSelectOptions();
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
   
   @override
   Widget build(BuildContext context) {
-    MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
       key: _key,
       extendBodyBehindAppBar: true,
@@ -48,7 +47,7 @@ class HomePage extends StatelessWidget {
                   SizedBox(height: 40,),
                   PercentCircle(),
                   SizedBox(height: 60,),
-                  RiskListView(riskList: specialities),
+                  RiskListView(riskList: calculatorOptions),
                 ],
               ),
             ),

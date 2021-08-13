@@ -28,9 +28,11 @@ class FormScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _key,
       appBar: ColorAppBar(context, _key),
       endDrawer: buildSideBar(context),
-      body: MyCustomForm(),
+      body: SafeArea(
+          child: MyCustomForm()),
       backgroundColor: Colors.pink[50],
     );
   }
@@ -130,30 +132,28 @@ class MyCustomFormState extends State<MyCustomForm> {
     //print(_loadTest.healthDataList);
     return
         // try the SafeArea -- not sure if it makes a difference
-        SafeArea(
-      child: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SliderFormField(onSaved: _saveAge),
-              createTextFormField(
-                  _psaController, "PSA", _validatePSA, _savePSA),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ElevatedButton(
-                  onPressed: () => _submit(context),
-                  child: Text('Submit'),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.red),
+        Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SliderFormField(onSaved: _saveAge),
+                createTextFormField(
+                    _psaController, "PSA", _validatePSA, _savePSA),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: ElevatedButton(
+                    onPressed: () => _submit(context),
+                    child: Text('Submit'),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.red),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ),
-    );
+        );
   }
 }
