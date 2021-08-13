@@ -159,7 +159,7 @@ class _ResultsScreenState extends State<ResultsScreen>
           ),
           title: Text('Flutter Charts'),
         ),
-        endDrawer: SideBar(context),
+        endDrawer: buildSideBar(context),
         body: TabBarView(
           controller: _tabController,
           children: [

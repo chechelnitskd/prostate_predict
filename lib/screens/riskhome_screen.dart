@@ -14,7 +14,7 @@ class RiskHomeScreen extends StatelessWidget {
     return Scaffold(
       key: _key,
       appBar: ColorAppBar(context, _key),
-      endDrawer: SideBar(context),
+      endDrawer: buildSideBar(context),
       body: Stack(
         alignment: Alignment.center,
         children: [

@@ -85,7 +85,7 @@ class HomePage extends StatelessWidget {
       key: _key,
       extendBodyBehindAppBar: true,
       appBar: HomeAppBar(context, _key),
-      endDrawer: SideBar(context),
+      endDrawer: buildSideBar(context),
       backgroundColor: kYellow,
       body: SafeArea(
         child: Container(

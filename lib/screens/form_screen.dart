@@ -23,13 +23,13 @@ enum FormScreenState {
 
 
 class FormScreen extends StatelessWidget {
-  // THE MENU IS NOT WORKING HERE! b/c it's stateless?
+  // THE MENU IS NOT WORKING HERE! globalkey?
   GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ColorAppBar(context, _key),
-      endDrawer: SideBar(context),
+      endDrawer: buildSideBar(context),
       body: MyCustomForm(),
       backgroundColor: Colors.pink[50],
     );
