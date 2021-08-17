@@ -15,11 +15,13 @@ class _RiskHistoryScreenState extends State<RiskHistoryScreen> {
 
   late DatabaseHelper handler;
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+  Future<List<UserHistory>>? history;
 
   @override
   void initState() {
     super.initState();
     this.handler = DatabaseHelper.instance;
+    history = this.handler.queryAllHistory();
   }
 
   @override
@@ -65,7 +67,7 @@ class _RiskHistoryScreenState extends State<RiskHistoryScreen> {
             ],
           ),*/
           FutureBuilder(
-            future: this.handler.queryAllHistory(),
+            future: history,
             builder: (BuildContext context, AsyncSnapshot<List<UserHistory>> snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
@@ -81,10 +83,11 @@ class _RiskHistoryScreenState extends State<RiskHistoryScreen> {
                       ),
                       key: ValueKey<int>(snapshot.data![index].id!),
                       onDismissed: (DismissDirection direction) async {
-                        await this.handler.delete(snapshot.data![index].id!);
-                        setState(() {
-                          snapshot.data!.remove(snapshot.data![index]);
-                        });
+                          /*setState(() {
+                            //maybe this won't work?
+                            snapshot.data!.remove(snapshot.data![index]);
+                          });*/
+                          await this.handler.delete(snapshot.data![index].id!);
                       },
                       child: Card(
                           child: ListTile(
@@ -95,6 +98,8 @@ class _RiskHistoryScreenState extends State<RiskHistoryScreen> {
                     );
                   },
                 );
+              } else if (snapshot.hasError)  {
+                return Text("error!");
               } else {
                 return Center(child: CircularProgressIndicator());
               }

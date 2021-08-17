@@ -39,7 +39,7 @@ class SideBar extends StatelessWidget {
             ListTile(
               title: const Text('Risk History'),
               onTap: () {
-                Navigator.pushNamed(context, 'risk_history');
+                Navigator.popAndPushNamed(context, 'risk_history');
               },
             ),
           ],
