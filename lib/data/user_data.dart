@@ -5,13 +5,21 @@ import 'package:health/health.dart';
 import 'package:flutter/cupertino.dart';
 import '../functions/loading.dart';
 import 'data_constants.dart';
+import 'database_helpers.dart';
 
 class UserHistory extends ChangeNotifier {
 
+  int numRisksCalculated = 0;
+  int totalRiskOptions = 3;
+  int getNumRisksCalc() => numRisksCalculated;
+  int getTotalRisks() => totalRiskOptions;
+  double getPercent() => (1.0 * numRisksCalculated) / totalRiskOptions;
+
   //not sure if making them ? is the best way
   int? id;
-  String? word;
-  int? frequency;
+  String? riskType;
+  double? riskScore;
+  int? date;
 
   UserHistory();
   //this.id, this.word, this.frequency
@@ -19,30 +27,57 @@ class UserHistory extends ChangeNotifier {
   // convenience constructor to create a Word object
   UserHistory.fromMap(Map<String, dynamic> map) {
     this.id = map[columnId];
-    this.word = map[columnWord];
-    this.frequency = map[columnFrequency];
+    this.riskType = map[columnRiskType];
+    this.riskScore = map[columnRiskScore];
+    //this.date = map[columnDate];
   }
 
   // convenience method to create a Map from this Word object
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      columnWord: word,
-      columnFrequency: frequency
+      columnRiskType: riskType,
+      columnRiskScore: riskScore,
+      //columnDate: date,
     };
     if (id != null) {
       map[columnId] = id;
     }
     return map;
   }
+  read() async {
+    DatabaseHelper helper = DatabaseHelper.instance;
+    // TODO: make the rowID update?
+    int rowId = 1;
+    UserHistory entry = await helper.queryEntry(rowId);
+    if (entry.id == null) {
+      print('read row $rowId: empty');
+    } else {
+      print('read row $rowId: ${entry.riskType} ${entry.riskScore}');
+    }
+  }
+
+  save(String riskType, double riskScore) async {
+    UserHistory entry = UserHistory();
+    entry.riskType = riskType;
+    entry.riskScore = riskScore;
+    entry.date = DateTime.now().millisecondsSinceEpoch;
+    DatabaseHelper helper = DatabaseHelper.instance;
+    int id = await helper.insert(entry);
+    entry.id = id;
+    print('inserted row: $id');
+  }
+
+  printAll() async {
+    DatabaseHelper helper = DatabaseHelper.instance;
+    List<UserHistory> history = await helper.queryAllHistory();
+    for (var i = 0; i < history.length; i++) {
+      print("ID: ${history[i].id}, Word: ${history[i].riskType}\n");
+    }
+    print("done");
+  }
 }
 
 class UserHealthData extends ChangeNotifier {
-
-  int numRisksCalculated = 2;
-  int totalRiskOptions = 3;
-  int getNumRisksCalc() => numRisksCalculated;
-  int getTotalRisks() => totalRiskOptions;
-  double getPercent() => (1.0 * numRisksCalculated) / totalRiskOptions;
 
   List<HealthDataPoint> _healthDataList = [];
 

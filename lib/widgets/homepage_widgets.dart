@@ -135,11 +135,11 @@ class _PercentCircleState extends State<PercentCircle> {
   @override
   Widget build(BuildContext context) {
     int numRisksCalculated =
-    Provider.of<UserHealthData>(context, listen: false).getNumRisksCalc();
+    Provider.of<UserHistory>(context, listen: false).getNumRisksCalc();
     int totalRiskOptions =
-    Provider.of<UserHealthData>(context, listen: false).getTotalRisks();
+    Provider.of<UserHistory>(context, listen: false).getTotalRisks();
     double percentCalculated =
-    Provider.of<UserHealthData>(context, listen: false).getPercent();
+    Provider.of<UserHistory>(context, listen: false).getPercent();
 
     MediaQueryData queryData = MediaQuery.of(context);
     return Container(

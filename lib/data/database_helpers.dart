@@ -8,38 +8,6 @@ import 'data_constants.dart';
 // SOURCE: https://pusher.com/tutorials/local-data-flutter/#saving-to-a-database
 // https://pub.dev/packages/sqflite
 
-
-// data model class
-class Word {
-
-  //not sure if making them ? is the best way
-  int? id;
-  String? word;
-  int? frequency;
-
-  Word();
-  //this.id, this.word, this.frequency
-
-  // convenience constructor to create a Word object
-  Word.fromMap(Map<String, dynamic> map) {
-    this.id = map[columnId];
-    this.word = map[columnWord];
-    this.frequency = map[columnFrequency];
-  }
-
-  // convenience method to create a Map from this Word object
-  Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{
-      columnWord: word,
-      columnFrequency: frequency
-    };
-    if (id != null) {
-      map[columnId] = id;
-    }
-    return map;
-  }
-}
-
 // singleton class to manage the database
 class DatabaseHelper {
 
@@ -73,40 +41,42 @@ class DatabaseHelper {
   // SQL string to create the database
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-              CREATE TABLE $tableWords (
+              CREATE TABLE $tableName (
                 $columnId INTEGER PRIMARY KEY,
-                $columnWord TEXT NOT NULL,
-                $columnFrequency INTEGER NOT NULL
+                $columnRiskType TEXT NOT NULL,
+                $columnRiskScore INTEGER NOT NULL
+                
               )
               ''');
+    //$columnDate INTEGER NOT NULL
   }
 
   // Database helper methods:
 
-  Future<int> insert(Word word) async {
+  Future<int> insert(UserHistory entry) async {
     Database db = await database;
-    int id = await db.insert(tableWords, word.toMap());
+    int id = await db.insert(tableName, entry.toMap());
     return id;
   }
 
-  Future<Word> queryWord(int id) async {
+  Future<UserHistory> queryEntry(int id) async {
     Database db = await database;
-    List<Map<String, dynamic>> maps = await db.query(tableWords,
-        columns: [columnId, columnWord, columnFrequency],
+    List<Map<String, dynamic>> maps = await db.query(tableName,
+        columns: [columnId, columnRiskType, columnRiskScore, ], //columnDate
         where: '$columnId = ?',
         whereArgs: [id]);
     if (maps.length > 0) {
-      return Word.fromMap(maps.first);
+      return UserHistory.fromMap(maps.first);
     }
-    return Word(); // instead of null
+    return UserHistory(); // instead of null
   }
 
   // https://petercoding.com/flutter/2021/03/21/using-sqlite-in-flutter/#create-a-table-in-sqlite
 // TODO: queryAllWords()
-  Future<List<Word>> queryAllWords() async {
+  Future<List<UserHistory>> queryAllHistory() async {
     Database db = await database;
-    final List<Map<String, Object?>> queryResult = await db.query(tableWords);
-    return queryResult.map((e) => Word.fromMap(e)).toList();
+    final List<Map<String, Object?>> queryResult = await db.query(tableName);
+    return queryResult.map((e) => UserHistory.fromMap(e)).toList();
     // or db.query(tableWords);
   }
 
@@ -114,7 +84,7 @@ class DatabaseHelper {
   Future<void> delete(int id) async {
     Database db = await database;
     await db.delete(
-      '$columnWord',
+      '$columnRiskType',
       where: "$columnId = ?",
       whereArgs: [id],
     );
@@ -122,10 +92,10 @@ class DatabaseHelper {
 
   // https://stackoverflow.com/questions/54102043/how-to-do-a-database-update-with-sqflite-in-flutter
 // TODO: update(Word word)
-  Future<int> update(Word word) async {
+  Future<int> update(UserHistory entry) async {
     Database db = await database;
-    return await db.update(tableWords, word.toMap(),
-        where: '$columnId = ?', whereArgs: [word.id]);
+    return await db.update(tableName, entry.toMap(),
+        where: '$columnId = ?', whereArgs: [entry.id]);
   }
 
   // TODO: does this work?
@@ -135,32 +105,3 @@ class DatabaseHelper {
   }
 }
 
-_read() async {
-  DatabaseHelper helper = DatabaseHelper.instance;
-  int rowId = 1;
-  Word word = await helper.queryWord(rowId);
-  if (word.id == null) {
-    print('read row $rowId: empty');
-  } else {
-    print('read row $rowId: ${word.word} ${word.frequency}');
-  }
-}
-
-_save() async {
-  Word word = Word();
-  word.word = 'hello';
-  word.frequency = 15;
-  DatabaseHelper helper = DatabaseHelper.instance;
-  int id = await helper.insert(word);
-  word.id = id;
-  print('inserted row: $id');
-}
-
-_printAll() async {
-  DatabaseHelper helper = DatabaseHelper.instance;
-  List<Word> words = await helper.queryAllWords();
-  for (var i = 0; i < words.length; i++) {
-    print("ID: ${words[i].id}, Word: ${words[i].word}\n");
-  }
-  print("done");
-}

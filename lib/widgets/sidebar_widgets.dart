@@ -28,7 +28,7 @@ class SideBar extends StatelessWidget {
               decoration: BoxDecoration(
                 color: kLightPurple,
               ),
-              child: Text('Drawer Header'),
+              child: Text('Menu'),
             ),
             ListTile(
               title: const Text('Privacy Policy'),
@@ -39,7 +39,7 @@ class SideBar extends StatelessWidget {
             ListTile(
               title: const Text('Risk History'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushNamed(context, 'risk_history');
               },
             ),
           ],
