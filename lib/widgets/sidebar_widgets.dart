@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prostate_predict/constants.dart';
+import 'package:prostate_predict/ui_constants.dart';
 
 class SideBarItem {
   String itemName;

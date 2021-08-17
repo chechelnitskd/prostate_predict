@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:prostate_predict/constants.dart';
+import 'package:prostate_predict/ui_constants.dart';
 import 'package:prostate_predict/data/user_data.dart';
 import 'package:provider/provider.dart';
 
@@ -135,11 +135,11 @@ class _PercentCircleState extends State<PercentCircle> {
   @override
   Widget build(BuildContext context) {
     int numRisksCalculated =
-    Provider.of<UserData>(context, listen: false).getNumRisksCalc();
+    Provider.of<UserHealthData>(context, listen: false).getNumRisksCalc();
     int totalRiskOptions =
-    Provider.of<UserData>(context, listen: false).getTotalRisks();
+    Provider.of<UserHealthData>(context, listen: false).getTotalRisks();
     double percentCalculated =
-    Provider.of<UserData>(context, listen: false).getPercent();
+    Provider.of<UserHealthData>(context, listen: false).getPercent();
 
     MediaQueryData queryData = MediaQuery.of(context);
     return Container(

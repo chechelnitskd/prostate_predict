@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:prostate_predict/constants.dart';
+import 'package:prostate_predict/ui_constants.dart';
 import 'package:prostate_predict/data/user_data.dart';
 import 'package:prostate_predict/screens/riskhome_screen.dart';
 import 'package:prostate_predict/widgets/screen_widgets.dart';

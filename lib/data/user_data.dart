@@ -4,8 +4,39 @@ import 'package:flutter/material.dart';
 import 'package:health/health.dart';
 import 'package:flutter/cupertino.dart';
 import '../functions/loading.dart';
+import 'data_constants.dart';
 
-class UserData extends ChangeNotifier {
+class UserHistory extends ChangeNotifier {
+
+  //not sure if making them ? is the best way
+  int? id;
+  String? word;
+  int? frequency;
+
+  UserHistory();
+  //this.id, this.word, this.frequency
+
+  // convenience constructor to create a Word object
+  UserHistory.fromMap(Map<String, dynamic> map) {
+    this.id = map[columnId];
+    this.word = map[columnWord];
+    this.frequency = map[columnFrequency];
+  }
+
+  // convenience method to create a Map from this Word object
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      columnWord: word,
+      columnFrequency: frequency
+    };
+    if (id != null) {
+      map[columnId] = id;
+    }
+    return map;
+  }
+}
+
+class UserHealthData extends ChangeNotifier {
 
   int numRisksCalculated = 2;
   int totalRiskOptions = 3;

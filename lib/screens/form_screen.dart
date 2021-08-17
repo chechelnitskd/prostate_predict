@@ -99,20 +99,20 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 
   void _saveAge(int? age) {
-    Provider.of<UserData>(context, listen: false).setAge(age!);
+    Provider.of<UserHealthData>(context, listen: false).setAge(age!);
   }
 
   void _savePSA(String? psa) {
-    Provider.of<UserData>(context, listen: false).setPSA(int.parse(psa!));
+    Provider.of<UserHealthData>(context, listen: false).setPSA(int.parse(psa!));
   }
 
 
   void fetchData() {
     _loadTest.fetchDataLoading().then( (value) {
       setState(() {
-        Provider.of<UserData>(context, listen: false)
+        Provider.of<UserHealthData>(context, listen: false)
             .setList(value);
-        _state = Provider.of<UserData>(context, listen: false)
+        _state = Provider.of<UserHealthData>(context, listen: false)
             .getList().isEmpty
             ? FormScreenState.NO_DATA
             : FormScreenState.DATA_READY;

@@ -69,8 +69,8 @@ class _ResultsScreenState extends State<ResultsScreen>
   }
 
   bool setAllFactors(BuildContext context) {
-    age = Provider.of<UserData>(context, listen: false).getAge();
-    psa = Provider.of<UserData>(context, listen: false).getPSA();
+    age = Provider.of<UserHealthData>(context, listen: false).getAge();
+    psa = Provider.of<UserHealthData>(context, listen: false).getPSA();
     if (age == null || psa == null) {
       print("did not set -- input null");
       return false;
