@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prostate_predict/data/database_helpers.dart';
 import 'package:prostate_predict/data/user_data.dart';
 import 'package:prostate_predict/widgets/screen_widgets.dart';
+import 'package:provider/provider.dart';
 
 class RiskHistoryScreen extends StatefulWidget {
   const RiskHistoryScreen({Key? key}) : super(key: key);
@@ -11,7 +12,6 @@ class RiskHistoryScreen extends StatefulWidget {
 }
 
 class _RiskHistoryScreenState extends State<RiskHistoryScreen> {
-// TODO: make this actually flutterish
 
   late DatabaseHelper handler;
   final GlobalKey<ScaffoldState> _key = GlobalKey();
@@ -20,12 +20,6 @@ class _RiskHistoryScreenState extends State<RiskHistoryScreen> {
   void initState() {
     super.initState();
     this.handler = DatabaseHelper.instance;
-
-    /*
-    this.handler.().whenComplete(() async {
-      await this.addUsers();
-      setState(() {});
-    });*/
   }
 
   @override
@@ -35,42 +29,79 @@ class _RiskHistoryScreenState extends State<RiskHistoryScreen> {
       key: _key,
       appBar: ColorAppBar(context, _key),
       endDrawer: buildSideBar(context),
-      body: FutureBuilder(
-        future: this.handler.queryAllHistory(),
-        builder: (BuildContext context, AsyncSnapshot<List<UserHistory>> snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data?.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Dismissible(
-                  direction: DismissDirection.endToStart,
-                  background: Container(
-                    color: Colors.red,
-                    alignment: Alignment.centerRight,
-                    padding: EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Icon(Icons.delete_forever),
-                  ),
-                  key: ValueKey<int>(snapshot.data![index].id!),
-                  onDismissed: (DismissDirection direction) async {
-                    await this.handler.delete(snapshot.data![index].id!);
-                    setState(() {
-                      snapshot.data!.remove(snapshot.data![index]);
-                    });
+      body: //Column(
+        //children: [
+          /*Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  child: Text('Read'),
+                  onPressed: () {
+                    Provider.of<UserHistory>(context, listen: false).read();
                   },
-                  child: Card(
-                      child: ListTile(
-                        contentPadding: EdgeInsets.all(8.0),
-                        title: Text(snapshot.data![index].riskType!),
-                        subtitle: Text(snapshot.data![index].riskScore!.toString()),
-                      )),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  child: Text('Save'),
+                  onPressed: () {
+                    Provider.of<UserHistory>(context, listen: false)
+                        .save('Test', 3.5);
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  child: Text('Show'),
+                  onPressed: () {
+                    Provider.of<UserHistory>(context, listen: false)
+                    .printAll();
+                  },
+                ),
+              ),
+            ],
+          ),*/
+          FutureBuilder(
+            future: this.handler.queryAllHistory(),
+            builder: (BuildContext context, AsyncSnapshot<List<UserHistory>> snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  itemCount: snapshot.data?.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Dismissible(
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Icon(Icons.delete_forever),
+                      ),
+                      key: ValueKey<int>(snapshot.data![index].id!),
+                      onDismissed: (DismissDirection direction) async {
+                        await this.handler.delete(snapshot.data![index].id!);
+                        setState(() {
+                          snapshot.data!.remove(snapshot.data![index]);
+                        });
+                      },
+                      child: Card(
+                          child: ListTile(
+                            contentPadding: EdgeInsets.all(8.0),
+                            title: Text(snapshot.data![index].riskType!),
+                            subtitle: Text(snapshot.data![index].riskScore!.toString()),
+                          )),
+                    );
+                  },
                 );
-              },
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+        //],
+      //),
     );
   }
 }
