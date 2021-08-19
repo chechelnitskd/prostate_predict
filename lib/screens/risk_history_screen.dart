@@ -77,14 +77,24 @@ class _RiskHistoryScreenState extends State<RiskHistoryScreen> {
                   itemBuilder: (context, i) {
                     final entry = snapshot.data![i];
                     final entryKey = ValueKey<int>(entry.id!);
-                    return Slidable(
+                    return HistoryCard(entry);
+                    /*return Slidable(
                       actionPane: SlidableDrawerActionPane(),
                       actions: <Widget>[
                         IconSlideAction(
                           caption: 'Archive test',
                           icon: Icons.archive,
                           onTap: () {
+                            print(snapshot.data![i].id!);
+                            Provider.of<UserHistory>(context, listen: false)
+                                .printAll();
+                            handler.delete(snapshot.data![i].id!);
+                            setState(() {
+                              snapshot.data!.removeAt(i);
+                            });
                             print('Archive');
+                            Provider.of<UserHistory>(context, listen: false)
+                                .printAll();
                           },
                         )
                       ],
@@ -93,11 +103,31 @@ class _RiskHistoryScreenState extends State<RiskHistoryScreen> {
                       child: Card(
                           child: ListTile(
                             contentPadding: EdgeInsets.all(8.0),
-                            title: Text(snapshot.data![i].riskType!),
-                            subtitle: Text(snapshot.data![i].riskScore!.toString()),
+                            title: Text(entry.riskType!),
+                            subtitle: Text(entry.riskScore!.toString()),
                           )
                       ),
-                    );
+                    );*/
+                    /*return Dismissible(
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Icon(Icons.delete_forever),
+                      ),
+                      key: entryKey,
+                      onDismissed: (DismissDirection direction) {
+                        snapshot.data!.removeAt(i);
+                          *//*setState(() {
+                            //maybe this won't work?
+                            snapshot.data!.remove(snapshot.data![index]);
+                          });*//*
+                          //await this.handler.delete(snapshot.data![index].id!);
+                      },
+                      child: HistoryCard(snapshot.data![i]),
+
+                    );*/
                   },
                 );
               } else if (snapshot.hasError)  {
