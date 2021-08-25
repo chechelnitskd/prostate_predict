@@ -38,16 +38,16 @@ class Loading {
 
   }
 
-  Future getImageFromGallery(ImagePicker picker, File? image, bool isImageLoaded) async {
+  Future<List?> getImageFromGallery(ImagePicker picker, File? image, bool isImageLoaded) async {
     var tempStore = await picker.pickImage(source: ImageSource.gallery);
 
     if (tempStore == null) {
       print("no image loaded\nImage null? ${image == null}");
-      return;
+      return null;
     } else {
       isImageLoaded = true;
       image = File(tempStore.path);
-      applyModelOnImage(image);
+      return applyModelOnImage(image);
     }
   }
 

@@ -48,6 +48,12 @@ class SideBar extends StatelessWidget {
                 Navigator.popAndPushNamed(context, 'test');
               },
             ),
+            ListTile(
+              title: const Text('SKIN CANCER TEST2'),
+              onTap: () {
+                Navigator.popAndPushNamed(context, 'test2');
+              },
+            ),
           ],
         ),
       ),
