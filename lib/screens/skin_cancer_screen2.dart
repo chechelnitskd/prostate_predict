@@ -24,8 +24,8 @@ class _SkinCancerScreen2State extends State<SkinCancerScreen2> {
 
   loadMyModel() async {
     await Tflite.loadModel(
-      model: "assets/model_unquant.tflite",
-      labels: "assets/labels.txt",
+      model: "assets/skin_cancer_imgclass.tflite",
+      labels: "assets/skin_cancer_labels.txt",
     );
     print("Loaded");
   }
@@ -69,6 +69,7 @@ class _SkinCancerScreen2State extends State<SkinCancerScreen2> {
   void initState() {
     super.initState();
     loadMyModel().then((value) {
+      print("loaded screen 1");
       setState(() {});
     });
   }

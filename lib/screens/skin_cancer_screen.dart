@@ -28,6 +28,7 @@ class _SkinCancerScreenState extends State<SkinCancerScreen> {
   void initState() {
     super.initState();
     _loading.loadMyModel().then((value) {
+      print("loaded screen 1");
       setState(() {});
     });
   }
