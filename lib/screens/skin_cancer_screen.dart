@@ -51,7 +51,11 @@ class _SkinCancerScreenState extends State<SkinCancerScreen> {
               _loading.getImageFromGallery(picker, image, isImageLoaded)
                   .then((value) {
                     _result = value;
-                    print("${_result![0]}");
+                    if(_result == null) {
+                      print("Image null is true");
+                    } else {
+                      print("${_result![0]}");
+                    }
               });
             },
             child: Icon(Icons.photo_album),
