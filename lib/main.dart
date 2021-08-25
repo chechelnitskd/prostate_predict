@@ -3,6 +3,8 @@ import 'package:prostate_predict/screens/form_screen.dart';
 import 'package:prostate_predict/screens/results_screen.dart';
 import 'package:prostate_predict/screens/risk_history_screen.dart';
 import 'package:prostate_predict/screens/riskhome_screen.dart';
+import 'package:prostate_predict/screens/skin_cancer_screen.dart';
+import 'package:prostate_predict/screens/skin_cancer_screen2.dart';
 import 'package:provider/provider.dart';
 import 'data/user_data.dart';
 import 'package:prostate_predict/screens/home_page.dart';
@@ -30,6 +32,8 @@ class MyApp extends StatelessWidget {
         'prostate_form': (context) => FormScreen(),
         'results': (context) => ResultsScreen(),
         'risk_history': (context) => RiskHistoryScreen(),
+        'test': (context) => SkinCancerScreen(),
+        'test2': (context) =>SkinCancerScreen2(),
       },
     );
   }
