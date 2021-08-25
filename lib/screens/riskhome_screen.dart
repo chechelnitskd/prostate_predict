@@ -1,45 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:prostate_predict/constants.dart';
+import 'package:prostate_predict/ui_constants.dart';
 import 'package:prostate_predict/screens/form_screen.dart';
 import 'package:prostate_predict/screens/home_page.dart';
+import '../widgets/screen_widgets.dart';
 
 class RiskHomeScreen extends StatelessWidget {
+  GlobalKey<ScaffoldState> _key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-            // Validate returns true if the form is valid, or false otherwise.
-          },
-        ),
-        backgroundColor: Colors.orange,
-        elevation: 4,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(builder: (context) => new HomePage()),
-                );
-                // Validate returns true if the form is valid, or false otherwise.
-              },
-              icon: Icon(Icons.home)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.menu))
-        ],
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Colors.purple, Colors.red],
-                begin: Alignment.bottomRight,
-                end: Alignment.topLeft),
-          ),
-        ),
-      ),
+      key: _key,
+      appBar: ColorAppBar(context, _key),
+      endDrawer: buildSideBar(context),
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -50,7 +25,7 @@ class RiskHomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Spacer(flex: 5), //2/6
+                  Spacer(flex: 5),
                   Text(
                     "Select Risk",
                   ),
@@ -58,12 +33,11 @@ class RiskHomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
+                        // this still doesn't save the form data
+                        Navigator.pushNamed(
                           context,
-                          new MaterialPageRoute(
-                              builder: (context) => new FormScreen()),
+                          'prostate_form'
                         );
-                        // Validate returns true if the form is valid, or false otherwise.
                       },
                       child: Text('Prostate Risk'),
                       style: ButtonStyle(
@@ -81,7 +55,7 @@ class RiskHomeScreen extends StatelessWidget {
                         backgroundColor: MaterialStateProperty.all(Colors.red),
                       ),
                     ),
-                  ), // it will take 2/6 spaces
+                  ),
                 ],
               ),
             ),

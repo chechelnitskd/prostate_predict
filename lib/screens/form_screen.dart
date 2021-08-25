@@ -11,6 +11,7 @@ import 'package:health/health.dart';
 import '../widgets/form_fields.dart';
 import '../functions/loading.dart';
 import 'home_page.dart';
+import '../widgets/screen_widgets.dart';
 
 enum FormScreenState {
   DATA_NOT_FETCHED,
@@ -22,47 +23,21 @@ enum FormScreenState {
 
 
 class FormScreen extends StatelessWidget {
+  // THE MENU IS NOT WORKING HERE! globalkey?
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-            // Validate returns true if the form is valid, or false otherwise.
-          },
-        ),
-        backgroundColor: Colors.orange,
-        elevation: 4,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(builder: (context) => new HomePage()),
-                );
-                // Validate returns true if the form is valid, or false otherwise.
-              },
-              icon: Icon(Icons.home)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.menu))
-        ],
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Colors.purple, Colors.red],
-                begin: Alignment.bottomRight,
-                end: Alignment.topLeft),
-          ),
-        ),
-      ),
-      body: MyCustomForm(),
+      key: _key,
+      appBar: ColorAppBar(context, _key),
+      endDrawer: buildSideBar(context),
+      body: SafeArea(
+          child: MyCustomForm()),
       backgroundColor: Colors.pink[50],
     );
   }
 }
 
-// Create a Form widget.
 class MyCustomForm extends StatefulWidget {
   @override
   MyCustomFormState createState() {
@@ -70,8 +45,6 @@ class MyCustomForm extends StatefulWidget {
   }
 }
 
-// Create a corresponding State class.
-// This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
   FormScreenState _state = FormScreenState.DATA_NOT_FETCHED;
@@ -89,14 +62,10 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   void _submit(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      // saving calls onSaved: ... for each field (so we have to write it!)
       _formKey.currentState!.save();
-      Navigator.push(
-        context,
-        //TO DO: change to named navigation
-        MaterialPageRoute(
-            builder: (context) =>
-                ResultsScreen()), // instead of new ResultsScreen()
+      Navigator.pushNamed(
+          context,
+        'results'
       );
     }
   }
@@ -130,20 +99,20 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 
   void _saveAge(int? age) {
-    Provider.of<UserData>(context, listen: false).setAge(age!);
+    Provider.of<UserHealthData>(context, listen: false).setAge(age!);
   }
 
   void _savePSA(String? psa) {
-    Provider.of<UserData>(context, listen: false).setPSA(int.parse(psa!));
+    Provider.of<UserHealthData>(context, listen: false).setPSA(int.parse(psa!));
   }
 
 
   void fetchData() {
     _loadTest.fetchDataLoading().then( (value) {
       setState(() {
-        Provider.of<UserData>(context, listen: false)
+        Provider.of<UserHealthData>(context, listen: false)
             .setList(value);
-        _state = Provider.of<UserData>(context, listen: false)
+        _state = Provider.of<UserHealthData>(context, listen: false)
             .getList().isEmpty
             ? FormScreenState.NO_DATA
             : FormScreenState.DATA_READY;
@@ -163,32 +132,28 @@ class MyCustomFormState extends State<MyCustomForm> {
     //print(_loadTest.healthDataList);
     return
         // try the SafeArea -- not sure if it makes a difference
-        SafeArea(
-      child: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          //padding: const EdgeInsets.symmetric(vertical: 16.0),
-
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SliderFormField(onSaved: _saveAge),
-              createTextFormField(
-                  _psaController, "PSA", _validatePSA, _savePSA),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ElevatedButton(
-                  onPressed: () => _submit(context),
-                  child: Text('Submit'),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.red),
+        Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SliderFormField(onSaved: _saveAge),
+                createTextFormField(
+                    _psaController, "PSA", _validatePSA, _savePSA),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: ElevatedButton(
+                    onPressed: () => _submit(context),
+                    child: Text('Submit'),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.red),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ),
-    );
+        );
   }
 }

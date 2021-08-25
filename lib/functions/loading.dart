@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
 import 'package:tflite/tflite.dart';
+import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import '../data/user_data.dart';
 
@@ -11,7 +12,7 @@ class Loading {
   Future loadMyModel() async {
     await Tflite.loadModel(
       model: "assets/model_unquant.tflite",
-      labels: "assets/labels.txt",
+      labels: "assets/dog_cat_labels.txt",
     );
   }
 

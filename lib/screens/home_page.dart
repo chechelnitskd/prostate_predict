@@ -1,100 +1,59 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:prostate_predict/constants.dart';
+import 'package:prostate_predict/ui_constants.dart';
+import 'package:prostate_predict/data/user_data.dart';
 import 'package:prostate_predict/screens/riskhome_screen.dart';
+import 'package:prostate_predict/widgets/screen_widgets.dart';
+import 'package:provider/provider.dart';
+import '../widgets/homepage_widgets.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+
 
 class HomePage extends StatelessWidget {
+  final List<RiskSelectOption> calculatorOptions = getRiskSelectOptions();
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.orange,
-        elevation: 4,
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.menu))],
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Colors.purple, Colors.red],
-                begin: Alignment.bottomRight,
-                end: Alignment.topLeft),
-          ),
-        ),
-      ),
-      backgroundColor: kSecondaryColor,
-      body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [kSecondaryColor, kGrayColor],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.3, 0.7])),
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      'Welcome',
-                      style: TextStyle(
-                        fontFamily: 'Avenir',
-                        fontSize: 44,
-                        color: const Color(0xffffffff),
-                        fontWeight: FontWeight.w900,
-                      ),
-                      textAlign: TextAlign.left,
+      key: _key,
+      extendBodyBehindAppBar: true,
+      appBar: HomeAppBar(context, _key),
+      endDrawer: buildSideBar(context),
+      backgroundColor: kDarkPurple,
+      body: SafeArea(
+        child: Container(
+          margin: EdgeInsets.all(20.0),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          'Welcome',
+                          style: TextStyle(
+                            fontFamily: 'Avenir',
+                            fontSize: 44,
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w900,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 40,),
+                  PercentCircle(),
+                  SizedBox(height: 60,),
+                  RiskListView(riskList: calculatorOptions),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(36.0),
-          ),
-          color: Color(0xFF46A0AE),
-        ),
-        padding: const EdgeInsets.all(24),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(CupertinoIcons.cube),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => new RiskHomeScreen()),
-                );
-              },
-            ),
-            IconButton(
-              icon: Icon(CupertinoIcons.cube),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => new RiskHomeScreen()),
-                );
-              },
-            ),
-            IconButton(
-              icon: Icon(CupertinoIcons.cube),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => new RiskHomeScreen()),
-                );
-              },
-            ),
-          ],
         ),
       ),
     );
