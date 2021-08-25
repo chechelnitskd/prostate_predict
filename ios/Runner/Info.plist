@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Use for image_picker flutter package</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Upload to predict risk</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Upload image to predict risk</string>
 	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
 	<string>We will use Health records to predict risk</string>
 	<key>NSHealthShareUsageDescription</key>
@@ -47,9 +53,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSHealthShareUsageDescription</key>
-    <string>We will sync your data with the Apple Health app to give you better insights</string>
-    <key>NSHealthUpdateUsageDescription</key>
-    <string>We will sync your data with the Apple Health app to give you better insights</string>
 </dict>
 </plist>

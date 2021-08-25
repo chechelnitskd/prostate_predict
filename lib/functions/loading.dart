@@ -13,8 +13,8 @@ class Loading {
 
   Future loadMyModel() async {
     await Tflite.loadModel(
-      model: "assets/model_unquant.tflite",
-      labels: "assets/dog_cat_labels.txt",
+      model: "assets/skin_cancer_imgclass.tflite",
+      labels: "assets/skin_cancer_labels.txt",
     );
   }
 
