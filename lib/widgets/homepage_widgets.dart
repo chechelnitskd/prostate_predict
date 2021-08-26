@@ -147,9 +147,9 @@ class _PercentCircleState extends State<PercentCircle> {
   @override
   Widget build(BuildContext context) {
     int numRisksCalculated =
-    Provider.of<History>(context, listen: false).getNumRisksCalc();
+    Provider.of<History>(context).getNumRisksCalc();
     int totalRiskOptions =
-    Provider.of<History>(context, listen: false).getTotalRisks();
+    Provider.of<History>(context).getTotalRisks();
     double percentCalculated =
     Provider.of<History>(context, listen: false).getPercent();
 

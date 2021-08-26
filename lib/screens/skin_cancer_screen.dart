@@ -1,6 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:prostate_predict/data/data_constants.dart';
+import 'package:prostate_predict/data/user_data.dart';
 import 'package:prostate_predict/functions/loading.dart';
+import 'package:prostate_predict/widgets/homepage_widgets.dart';
+import 'package:prostate_predict/widgets/screen_widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tflite/tflite.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -23,6 +29,7 @@ class _SkinCancerScreenState extends State<SkinCancerScreen> {
 
   final picker = ImagePicker();
   final _loading = Loading();
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
   void initState() {
@@ -30,6 +37,17 @@ class _SkinCancerScreenState extends State<SkinCancerScreen> {
     _loading.loadMyModel().then((value) {
       print("loaded screen 1");
       setState(() {});
+    });
+  }
+
+  void _saveSCToHistory() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setBool(skinCancer, true);
+      Provider.of<UserHistory>(context, listen: false)
+          .save(
+          RiskCalculatorType.SKIN_CANCER,
+          100.0);
     });
   }
 
@@ -49,6 +67,10 @@ class _SkinCancerScreenState extends State<SkinCancerScreen> {
         }
       }
     setState(() {
+      if (isImageLoaded) {
+        _saveSCToHistory();
+        Provider.of<History>(context, listen: false).updateSCRiskSharedPreferences();
+      }
     });
   }
 
@@ -61,9 +83,9 @@ class _SkinCancerScreenState extends State<SkinCancerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: AppBar(
-            title: Text("Test"),
-          ),
+      key: _key,
+      appBar: ColorAppBar(context, _key),
+      endDrawer: buildSideBar(context),
 
           floatingActionButton: FloatingActionButton(
             onPressed: () {
@@ -90,7 +112,7 @@ class _SkinCancerScreenState extends State<SkinCancerScreen> {
                     : Center(
                     child: Text("No image"),
                 ),
-                Text("Name : $_name\n Confidence: $_confidence"),
+                //Text("Name : $_name\n Confidence: $_confidence"),
                 Text("isImageLoaded: $isImageLoaded"),
               ],
             ),

@@ -31,6 +31,24 @@ class History extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void initSCRiskSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(skinCancer, SCRiskCalculated);
+    notifyListeners();
+  }
+
+  void updateSCRiskSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool temp = SCRiskCalculated;
+    SCRiskCalculated = (prefs.getBool(skinCancer) ?? false);
+    // not sure if notifyListeners waits - i think it does
+    if (temp == false && SCRiskCalculated == true) {
+      numRisksCalculated += 1;
+    }
+    notifyListeners();
+  }
+
   bool getPCRiskCalculated() => PCRiskCalculated;
   bool getSCRiskCalculated() => SCRiskCalculated;
   int getNumRisksCalc() => numRisksCalculated;
@@ -52,12 +70,12 @@ class UserHistory extends ChangeNotifier {
   // convenience constructor to create a UserHistory object
   UserHistory.fromMap(Map<String, dynamic> map) {
     this.id = map[columnId];
+    this.riskScore = map[columnRiskScore];
     if (map[columnRiskType] == prostateCancer) {
       this.riskType = RiskCalculatorType.PROSTATE_CALCULATOR;
     } else if (map[columnRiskType] == skinCancer) {
       this.riskType = RiskCalculatorType.SKIN_CANCER;
-    };
-    this.riskScore = map[columnRiskScore];
+    }
     //this.date = map[columnDate];
   }
 
