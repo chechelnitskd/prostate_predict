@@ -10,6 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tflite/tflite.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../ui_constants.dart';
+
 class SkinCancerScreen extends StatefulWidget {
   const SkinCancerScreen({Key? key}) : super(key: key);
 
@@ -35,7 +37,6 @@ class _SkinCancerScreenState extends State<SkinCancerScreen> {
   void initState() {
     super.initState();
     _loading.loadMyModel().then((value) {
-      print("loaded screen 1");
       setState(() {});
     });
   }
@@ -100,20 +101,28 @@ class _SkinCancerScreenState extends State<SkinCancerScreen> {
                 SizedBox(height: 80),
                 isImageLoaded
                     ? Center(
-                  child: Container(
-                    height: 350,
-                    width: 350,
-                    decoration: BoxDecoration(
-                        image:  DecorationImage(
-                            image: FileImage(File(image!.path)),
-                            fit: BoxFit.contain)),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 350,
+                        width: 350,
+                        decoration: BoxDecoration(
+                            image:  DecorationImage(
+                                image: FileImage(File(image!.path)),
+                                fit: BoxFit.contain)),
+                      ),
+                      Text("Prediction : $_name\n")
+                    ],
                   ),
                 )
                     : Center(
-                    child: Text("No image"),
+                    child: Text("Choose an image to upload",
+                      style: TextStyle(
+                          color: kBlack,
+                          fontSize: 20
+                      ),),
                 ),
-                //Text("Name : $_name\n Confidence: $_confidence"),
-                Text("isImageLoaded: $isImageLoaded"),
+                //,
               ],
             ),
           ),
