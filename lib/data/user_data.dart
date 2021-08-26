@@ -11,6 +11,11 @@ class UserHistory extends ChangeNotifier {
 
   int numRisksCalculated = 0;
   int totalRiskOptions = 3;
+
+  bool risk1Calculated = false;
+  bool risk2Calculated = false;
+  bool risk3Calculated = false;
+
   int getNumRisksCalc() => numRisksCalculated;
   int getTotalRisks() => totalRiskOptions;
   double getPercent() => (1.0 * numRisksCalculated) / totalRiskOptions;
