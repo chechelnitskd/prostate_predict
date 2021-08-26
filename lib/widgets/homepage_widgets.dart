@@ -31,6 +31,7 @@ class RiskSelectTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        // change this
         Navigator.pushNamed(context, 'test');
       },
       child: Container(
