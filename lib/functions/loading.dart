@@ -41,7 +41,7 @@ class Loading {
   }
 
   //Future<List?> getImageFromGallery(ImagePicker picker, File? image, bool isImageLoaded) async {
-  Future<File?> getImageFromGallery(ImagePicker picker, bool isImageLoaded) async {
+  Future<File?> getImageFromGallery(ImagePicker picker) async {
     var tempStore = await picker.pickImage(source: ImageSource.gallery);
 
     if (tempStore == null) {
@@ -49,7 +49,6 @@ class Loading {
       //\nImage null? ${image == null}
       return null;
     } else {
-      isImageLoaded = true;
       return File(tempStore.path);
       //return applyModelOnImage(image);
       //return image;
