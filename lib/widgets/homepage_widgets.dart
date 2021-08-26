@@ -5,14 +5,19 @@ import 'package:prostate_predict/ui_constants.dart';
 import 'package:prostate_predict/data/user_data.dart';
 import 'package:provider/provider.dart';
 
+enum RiskCalculatorType {
+  PROSTATE_CALCULATOR,
+  SKIN_CANCER,
+}
+
 class RiskSelectOption{
 
   //String imgAssetPath;
   String speciality;
-  int noOfDoctors;
+  RiskCalculatorType type;
   Color backgroundColor;
   RiskSelectOption({//required this.imgAssetPath,
-    required this.speciality, required this.noOfDoctors,
+    required this.speciality, required this.type,
     required this.backgroundColor});
 }
 
@@ -20,19 +25,23 @@ class RiskSelectTile extends StatelessWidget {
 
   //final String imgAssetPath;
   final String speciality;
-  final int noOfDoctors;
+  final RiskCalculatorType type;
   final Color backColor;
   RiskSelectTile({//required this.imgAssetPath,
     required this.speciality,
-    required this.noOfDoctors,
+    required this.type,
     required this.backColor});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // change this
-        Navigator.pushNamed(context, 'test');
+        if (type == RiskCalculatorType.PROSTATE_CALCULATOR) {
+          Navigator.pushNamed(context, 'prostate_form');
+        }
+        else if (type == RiskCalculatorType.SKIN_CANCER) {
+          Navigator.pushNamed(context, 'skin_cancer_input');
+        }
       },
       child: Container(
         width: 150,
@@ -49,11 +58,12 @@ class RiskSelectTile extends StatelessWidget {
                 color: kWhite,
                 fontSize: 20
             ),),
-            SizedBox(height: 6,),
-            Text("$noOfDoctors Doctors", style: TextStyle(
-                color: kWhite,
-                fontSize: 13
-            ),),
+            SizedBox(height: 20,),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: kWhite,
+              size: 30.0,
+            ),
             //Image.asset(imgAssetPath, height: 160,fit: BoxFit.fitHeight,)
           ],
         ),
@@ -69,19 +79,19 @@ List<RiskSelectOption> getRiskSelectOptions(){
   // Add Predict Prostate Calculator
   RiskSelectOption prostateCalculator =
   new RiskSelectOption(
-      speciality: "Prostate Calculator",
-      noOfDoctors: 10,
+      speciality: "Prostate Cancer Risk Calculator",
+      type: RiskCalculatorType.PROSTATE_CALCULATOR,
       backgroundColor: kGreen);
   specialities.add(prostateCalculator);
 
-  // Add examples for now
-  RiskSelectOption testA =
+  RiskSelectOption skinCancerCalculator =
   new RiskSelectOption(
-      speciality: "Heart Calculator",
-      noOfDoctors: 17,
+      speciality: "Skin Cancer Risk Calculator",
+      type: RiskCalculatorType.SKIN_CANCER,
       backgroundColor: kRed);
-  specialities.add(testA);
+  specialities.add(skinCancerCalculator);
 
+  /*
   RiskSelectOption testB =
   new RiskSelectOption(
       speciality: "Heart Specialist",
@@ -95,7 +105,8 @@ List<RiskSelectOption> getRiskSelectOptions(){
       noOfDoctors: 17,
       backgroundColor: kGreen);
   specialities.add(testC);
-
+*/
+  
   return specialities;
 }
 
@@ -116,7 +127,7 @@ class RiskListView extends StatelessWidget {
           itemBuilder: (context, index){
             return RiskSelectTile(
               speciality: riskList[index].speciality,
-              noOfDoctors: riskList[index].noOfDoctors,
+              type: riskList[index].type,
               backColor: riskList[index].backgroundColor,
             );
           }),
