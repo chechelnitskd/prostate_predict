@@ -18,7 +18,7 @@ class Loading {
     );
   }
 
-  applyModelOnImage(File file) async {
+  Future<List?> applyModelOnImage(File file) async {
     var res = await Tflite.runModelOnImage(
         path: file.path,
         numResults: 2,
@@ -28,6 +28,7 @@ class Loading {
     );
     if (res == null) {
       print("Apply Model Failed");
+      return null;
     } else {
       String str = res[0]['label'];
       // not sure what name does
