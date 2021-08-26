@@ -33,6 +33,25 @@ class _SkinCancerScreenState extends State<SkinCancerScreen> {
     });
   }
 
+  void applyModel() async {
+    image = await _loading.getImageFromGallery(picker);
+      if(image == null) {
+        print("Image null is true");
+        isImageLoaded = false;
+
+      } else {
+        isImageLoaded = true;
+        _result = await _loading.applyModelOnImage(image!);
+        if (_result != null) {
+            print("${_result![0]}");
+        } else {
+            print("Null result after applying model");
+        }
+      }
+    setState(() {
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
