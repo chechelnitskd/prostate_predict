@@ -43,7 +43,7 @@ class _SkinCancerScreenState extends State<SkinCancerScreen> {
         isImageLoaded = true;
         _result = await _loading.applyModelOnImage(image!);
         if (_result != null) {
-            print("${_result![0]}");
+            _name = _result![1];
         } else {
             print("Null result after applying model");
         }
