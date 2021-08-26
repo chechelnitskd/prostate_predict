@@ -67,26 +67,7 @@ class _SkinCancerScreenState extends State<SkinCancerScreen> {
 
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              _loading.getImageFromGallery(picker)
-                  .then((value) {
-                    image = value;
-                    if(image == null) {
-                      print("Image null is true");
-                      isImageLoaded = false;
-                    } else {
-                      isImageLoaded = true;
-                      _loading.applyModelOnImage(image!)
-                          .then((lst) {
-                            _result = lst;
-                            if (_result != null) {
-                              print("${_result![0]}");
-                            } else {
-                              print("Null result after applying model");
-                            }
-                      });
-                      //print("${_result![0]}");
-                    }
-              });
+              applyModel();
             },
             child: Icon(Icons.photo_album),
           ),
