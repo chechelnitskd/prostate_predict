@@ -18,6 +18,7 @@ Widget MenuButton(BuildContext context, GlobalKey<ScaffoldState> globalKey) {
       }, icon: Icon(Icons.menu));
 }
 
+// future make this a class
 PreferredSizeWidget ColorAppBar(BuildContext context, GlobalKey<ScaffoldState> globalKey) {
   return AppBar(
     leading: BackButton(),
@@ -27,6 +28,7 @@ PreferredSizeWidget ColorAppBar(BuildContext context, GlobalKey<ScaffoldState> g
       HomeButton(context),
       MenuButton(context, globalKey),
     ],
+
     flexibleSpace: Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(

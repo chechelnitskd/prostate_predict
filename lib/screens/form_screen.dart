@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:prostate_predict/ui_constants.dart';
 import '../functions/calculations.dart';
 import 'package:prostate_predict/screens/riskhome_screen.dart';
 import 'results_screen.dart';
@@ -30,10 +31,11 @@ class FormScreen extends StatelessWidget {
     return Scaffold(
       key: _key,
       appBar: ColorAppBar(context, _key),
+      extendBodyBehindAppBar: true,
       endDrawer: buildSideBar(context),
       body: SafeArea(
           child: MyCustomForm()),
-      backgroundColor: Colors.pink[50],
+      backgroundColor: kLightPurple,
     );
   }
 }
@@ -132,6 +134,9 @@ class MyCustomFormState extends State<MyCustomForm> {
     //print(_loadTest.healthDataList);
     return
         // try the SafeArea -- not sure if it makes a difference
+      Padding(
+        padding: const EdgeInsets.all(32.0),
+        child:
         Form(
           key: _formKey,
           child: SingleChildScrollView(
@@ -145,15 +150,18 @@ class MyCustomFormState extends State<MyCustomForm> {
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
                     onPressed: () => _submit(context),
-                    child: Text('Submit'),
+                    child: Text('Submit',
+                      style: TextStyle(
+                        color: kWhite,
+                      )),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.red),
+                      backgroundColor: MaterialStateProperty.all(kDarkPurple),
                     ),
                   ),
                 ),
               ],
             ),
           ),
-        );
+        ),);
   }
 }

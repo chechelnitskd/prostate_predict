@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:prostate_predict/data/database_helpers.dart';
 import 'package:prostate_predict/data/user_data.dart';
+import 'package:prostate_predict/ui_constants.dart';
 import 'package:prostate_predict/widgets/history_widgets.dart';
 import 'package:prostate_predict/widgets/screen_widgets.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,7 @@ class _RiskHistoryScreenState extends State<RiskHistoryScreen> {
 
     return Scaffold(
       key: _key,
+      extendBodyBehindAppBar: true,
       appBar: ColorAppBar(context, _key),
       endDrawer: buildSideBar(context),
       body: //Column(
