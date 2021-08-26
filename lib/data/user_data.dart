@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:prostate_predict/widgets/homepage_widgets.dart';
 import '../functions/loading.dart';
 import 'data_constants.dart';
 import 'database_helpers.dart';
@@ -22,25 +23,34 @@ class UserHistory extends ChangeNotifier {
 
   //not sure if making them ? is the best way
   int? id;
-  String? riskType;
+  RiskCalculatorType? riskType;
   double? riskScore;
   int? date;
 
   UserHistory();
   //this.id, this.word, this.frequency
 
-  // convenience constructor to create a Word object
+  // convenience constructor to create a UserHistory object
   UserHistory.fromMap(Map<String, dynamic> map) {
     this.id = map[columnId];
-    this.riskType = map[columnRiskType];
+    if (map[columnRiskType] == prostateCancer) {
+      this.riskType = RiskCalculatorType.PROSTATE_CALCULATOR;
+    } else if (map[columnRiskType] == skinCancer) {
+      this.riskType = RiskCalculatorType.SKIN_CANCER;
+    };
     this.riskScore = map[columnRiskScore];
     //this.date = map[columnDate];
   }
 
-  // convenience method to create a Map from this Word object
+  // convenience method to create a Map from this UserHistory object
   Map<String, dynamic> toMap() {
+    String riskTypeString =
+      riskType == RiskCalculatorType.PROSTATE_CALCULATOR ?
+      prostateCancer :
+      skinCancer;
+
     var map = <String, dynamic>{
-      columnRiskType: riskType,
+      columnRiskType: riskTypeString,
       columnRiskScore: riskScore,
       //columnDate: date,
     };
@@ -61,7 +71,7 @@ class UserHistory extends ChangeNotifier {
     }
   }
 
-  save(String riskType, double riskScore) async {
+  save(RiskCalculatorType riskType, double riskScore) async {
     UserHistory entry = UserHistory();
     entry.riskType = riskType;
     entry.riskScore = riskScore;
