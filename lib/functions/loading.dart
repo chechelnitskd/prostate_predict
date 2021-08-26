@@ -18,7 +18,7 @@ class Loading {
     );
   }
 
-  applyModelOnImage(File file) async {
+  Future<List?> applyModelOnImage(File file) async {
     var res = await Tflite.runModelOnImage(
         path: file.path,
         numResults: 2,
@@ -28,26 +28,30 @@ class Loading {
     );
     if (res == null) {
       print("Apply Model Failed");
+      return null;
     } else {
       String str = res[0]['label'];
       // not sure what name does
       String name = str.substring(2);
-      var confidence = (res[0]['confidence']*100.0).toString().substring(0,2) + "%";
-      return [str, name, confidence];
+      //var confidence = (res[0]['confidence']*100.0).toString().substring(0,2) + "%";
+      //return [str, name, confidence];
+      return [str, name];
     }
 
   }
 
-  Future<List?> getImageFromGallery(ImagePicker picker, File? image, bool isImageLoaded) async {
+  //Future<List?> getImageFromGallery(ImagePicker picker, File? image, bool isImageLoaded) async {
+  Future<File?> getImageFromGallery(ImagePicker picker) async {
     var tempStore = await picker.pickImage(source: ImageSource.gallery);
 
     if (tempStore == null) {
-      print("no image loaded\nImage null? ${image == null}");
+      print("no image loaded");
+      //\nImage null? ${image == null}
       return null;
     } else {
-      isImageLoaded = true;
-      image = File(tempStore.path);
-      return applyModelOnImage(image);
+      return File(tempStore.path);
+      //return applyModelOnImage(image);
+      //return image;
     }
   }
 

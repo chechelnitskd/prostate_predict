@@ -14,6 +14,7 @@ void main() => runApp(
         providers: [
           ChangeNotifierProvider(create: (context) => UserHealthData()),
           ChangeNotifierProvider(create: (context) =>UserHistory()),
+          ChangeNotifierProvider(create: (context) =>History()),
         ],
         child: MyApp()));
 
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         'prostate_form': (context) => FormScreen(),
         'results': (context) => ResultsScreen(),
         'risk_history': (context) => RiskHistoryScreen(),
-        'test': (context) => SkinCancerScreen(),
+        'skin_cancer_input': (context) => SkinCancerScreen(),
         'test2': (context) =>SkinCancerScreen2(),
       },
     );

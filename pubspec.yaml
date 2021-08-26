@@ -39,6 +39,7 @@ dependencies:
   path_provider: ^2.0.2
   flutter_slidable: ^0.6.0
   image_picker: ^0.8.3+3
+  shared_preferences: ^2.0.7
 
 dev_dependencies:
   flutter_test:

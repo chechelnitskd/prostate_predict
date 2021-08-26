@@ -76,6 +76,7 @@ class DatabaseHelper {
   Future<List<UserHistory>> queryAllHistory() async {
     Database db = await database;
     final List<Map<String, Object?>> queryResult = await db.query(tableName);
+    print(queryResult.map((e) => UserHistory.fromMap(e)).toList());
     return queryResult.map((e) => UserHistory.fromMap(e)).toList();
     // or db.query(tableWords);
   }
