@@ -124,6 +124,9 @@ class MyCustomFormState extends State<MyCustomForm> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    if (Provider.of<History>(context, listen: false).getNumRisksCalc() == 0) {
+      Provider.of<History>(context, listen: false).initPCRiskSharedPreferences();
+    }
   }
 
   @override

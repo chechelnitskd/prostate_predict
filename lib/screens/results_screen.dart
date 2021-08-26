@@ -2,10 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:prostate_predict/data/data_constants.dart';
 import 'dart:io';
 //import 'package:prostate_predict/screens/form_screen.dart';
 import 'package:prostate_predict/functions/calculations.dart';
+import 'package:prostate_predict/widgets/homepage_widgets.dart';
 import 'package:prostate_predict/widgets/screen_widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:tflite_flutter/tflite_flutter.dart';
 import 'form_screen.dart';
 import 'home_page.dart';
@@ -92,6 +95,17 @@ class _ResultsScreenState extends State<ResultsScreen>
     }
   }
 
+  void _savePCToHistory() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setBool(prostateCancer, true);
+      Provider.of<UserHistory>(context, listen: false)
+          .save(
+          RiskCalculatorType.PROSTATE_CALCULATOR,
+          double.parse(calculateRisk(10)));
+    });
+  }
+
   String calculateRisk(int year) {
 
     return (_calculations.applyStaticModel(
@@ -109,9 +123,6 @@ class _ResultsScreenState extends State<ResultsScreen>
   }
 
 
-  //late Interpreter _interpreter;
-
-
   @override
   void initState() {
     super.initState();
@@ -119,15 +130,17 @@ class _ResultsScreenState extends State<ResultsScreen>
     _seriesLineData = <charts.Series<Risk, int>>[];
     _tabController = TabController(length: 2, vsync: this);
     factorsSet = setAllFactors(context);
+    _savePCToHistory();
+    Provider.of<History>(context, listen: false).updatePCRiskSharedPreferences();
     _generateData();
 
-
+    /*
     try {
-      /*Interpreter.fromAsset('cvd_logistic_model.tflite').then((value) {
+      Interpreter.fromAsset('cvd_logistic_model.tflite').then((value) {
         print("loaded");
         _interpreter = value;
         setState(() {});
-      });*/
+      });
       // this ends up kind of being the same result as having it inside the build
       // function for now, because we build this every time we update the input
       _loading.loadMyModel().then((value) {
@@ -136,7 +149,7 @@ class _ResultsScreenState extends State<ResultsScreen>
       });
     } catch (e) {
       print("Model did not load");
-    }
+    }*/
 
   }
 

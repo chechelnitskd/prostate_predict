@@ -14,6 +14,7 @@ void main() => runApp(
         providers: [
           ChangeNotifierProvider(create: (context) => UserHealthData()),
           ChangeNotifierProvider(create: (context) =>UserHistory()),
+          ChangeNotifierProvider(create: (context) =>History()),
         ],
         child: MyApp()));
 

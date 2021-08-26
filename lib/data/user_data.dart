@@ -7,19 +7,38 @@ import 'package:prostate_predict/widgets/homepage_widgets.dart';
 import '../functions/loading.dart';
 import 'data_constants.dart';
 import 'database_helpers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class UserHistory extends ChangeNotifier {
-
+class History extends ChangeNotifier {
   int numRisksCalculated = 0;
   int totalRiskOptions = 3;
 
-  bool risk1Calculated = false;
-  bool risk2Calculated = false;
-  bool risk3Calculated = false;
+  bool PCRiskCalculated = false;
+  bool SCRiskCalculated = false;
+  void initPCRiskSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(prostateCancer, PCRiskCalculated);
+    notifyListeners();
+  }
 
+  void updatePCRiskSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool temp = PCRiskCalculated;
+    PCRiskCalculated = (prefs.getBool(prostateCancer) ?? false);
+    // not sure if notifyListeners waits - i think it does
+    if (temp == false && PCRiskCalculated == true) {
+      numRisksCalculated += 1;
+    }
+    notifyListeners();
+  }
+  bool getPCRiskCalculated() => PCRiskCalculated;
+  bool getSCRiskCalculated() => SCRiskCalculated;
   int getNumRisksCalc() => numRisksCalculated;
   int getTotalRisks() => totalRiskOptions;
   double getPercent() => (1.0 * numRisksCalculated) / totalRiskOptions;
+
+}
+class UserHistory extends ChangeNotifier {
 
   //not sure if making them ? is the best way
   int? id;
