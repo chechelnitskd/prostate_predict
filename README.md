@@ -1,5 +1,5 @@
 # ProstatePredict
-ProstatePredict is a cross platform mobile app that can predict skin cancer and prostate risk. Created using the Flutter framework and Dart language as part of the CDAC Summer Lab 2021 at the University of Chicago.
+ProstatePredict is a cross platform mobile app that can predict prostate and skin cancer risk. Created using the Flutter framework and Dart language as part of the CDAC Summer Lab 2021 at the University of Chicago.
 
 ## Authors
 
