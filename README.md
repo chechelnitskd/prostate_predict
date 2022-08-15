@@ -8,7 +8,7 @@ ProstatePredict is a cross platform mobile app that can predict prostate and ski
 
 ## Compatability
 
-All android and iOS mobile devices (not iPads, tablets, or desktop).
+All android and iOS mobile devices.
 
 ## Prostate Predict
 
@@ -38,7 +38,3 @@ until it works
 
 1) https://flutter.dev/docs
 2) https://stackoverflow.com/
-
-## Known Bugs
-
-* RendexFlex error (overflow) may occur when using the app on certain phones (Spotted on Samsung S8). App is fully functional on iPhone 11 and this error was not detected on any simulator.
